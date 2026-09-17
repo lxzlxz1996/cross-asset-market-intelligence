@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from .treasury_read_model import TreasuryDashboardObservation
 from .sofr_read_model import SofrDashboardObservation
+from .credit_read_model import CreditDashboardObservation
 
-DashboardObservation = TreasuryDashboardObservation | SofrDashboardObservation
+DashboardObservation = TreasuryDashboardObservation | SofrDashboardObservation | CreditDashboardObservation
 
 
 def format_level(observation: DashboardObservation) -> str:

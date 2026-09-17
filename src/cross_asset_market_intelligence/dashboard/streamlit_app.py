@@ -1,4 +1,4 @@
-"""Local, read-only Streamlit Treasury and SOFR dashboard vertical slice."""
+"""Local, read-only Streamlit Treasury, SOFR, and Credit dashboard."""
 
 from __future__ import annotations
 
@@ -25,24 +25,31 @@ from cross_asset_market_intelligence.dashboard.sofr_read_model import (
     current_sofr_observation,
     sofr_history,
 )
+from cross_asset_market_intelligence.dashboard.credit_read_model import (
+    CreditDashboardObservation,
+    credit_history,
+    current_credit_dashboard,
+)
 from cross_asset_market_intelligence.exceptions import DashboardLineageError, DashboardReadError
 
 
 def main() -> None:
-    """Render validated local Treasury and SOFR observations without mutation."""
+    """Render validated local Treasury, SOFR, and Credit observations without mutation."""
     st.set_page_config(page_title="Cross-Asset Market Intelligence", layout="wide")
     st.title("Cross-Asset Market Intelligence")
-    st.caption("Read-only local view of validated Treasury and SOFR observations.")
+    st.caption("Read-only local view of validated Treasury, SOFR, and Credit observations.")
     try:
         settings = load_settings()
         connection = connect(settings.database_path, read_only=True)
         try:
             dashboard = current_treasury_dashboard(connection)
             sofr = current_sofr_observation(connection)
+            credit = current_credit_dashboard(connection)
             _render_current_cards(dashboard)
             _render_history(connection)
             _render_sofr(connection, sofr)
-            _render_lineage(dashboard, sofr)
+            _render_credit(connection, credit)
+            _render_lineage(dashboard, sofr, credit)
         finally:
             connection.close()
     except DashboardLineageError:
@@ -99,7 +106,43 @@ def _render_sofr(connection, observation: SofrDashboardObservation | None) -> No
         st.info("No validated SOFR history is available.")
 
 
-def _render_observation_card(observation: TreasuryDashboardObservation | SofrDashboardObservation) -> None:
+def _render_credit(
+    connection,
+    dashboard: dict[str, CreditDashboardObservation | None],
+) -> None:
+    """Keep Credit OAS levels and histories distinct from rates and funding."""
+    st.subheader("Credit")
+    columns = st.columns(2)
+    for column, indicator_id in zip(columns, dashboard):
+        observation = dashboard[indicator_id]
+        with column:
+            if observation is None:
+                st.info(f"{indicator_id}: no validated observation available.")
+            else:
+                _render_observation_card(observation)
+
+    st.markdown("**Credit history**")
+    investment_grade = credit_history(connection, "us_investment_grade_oas")
+    high_yield = credit_history(connection, "us_high_yield_oas")
+    if investment_grade:
+        _render_chart(
+            historical_chart_rows(investment_grade, "Investment Grade OAS (pp)"),
+            "OAS (pp)",
+        )
+    else:
+        st.info("No validated Investment Grade OAS history is available.")
+    if high_yield:
+        _render_chart(
+            historical_chart_rows(high_yield, "High Yield OAS (pp)"),
+            "OAS (pp)",
+        )
+    else:
+        st.info("No validated High Yield OAS history is available.")
+
+
+def _render_observation_card(
+    observation: TreasuryDashboardObservation | SofrDashboardObservation | CreditDashboardObservation,
+) -> None:
     """Render direct-indicator values without adding interpretation."""
     st.metric(observation.display_name, format_level(observation))
     change_columns = st.columns(3)
@@ -148,6 +191,7 @@ def _render_chart(rows: list[dict[str, object]], y_title: str) -> None:
 def _render_lineage(
     dashboard: dict[str, TreasuryDashboardObservation | None],
     sofr: SofrDashboardObservation | None,
+    credit: dict[str, CreditDashboardObservation | None],
 ) -> None:
     with st.expander("Data and lineage inspection"):
         for indicator_id, observation in dashboard.items():
@@ -164,6 +208,12 @@ def _render_lineage(
         else:
             st.write(sofr.display_name)
             st.dataframe(direct_lineage_rows(sofr), hide_index=True)
+        for indicator_id, observation in credit.items():
+            if observation is None:
+                st.write(f"{indicator_id}: no validated observation available.")
+            else:
+                st.write(observation.display_name)
+                st.dataframe(direct_lineage_rows(observation), hide_index=True)
 
 
 if __name__ == "__main__":

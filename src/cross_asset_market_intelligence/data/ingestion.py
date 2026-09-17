@@ -12,7 +12,9 @@ from ..database import initialize_phase_0_schema
 from .fred import FredClient, FredObservation
 from .raw_persistence import RawObservationRecord, persist_raw_observation_records
 
-APPROVED_FRED_SERIES = frozenset({"DGS2", "DGS10"})
+APPROVED_TREASURY_FRED_SERIES = frozenset({"DGS2", "DGS10"})
+APPROVED_CREDIT_OAS_FRED_SERIES = frozenset({"BAMLC0A0CM", "BAMLH0A0HYM2"})
+APPROVED_FRED_SERIES = APPROVED_TREASURY_FRED_SERIES | APPROVED_CREDIT_OAS_FRED_SERIES
 
 
 def ingest_approved_fred_series(
@@ -24,9 +26,9 @@ def ingest_approved_fred_series(
     observation_end: date | None = None,
     logger: logging.Logger | None = None,
 ) -> int:
-    """Retrieve and persist one explicitly approved Phase 1 FRED series."""
+    """Retrieve and persist one explicitly approved Phase 1 FRED raw series."""
     if series_id not in APPROVED_FRED_SERIES:
-        raise ValueError(f"FRED series is not approved for Phase 1.2: {series_id}")
+        raise ValueError(f"FRED series is not approved for Phase 1 raw ingestion: {series_id}")
 
     observations = client.fetch_observations(
         series_id, observation_start=observation_start, observation_end=observation_end

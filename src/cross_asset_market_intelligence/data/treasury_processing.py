@@ -12,6 +12,7 @@ import duckdb
 from ..database import initialize_phase_0_schema
 from ..exceptions import ProcessingValidationError
 from ..lineage import RawInputIdentity, processed_observation_id
+from .fred_vintages import FRED_VINTAGE_PREFIX, fred_vintage_rank
 from .processed_persistence import ProcessedRawRecord, persist_processed_raw_records
 
 APPROVED_FRED_TREASURY_MAPPING = {
@@ -20,7 +21,6 @@ APPROVED_FRED_TREASURY_MAPPING = {
 }
 DIRECT_TREASURY_PROCESSING_VERSION = "fred_treasury_direct_percent_identity_v1"
 DIRECT_TREASURY_TRANSFORMATION = "validated_identity_percent_per_annum"
-FRED_VINTAGE_PREFIX = "fred_realtime:"
 
 
 @dataclass(frozen=True)
@@ -74,7 +74,7 @@ def select_latest_raw_vintages(
     for row in rows:
         observation = RawTreasuryObservation(*row)
         validate_raw_treasury_observation(observation)
-        rank = _fred_vintage_rank(observation.vintage)
+        rank = fred_vintage_rank(observation.vintage)
         current = selected.get(observation.observation_date)
         if current is None or rank > current[0]:
             selected[observation.observation_date] = (rank, observation)
@@ -86,7 +86,7 @@ def validate_raw_treasury_observation(observation: RawTreasuryObservation) -> No
     approved_indicator_for(observation.source, observation.series_id)
     if not isinstance(observation.observation_date, date):
         raise ProcessingValidationError("Raw Treasury observation date must be a date")
-    _fred_vintage_rank(observation.vintage)
+    fred_vintage_rank(observation.vintage)
     if observation.value is not None:
         if isinstance(observation.value, bool) or not isinstance(observation.value, (int, float)):
             raise ProcessingValidationError("Raw Treasury value must be numeric or null")
@@ -112,7 +112,6 @@ def process_approved_fred_treasuries(
             skipped_missing,
         )
     return TreasuryProcessingResult(inserted=inserted, skipped_missing=skipped_missing)
-
 
 def process_fred_treasury_series(
     connection: duckdb.DuckDBPyConnection, source: str, series_id: str
@@ -155,20 +154,3 @@ def process_fred_treasury_series(
         subject="Treasury",
     )
     return TreasuryProcessingResult(inserted=inserted, skipped_missing=skipped_missing)
-
-
-def _fred_vintage_rank(vintage: str) -> tuple[str, str, str]:
-    """Validate and rank the Phase 1.2 FRED date-level vintage key."""
-    if not isinstance(vintage, str) or not vintage.startswith(FRED_VINTAGE_PREFIX):
-        raise ProcessingValidationError("Raw Treasury vintage is missing or not a FRED real-time key")
-    parts = vintage.split(":")
-    if len(parts) != 3 or not parts[1] or not parts[2]:
-        raise ProcessingValidationError("Raw Treasury vintage is malformed")
-    try:
-        realtime_start = date.fromisoformat(parts[1])
-        realtime_end = date.fromisoformat(parts[2])
-    except ValueError as error:
-        raise ProcessingValidationError("Raw Treasury vintage contains invalid dates") from error
-    if realtime_start > realtime_end:
-        raise ProcessingValidationError("Raw Treasury vintage end precedes its start")
-    return (parts[1], parts[2], vintage)
