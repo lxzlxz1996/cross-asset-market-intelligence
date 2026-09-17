@@ -18,10 +18,39 @@ def format_change(value: float | None) -> str:
 
 def historical_chart_rows(
     observations: tuple[TreasuryDashboardObservation, ...],
-    column_name: str,
+    series_name: str,
 ) -> list[dict[str, object]]:
-    """Shape deterministic selected history for a native Streamlit chart."""
-    return [{"date": item.observation_date, column_name: item.value} for item in observations]
+    """Shape selected history with date-only labels for a native chart."""
+    return [
+        {
+            "date": item.observation_date.isoformat(),
+            "series": series_name,
+            "value": item.value,
+        }
+        for item in observations
+    ]
+
+
+def yield_chart_rows(
+    two_year: tuple[TreasuryDashboardObservation, ...],
+    ten_year: tuple[TreasuryDashboardObservation, ...],
+) -> list[dict[str, object]]:
+    """Return chronological, date-only rows for the two Treasury yield series."""
+    rows = historical_chart_rows(two_year, "2Y yield (%)") + historical_chart_rows(
+        ten_year,
+        "10Y yield (%)",
+    )
+    return sorted(rows, key=lambda row: (str(row["date"]), str(row["series"])))
+
+
+def chart_y_domain(rows: list[dict[str, object]]) -> list[float] | None:
+    """Give a compact display domain while retaining the stored values unchanged."""
+    if not rows:
+        return None
+    values = [float(row["value"]) for row in rows]
+    lower, upper = min(values), max(values)
+    padding = max((upper - lower) * 0.15, 0.05)
+    return [lower - padding, upper + padding]
 
 
 def direct_lineage_rows(observation: TreasuryDashboardObservation) -> list[dict[str, object]]:

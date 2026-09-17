@@ -12,6 +12,7 @@
 - **Phase 1.5A — Treasury dashboard read model: complete.** This subphase authorizes only read-only deterministic projections, history access, and lineage inspection; it does not authorize dashboard UI or change metrics.
 - **Phase 1.5B — Descriptive Treasury dashboard changes: complete.** This subphase authorizes only read-only 1D/5D/20D observation-count differences; it does not authorize UI, returns, classifications, or persistence.
 - **Phase 1.5C — Graphical Treasury dashboard vertical slice: complete.** This subphase authorizes only a local, read-only Streamlit presentation of the established Treasury read model.
+- **Phase 1.5C.1 — Treasury dashboard presentation polish: complete.** This subphase authorizes only compact card layout and clearer, date-only historical chart presentation; it does not change the read model, data, or lineage.
 - **Phase 2 — Signal Engine: explicitly out of scope.** No Z-scores, percentiles, trend/momentum states, signal classifications, or regime logic are authorized.
 
 | Phase | Objective | Major components | Dependencies | Definition of done |

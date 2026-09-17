@@ -137,6 +137,10 @@ If fewer than `N` prior valid selected observations exist, that change is explic
 
 The local Streamlit page is a presentation-only layer over the Phase 1.5A/1.5B read model. It shows three current cards, separate selected-history charts for 2Y/10Y yields and the 10Y−2Y spread, and an expandable lineage inspection section. Display formatting uses `%` for percent levels and `pp` for percentage-point levels/changes, rounded only in the UI; the read model and database retain precision and units. The page opens DuckDB read-only and never selects revisions, derives data, or writes state itself.
 
+### Phase 1.5C.1 Treasury dashboard presentation polish
+
+The presentation uses date-only, chronological chart labels and a compact display domain around the stored levels; neither changes any plotted observation. Current cards expose the level, each descriptive change window, and as-of date independently. Lineage remains collapsed by default.
+
 ### `signals`
 
 Versioned, explainable rule outputs keyed by `(signal_id, indicator_id, date, model_version)`. A signal is not a decision. The table intentionally does not add portfolio fields.

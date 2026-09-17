@@ -8,10 +8,12 @@ from cross_asset_market_intelligence.config import load_settings
 from cross_asset_market_intelligence.database import connect
 from cross_asset_market_intelligence.dashboard.presentation import (
     direct_lineage_rows,
+    chart_y_domain,
     format_change,
     format_level,
     historical_chart_rows,
     spread_lineage_rows,
+    yield_chart_rows,
 )
 from cross_asset_market_intelligence.dashboard.treasury_read_model import (
     TreasuryDashboardObservation,
@@ -23,9 +25,9 @@ from cross_asset_market_intelligence.exceptions import DashboardLineageError, Da
 
 def main() -> None:
     """Render the page using the existing read-only Treasury dashboard model."""
-    st.set_page_config(page_title="Treasury Dashboard", layout="wide")
-    st.title("Treasury dashboard")
-    st.caption("Read-only local projection of validated Treasury observations.")
+    st.set_page_config(page_title="Cross-Asset Market Intelligence", layout="wide")
+    st.title("Cross-Asset Market Intelligence")
+    st.caption("Treasury market — read-only local view of validated observations.")
     try:
         settings = load_settings()
         connection = connect(settings.database_path, read_only=True)
@@ -56,12 +58,20 @@ def _render_current_cards(
                 st.info(f"{indicator_id}: no validated observation available.")
             else:
                 st.metric(observation.display_name, format_level(observation))
-                st.caption(f"As of {observation.observation_date}")
-                st.caption(
-                    f"1D {format_change(observation.change_1d.value)} · "
-                    f"5D {format_change(observation.change_5d.value)} · "
-                    f"20D {format_change(observation.change_20d.value)}"
-                )
+                change_columns = st.columns(3)
+                for change_column, label, change in zip(
+                    change_columns,
+                    ("1D", "5D", "20D"),
+                    (
+                        observation.change_1d,
+                        observation.change_5d,
+                        observation.change_20d,
+                    ),
+                ):
+                    with change_column:
+                        st.caption(label)
+                        st.write(format_change(change.value))
+                st.caption(f"As of {observation.observation_date.isoformat()}")
 
 
 def _render_history(connection) -> None:
@@ -70,20 +80,46 @@ def _render_history(connection) -> None:
     ten_year = treasury_history(connection, "us_treasury_10y_yield")
     spread = treasury_history(connection, "us_treasury_10y_minus_2y")
     if two_year or ten_year:
-        yield_rows = [
-            {"date": item.observation_date, "2Y yield (%)": item.value}
-            for item in two_year
-        ] + [
-            {"date": item.observation_date, "10Y yield (%)": item.value}
-            for item in ten_year
-        ]
-        st.line_chart(yield_rows, x="date")
+        st.markdown("**Treasury yields**")
+        _render_chart(yield_chart_rows(two_year, ten_year), "Yield (%)")
     else:
         st.info("No validated 2Y or 10Y history is available.")
     if spread:
-        st.line_chart(historical_chart_rows(spread, "10Y − 2Y (pp)"), x="date")
+        st.markdown("**10Y − 2Y spread**")
+        _render_chart(historical_chart_rows(spread, "10Y − 2Y (pp)"), "Spread (pp)")
     else:
         st.info("No validated 10Y − 2Y history is available.")
+
+
+def _render_chart(rows: list[dict[str, object]], y_title: str) -> None:
+    """Render date-only ordered data with a compact, non-rebased value axis."""
+    st.vega_lite_chart(
+        rows,
+        {
+            "mark": {"type": "line", "point": True},
+            "encoding": {
+                "x": {
+                    "field": "date",
+                    "type": "ordinal",
+                    "title": None,
+                    "axis": {"labelAngle": 0},
+                },
+                "y": {
+                    "field": "value",
+                    "type": "quantitative",
+                    "title": y_title,
+                    "scale": {"domain": chart_y_domain(rows), "zero": False},
+                },
+                "color": {"field": "series", "type": "nominal", "title": None},
+                "tooltip": [
+                    {"field": "date", "type": "ordinal", "title": "Date"},
+                    {"field": "series", "type": "nominal", "title": "Series"},
+                    {"field": "value", "type": "quantitative", "title": y_title},
+                ],
+            },
+        },
+        use_container_width=True,
+    )
 
 
 def _render_lineage(dashboard: dict[str, TreasuryDashboardObservation | None]) -> None:
