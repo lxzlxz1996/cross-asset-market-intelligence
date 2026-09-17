@@ -4,7 +4,7 @@ Local, research-first infrastructure for understanding cross-asset market condit
 
 ## Current status
 
-**Phase 0 — System Architecture & Foundation.** The repository currently contains the directory layout, documentation, configuration design, a minimal DuckDB utility, logging setup, and deterministic tests. No market-data ingestion, dashboard, signals, models, portfolio optimization, or backtesting has been implemented.
+**Phase 1.2 — FRED Raw Ingestion for DGS2 and DGS10.** Phases 0 and 1.1 are complete. This subphase authorizes raw FRED ingestion for those two series only: no processed observations, yield-curve calculation, dashboard, signals, models, portfolio optimization, or backtesting is implemented. Phase 2 remains out of scope.
 
 ## Quick start (when Python is installed)
 
@@ -18,3 +18,13 @@ pytest
 Copy `.env.example` to `.env` only when a future data source requires credentials. Never commit `.env`.
 
 See [the project blueprint](docs/PROJECT_BLUEPRINT.md), [architecture](docs/ARCHITECTURE.md), and [development roadmap](docs/DEVELOPMENT_ROADMAP.md).
+
+## Phase 1.2 manual raw ingestion
+
+Set `FRED_API_KEY` in your shell (or securely load it into the environment), then run:
+
+```powershell
+python -m cross_asset_market_intelligence ingest-fred-treasury --start 2026-01-01
+```
+
+This is limited to FRED `DGS2` and `DGS10`. It writes only to `data/market_intelligence.duckdb` → `raw_observations`; it does not create processed data, a yield-curve spread, or dashboard output. Inspect rows with a DuckDB client, for example: `SELECT * FROM raw_observations WHERE source = 'fred' ORDER BY series_id, observation_date;`.

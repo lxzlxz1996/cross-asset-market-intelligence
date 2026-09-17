@@ -313,8 +313,12 @@ V1–V4：观察市场；V5–V7：研究市场；V8–V10：管理资金。
 
 ## 10. 项目状态记录
 
-当前阶段：Phase 0 — Architecture  
-当前重点：Market Data Dictionary + System Architecture  
-下一里程碑：完成 V1 九个核心指标的数据定义、数据库结构和自动更新样例  
+当前阶段：Phase 1.3B — Direct Treasury Raw → Processed Normalization（完成）
+
+当前重点：完成 DGS2 与 DGS10 的直接、保留百分比单位的 processed normalization，并保留精确 raw vintage lineage
+
+下一里程碑：在明确授权后，仅从已验证的同日 processed 10Y 与 2Y 派生 `us_treasury_10y_minus_2y`（Phase 1.4）
+
+Phase 0、Phase 1.1、Phase 1.2、Phase 1.3A 与 Phase 1.3B 状态：完成。Phase 1.4 尚未授权；不得实施 10Y−2Y 或其他派生指标。Phase 2 — Signal Engine 明确不在当前范围内；不得实现 Z-score、percentile、trend、momentum、regime 或交易/组合逻辑。
 
 最后更新：2026-09-17

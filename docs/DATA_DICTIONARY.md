@@ -4,7 +4,7 @@
 
 Each indicator record must define: `indicator_id`, `name`, `category`, `subcategory`, `description`, `economic_rationale`, `source`, `source_identifier`, `source_reference`, `frequency`, `unit`, `native_frequency`, `release_lag`, `timezone`, `higher_means`, `lower_means`, `transformation`, `expected_start_date`, `missing_data_policy`, `revision_policy`, `publication_timestamp_available`, `predictive_or_descriptive`, and `notes`.
 
-The entries below are Phase 1 candidates only. They are **definitions for verification**, not an implemented feed. Any item marked **TBD / requires verification** must be confirmed, including its licensing and historical availability, before ingestion.
+The entries below are Phase 1 candidates only; no feed is implemented by this document. Source-contract facts were verified in Phase 1.1 on 2026-09-16. A remaining **TBD / requires verification** is intentional and blocks selection or implementation of that aspect.
 
 ## Initial Phase 1 entries
 
@@ -15,16 +15,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `us_treasury_2y_yield` |
 | category / subcategory | Rates / Treasury yield curve |
 | description / rationale | Nominal two-year U.S. Treasury yield; reflects near-term policy expectations and rate-market conditions. |
-| source / identifier / reference | FRED / `DGS2` / **TBD / requires verification** of use terms and release metadata. |
+| source / identifier / reference | Board of Governors of the Federal Reserve System (US), H.15 Selected Interest Rates; FRED distribution series `DGS2`. [Series](https://fred.stlouisfed.org/series/DGS2), [FRED observations API](https://fred.stlouisfed.org/docs/api/fred/series_observations.html), [Treasury methodology](https://home.treasury.gov/resource-center/data-chart-center/interest-rates). |
 | frequency / native frequency / unit | Daily / daily / percent per annum. |
-| release lag / timezone | **TBD / requires verification** / U.S. market convention; exact timezone TBD. |
+| release lag / timezone | FRED exposes a `last_updated` timestamp, but the official H.15 publication schedule and an observation-level publication timestamp are not established here. Store retrieval time; timezone for the FRED update timestamp is Central Time. Treasury input quotations are obtained about 3:30 p.m. ET on business days. |
 | higher means / lower means | Higher yields; interpretation depends on policy, growth, inflation, and risk context. / Lower yields; same contextual limitation. |
-| transformation | Raw level; future changes and spreads must be separately versioned. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve missing value; do not forward-fill raw data. Preserve source revisions/vintages when available. |
-| publication timestamp available | **TBD / requires verification**. |
+| transformation | Direct validated identity normalization from `fred` / `DGS2`; finite values remain percent per annum unchanged (`4.25` remains `4.25`). Processing version: `fred_treasury_direct_percent_identity_v1`. Future changes and spreads must be separately versioned. |
+| expected start date | 1976-06-01 in the verified FRED `DGS2` distribution. |
+| missing / revision policy | FRED represents non-observations as missing. Preserve them; direct processing omits a processed row for a null raw value and does not forward-fill. For a date with multiple valid stored FRED realtime vintages, select the greatest `(realtime_start, realtime_end, vintage)` tuple; preserve all raw and processed history. FRED says all data are subject to revision and supports real-time/vintage retrieval. |
+| publication timestamp available | No observation-level publication timestamp in the documented FRED observations response; `realtime_start`/`realtime_end` are date-level real-time periods, not an intraday release timestamp. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Not a standalone growth or risk signal. |
+| notes | FRED API requires a registered API key; it supports JSON/XML/XLSX/CSV and vintage dates. The underlying BOG series is marked public domain with citation requested on FRED. Not a standalone growth or risk signal. |
 
 ### 10-Year Treasury Yield
 
@@ -33,16 +33,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `us_treasury_10y_yield` |
 | category / subcategory | Rates / Treasury yield curve |
 | description / rationale | Nominal ten-year U.S. Treasury yield; summarizes expected short rates, inflation compensation, and term premium. |
-| source / identifier / reference | FRED / `DGS10` / **TBD / requires verification** of use terms and release metadata. |
+| source / identifier / reference | Board of Governors of the Federal Reserve System (US), H.15 Selected Interest Rates; FRED distribution series `DGS10`. [Series](https://fred.stlouisfed.org/series/DGS10), [FRED observations API](https://fred.stlouisfed.org/docs/api/fred/series_observations.html), [Treasury methodology](https://home.treasury.gov/resource-center/data-chart-center/interest-rates). |
 | frequency / native frequency / unit | Daily / daily / percent per annum. |
-| release lag / timezone | **TBD / requires verification** / U.S. market convention; exact timezone TBD. |
+| release lag / timezone | FRED exposes `last_updated`, but a guaranteed official H.15 schedule and observation-level publication timestamp are not established here. Store retrieval time; FRED's visible update timestamp is Central Time. Treasury input quotations are obtained about 3:30 p.m. ET on business days. |
 | higher means / lower means | Higher/lower yields are context-dependent and must not be converted mechanically into risk-on/risk-off labels. |
-| transformation | Raw level. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve missing; preserve source revisions/vintages when available. |
-| publication timestamp available | **TBD / requires verification**. |
+| transformation | Direct validated identity normalization from `fred` / `DGS10`; finite values remain percent per annum unchanged. Processing version: `fred_treasury_direct_percent_identity_v1`. |
+| expected start date | 1962-01-02 in the verified FRED `DGS10` distribution. |
+| missing / revision policy | FRED represents non-observations as missing. Preserve them; direct processing omits a processed row for a null raw value and does not forward-fill. For a date with multiple valid stored FRED realtime vintages, select the greatest `(realtime_start, realtime_end, vintage)` tuple; preserve all raw and processed history. FRED states data are subject to revision and supports real-time/vintage retrieval. |
+| publication timestamp available | No observation-level publication timestamp in the documented FRED observations response; `realtime_start`/`realtime_end` are date-level real-time periods. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Term premium is not separately identified by this series. |
+| notes | FRED API requires a registered API key; it supports JSON/XML/XLSX/CSV and vintage dates. The underlying BOG series is marked public domain with citation requested on FRED. Treasury CMTs are interpolated curve points, not necessarily yields of an outstanding security. Term premium is not separately identified. |
 
 ### 10Y minus 2Y Yield Curve
 
@@ -53,7 +53,7 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | description / rationale | Ten-year Treasury yield less two-year Treasury yield; describes this segment of curve slope. |
 | source / identifier / reference | Derived from validated `us_treasury_10y_yield` and `us_treasury_2y_yield`; no independent raw source. |
 | frequency / native frequency / unit | Daily / daily inputs / percentage points. |
-| release lag / timezone | Available only after both inputs are available; exact timestamp policy **TBD / requires verification**. |
+| release lag / timezone | Available only after both validated input observations are available. Its availability timestamp is the later input availability timestamp; any missing input makes the result unavailable. |
 | higher means / lower means | Steeper/flatter curve; economic interpretation depends on level, drivers, and regime. |
 | transformation | `10Y − 2Y`, calculated only from same-date validated observations; transformation version required. |
 | expected start date | Intersection of verified input histories. |
@@ -69,16 +69,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `us_investment_grade_oas` |
 | category / subcategory | Credit / Investment-grade spreads |
 | description / rationale | Option-adjusted spread for a defined U.S. investment-grade corporate-bond index; a measure of credit compensation and financial conditions. |
-| source / identifier / reference | FRED / likely `BAMLC0A0CM` / **TBD / requires verification** of exact index definition, license, and availability. |
-| frequency / native frequency / unit | Daily / daily / percentage points, **TBD / requires verification**. |
-| release lag / timezone | **TBD / requires verification**. |
+| source / identifier / reference | ICE Data Indices, LLC, ICE BofA Indices; FRED distribution series `BAMLC0A0CM`. [Series and terms](https://fred.stlouisfed.org/series/BAMLC0A0CM), [FRED observations API](https://fred.stlouisfed.org/docs/api/fred/series_observations.html). |
+| frequency / native frequency / unit | Daily, close / daily, close / percent (not basis points). |
+| release lag / timezone | FRED displays `last_updated` and next release date but the underlying ICE publication time and observation timezone are **TBD / requires verification**. Do not infer an intraday availability time. |
 | higher means / lower means | Wider/tighter spreads; neither is a standalone allocation action. |
 | transformation | Raw level; derived changes/percentiles are separate. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve missing and source revisions. |
-| publication timestamp available | **TBD / requires verification**. |
+| expected start date | FRED states that from April 2026 this distribution includes only three years of observations; do not treat it as a long-history source. Exact rolling-window start is dynamic. |
+| missing / revision policy | Preserve missing and revisions. FRED states all data are subject to revision and supports real-time/vintage queries; weekend month-end observations can occur because of accrued-interest adjustments. |
+| publication timestamp available | No documented observation-level publication timestamp in the FRED observations response; real-time fields are date-level. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Index methodology may change; capture source metadata. |
+| notes | Corporate Master OAS covers investment-grade (BBB or better) debt and is capitalization weighted. FRED API needs a registered key. ICE permits FRED top-level data for internal use only and prohibits publication/distribution without approval; confirm intended local storage/use against current terms before implementation. Index methodology may change; capture source metadata. |
 
 ### High Yield OAS
 
@@ -87,16 +87,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `us_high_yield_oas` |
 | category / subcategory | Credit / High-yield spreads |
 | description / rationale | Option-adjusted spread for a defined U.S. high-yield corporate-bond index; reflects credit-risk pricing and risk appetite. |
-| source / identifier / reference | FRED / likely `BAMLH0A0HYM2` / **TBD / requires verification** of exact index definition, license, and availability. |
-| frequency / native frequency / unit | Daily / daily / percentage points, **TBD / requires verification**. |
-| release lag / timezone | **TBD / requires verification**. |
+| source / identifier / reference | ICE Data Indices, LLC, ICE BofA Indices; FRED distribution series `BAMLH0A0HYM2`. [Series and terms](https://fred.stlouisfed.org/series/BAMLH0A0HYM2), [FRED observations API](https://fred.stlouisfed.org/docs/api/fred/series_observations.html). |
+| frequency / native frequency / unit | Daily, close / daily, close / percent (not basis points). |
+| release lag / timezone | FRED displays `last_updated` and next release date but the underlying ICE publication time and observation timezone are **TBD / requires verification**. Do not infer an intraday availability time. |
 | higher means / lower means | Wider/tighter spreads; interpretation needs price, liquidity, and macro context. |
 | transformation | Raw level. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve missing and source revisions. |
-| publication timestamp available | **TBD / requires verification**. |
+| expected start date | FRED states that from April 2026 this distribution includes only three years of observations; do not treat it as a long-history source. Exact rolling-window start is dynamic. |
+| missing / revision policy | Preserve missing and revisions. FRED states all data are subject to revision and supports real-time/vintage queries; weekend month-end observations can occur because of accrued-interest adjustments. |
+| publication timestamp available | No documented observation-level publication timestamp in the FRED observations response; real-time fields are date-level. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Do not mix OAS from differing vendor/index methodologies. |
+| notes | High Yield Master II OAS covers below-investment-grade (BB or below) debt and is capitalization weighted. FRED API needs a registered key. ICE permits FRED top-level data for internal use only and prohibits publication/distribution without approval; confirm intended local storage/use against current terms before implementation. Do not mix OAS from differing vendor/index methodologies. |
 
 ### SOFR
 
@@ -105,16 +105,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `sofr` |
 | category / subcategory | Liquidity / Overnight funding |
 | description / rationale | Secured Overnight Financing Rate, a broad overnight Treasury-repo funding measure. |
-| source / identifier / reference | Federal Reserve Bank of New York / `SOFR` / **TBD / requires verification** of API, terms, timestamp fields, and historical revisions. |
+| source / identifier / reference | Federal Reserve Bank of New York (FRBNY), Secured Overnight Financing Rate; official API rate type `SOFR`. [Official rate page](https://www.newyorkfed.org/markets/reference-rates/sofr), [publication/revision policy](https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates), [FRED cross-reference](https://fred.stlouisfed.org/series/SOFR). |
 | frequency / native frequency / unit | Business daily / business daily / percent per annum. |
-| release lag / timezone | **TBD / requires verification**. |
+| release lag / timezone | Published on each applicable business day at approximately 8:00 a.m. ET for the prior business day's transactions; same-day corrections may be published about 2:30 p.m. ET. Timezone: America/New_York. |
 | higher means / lower means | Higher/lower overnight funding rate; interpretation requires policy target and market context. |
 | transformation | Raw published rate. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve non-publication days as missing; preserve revisions if supplied. |
-| publication timestamp available | **TBD / requires verification**. |
+| expected start date | 2018-04-03. |
+| missing / revision policy | Not published for SIFMA full-closure days and may not be published on other announced market holidays; preserve missing/non-publication days. Same-day revisions occur only when the change exceeds one basis point, with a revision footnote/indicator. |
+| publication timestamp available | The documented scheduled publication time is available; the API's rate record supplies an effective date and revision indicator, not a per-observation publication timestamp. Record local retrieval timestamp. |
 | predictive or descriptive | Descriptive. |
-| notes | Do not interpret it as total system liquidity. |
+| notes | Official read API: `https://markets.newyorkfed.org/api/rates/secured/sofr/search.json` with date parameters (also `.../last/{n}.json`). The official pages link to Markets Data APIs, but an explicit API-authentication statement and rate limit were not verified in this task; confirm both before automation. SOFR is a volume-weighted median of specified Treasury-repo transactions; do not interpret it as total system liquidity. |
 
 ### MOVE Index
 
@@ -123,16 +123,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `move_index` |
 | category / subcategory | Volatility / Rates implied volatility |
 | description / rationale | ICE BofA MOVE Index, a measure of implied volatility in U.S. Treasury markets. |
-| source / identifier / reference | **TBD / requires verification** / **TBD / requires verification** / licensing and redistribution conditions require verification. |
-| frequency / native frequency / unit | **TBD / requires verification** / likely business daily / index points. |
-| release lag / timezone | **TBD / requires verification**. |
+| source / identifier / reference | ICE Data Indices, ICE BofA U.S. Bond Market Option Volatility Estimate Index (MOVE). [Official product specification](https://developer.ice.com/fixed-income-data-services/catalog/ice-data-indices-move-index). Exact production instrument identifier is **TBD / requires verification with ICE**. |
+| frequency / native frequency / unit | ICE states intraday and daily availability; index-point unit and exact end-of-day convention are **TBD / requires verification with ICE**. |
+| release lag / timezone | **TBD / requires verification with ICE**; no free public publication schedule was verified. |
 | higher means / lower means | Higher/lower expected Treasury-market volatility; not direction. |
 | transformation | Raw index level. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | **TBD / requires verification**. |
-| publication timestamp available | **TBD / requires verification**. |
+| expected start date | ICE product specification says history since 1996; exact entitlements and available historical start must be confirmed with ICE. |
+| missing / revision policy | **TBD / requires verification with ICE**. |
+| publication timestamp available | **TBD / requires verification with ICE**. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Vendor and licensing uncertainty intentionally unresolved. |
+| notes | ICE lists ICE Connect, ICE Consolidated History, ICE Consolidated Feed, ICE Data API, and ICE Data Files as delivery mechanisms. These are entitlement/licensed products; an ICE agreement is required before this indicator can be ingested. Phase 1-compatible approach: obtain an ICE entitlement and record the contracted identifier, EOD convention, terms, and publication timestamp; otherwise leave MOVE unavailable rather than substitute an unofficial feed. |
 
 ### VIX
 
@@ -141,16 +141,16 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `vix` |
 | category / subcategory | Volatility / Equity implied volatility |
 | description / rationale | Cboe Volatility Index, a model-based measure of S&P 500 option-implied volatility. |
-| source / identifier / reference | Cboe or approved public market-data provider / **TBD / requires verification** / index and data-license terms require verification. |
-| frequency / native frequency / unit | Business daily / business daily / annualized volatility index points. |
-| release lag / timezone | **TBD / requires verification**. |
+| source / identifier / reference | Cboe, VIX Index historical daily-close download. [Official historical-data page](https://www.cboe.com/tradable_products/vix/vix_historical_data), [methodology](https://cdn.cboe.com/api/global/us_indices/governance/VIX_Methodology.pdf). Download identifier/URL: `VIX_History.csv` (linked by Cboe; treat its URL as an external contract, not a stable API). |
+| frequency / native frequency / unit | Daily close / daily close / annualized implied-volatility index points. |
+| release lag / timezone | Cboe says the historical file is updated daily; a fixed daily publication time is **TBD / requires verification**. The close convention must be retained as supplied by Cboe; do not infer an intraday timestamp. |
 | higher means / lower means | Higher/lower implied volatility and protection demand; not a directional price forecast. |
 | transformation | Raw close or specified timestamp; method must be explicit. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve source values and selected timestamp convention. |
-| publication timestamp available | **TBD / requires verification**. |
+| expected start date | 1990-01-02 in the official Cboe daily history, subject to the methodology caveat below. |
+| missing / revision policy | Preserve source values and non-trading-day gaps. Historical-file revision policy and observation-level publication timestamps are **TBD / requires verification**. |
+| publication timestamp available | No observation-level publication timestamp was verified; store retrieval timestamp. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Do not mix intraday and close values. |
+| notes | Cboe's current VIX methodology is SPX-option based; the pre-2003 original VIX used S&P 100 options and its history corresponds to VXO. Do not mix intraday and close values. The free download is furnished subject to Cboe website terms and disclaimers; confirm permitted local persistence/use before automation or redistribution. |
 
 ### S&P 500
 
@@ -159,13 +159,13 @@ The entries below are Phase 1 candidates only. They are **definitions for verifi
 | indicator_id | `spx` |
 | category / subcategory | Equity / Broad U.S. equity index |
 | description / rationale | S&P 500 Index level, a large-cap U.S. equity-market reference. |
-| source / identifier / reference | S&P Dow Jones Indices or approved provider / **TBD / requires verification** / licensing and level-return convention require verification. |
-| frequency / native frequency / unit | Business daily / business daily / index points. |
-| release lag / timezone | **TBD / requires verification**. |
+| source / identifier / reference | S&P Dow Jones Indices LLC; FRED distribution series `SP500`. [Series and terms](https://fred.stlouisfed.org/series/SP500), [FRED observations API](https://fred.stlouisfed.org/docs/api/fred/series_observations.html). |
+| frequency / native frequency / unit | Daily, close / daily, close / index points (price index). |
+| release lag / timezone | Observation is the market close, typically 4:00 p.m. ET and sometimes earlier on holidays. FRED shows `last_updated` in Central Time but a guaranteed publication time is **TBD / requires verification**. |
 | higher means / lower means | Higher/lower price level; does not itself identify the underlying driver. |
 | transformation | Raw close or explicitly specified observation timestamp; return series are derived separately. |
-| expected start date | **TBD / requires verification**. |
-| missing / revision policy | Preserve source gaps and corrections; do not imply total return from price index. |
-| publication timestamp available | **TBD / requires verification**. |
+| expected start date | 2016-09-19 in the verified FRED distribution; FRED says the agreement provides ten years of daily history, so the available start rolls forward. |
+| missing / revision policy | Preserve source gaps and corrections; FRED states data are subject to revision and offers vintage functionality. Do not imply total return from the price index. |
+| publication timestamp available | No observation-level publication timestamp was verified from FRED; record retrieval timestamp. |
 | predictive or descriptive | Descriptive. |
-| notes | Price index, not total-return index, unless a separately defined series is chosen. |
+| notes | FRED API requires a registered API key. S&P terms on the FRED series prohibit reproduction without prior written permission. Phase 1 may use this series only after confirming the intended local storage/use is permitted; a longer history or broader use requires an appropriately licensed S&P provider. Price index, not total-return index, unless a separately defined series is chosen. |

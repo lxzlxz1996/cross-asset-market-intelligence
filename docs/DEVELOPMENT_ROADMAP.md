@@ -1,9 +1,18 @@
 # Development Roadmap
 
+## Current authorization
+
+- **Phase 0 — Architecture: complete.**
+- **Phase 1.1 — Phase gate and market-data source verification: complete.**
+- **Phase 1.2 — FRED raw ingestion for DGS2 and DGS10: complete.**
+- **Phase 1.3A — Processed-observation lineage schema evolution: complete.**
+- **Phase 1.3B — Direct Treasury raw → processed normalization: complete.** This subphase authorizes only `fred`/`DGS2` and `fred`/`DGS10` direct, percent-preserving processed observations and immutable source lineage. It does not authorize derived spreads.
+- **Phase 2 — Signal Engine: explicitly out of scope.** No Z-scores, percentiles, trend/momentum states, signal classifications, or regime logic are authorized.
+
 | Phase | Objective | Major components | Dependencies | Definition of done |
 |---|---|---|---|---|
-| 0 — Architecture | Build a reliable foundation. | Dictionary, schema, naming, config, tests. | Blueprint. | Core definitions and runnable foundation exist. |
-| 1 — Market Dashboard MVP | Understand core market state in five minutes. | Nine core indicators, daily update, homepage. | Phase 0 definitions/sources. | Values and 1D/5D/20D changes update with failure visibility. |
+| 0 — Architecture | Build a reliable foundation. | Dictionary, schema, naming, config, tests. | Blueprint. | **Complete.** Core definitions and runnable foundation exist. |
+| 1 — Market Dashboard MVP | Understand core market state in five minutes. | Nine core indicators, daily update, homepage. | Phase 0 definitions and verified source contracts. | **Authorized / in progress:** Phases 1.3A and 1.3B are complete; the next proposed scope is only Phase 1.4 validated same-date 10Y−2Y derivation. |
 | 2 — Signal Engine | Standardize market states and anomalies. | Z-scores, percentiles, trends, momentum. | Phase 1 history. | Traceable, configurable outputs for core indicators. |
 | 3 — Cross-Asset Engine | Detect meaningful divergences. | Relationship and divergence rules. | Phases 1–2. | Four explainable divergence types with history. |
 | 4 — Macro & Regime Engine | Identify economic and policy environment. | Growth, inflation, Fed pricing, regime logic. | Phases 1–3. | Regime, evidence, confidence, and change conditions. |

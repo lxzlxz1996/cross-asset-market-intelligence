@@ -9,6 +9,7 @@ description = "Research-first cross-asset market intelligence and portfolio risk
 requires-python = ">=3.11"
 dependencies = [
     "duckdb>=1.0,<2.0",
+    "pytz>=2024.1",
 ]
 
 [project.optional-dependencies]

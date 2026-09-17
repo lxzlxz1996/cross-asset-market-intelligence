@@ -44,9 +44,39 @@ The arrows describe data lineage, not an authorization to automate investment de
 
 Append-only source observations keyed by `(source, series_id, observation_date, vintage)`. `retrieval_timestamp` records when this system received the observation; `publication_timestamp` records when it became publicly available when supplied by the source. `metadata` is source-specific JSON, reserved for items such as native units, payload identifiers, or release details.
 
+### Phase 1.2 FRED mapping
+
+For FRED `DGS2` and `DGS10`, `source` is `fred`, `series_id` is the FRED ID, `observation_date` and `value` come from the source `date` and `value`, and `retrieval_timestamp` is the system's UTC retrieval time. FRED does not provide an observation-level publication timestamp for these series, so `publication_timestamp` remains null. The `vintage` key is `fred_realtime:<realtime_start>:<realtime_end>`: it is a lossless identifier for FRED's date-level real-time availability interval, not a claimed intraday publication time or a fabricated vendor vintage. The same FRED fields and raw source value are retained in JSON metadata. A source `value` of `.` is stored as a row with null numeric `value` and explicit missing-value metadata.
+
 ### `processed_observations`
 
-Cleaned or transformed values keyed by `(indicator_id, date, processing_version)`. Each row cites `raw_source`, `raw_series_id`, and `transformation`, giving a direct lineage pointer. A future processing-run identifier may be added only when multi-step pipelines warrant it.
+Immutable processed outputs keyed by `processed_observation_id`. The ID is a SHA-256 digest of a canonical JSON representation of `indicator_id`, date, `processing_version`, and the complete selected raw-input identities. It does not include execution time or output value. `processing_version` identifies methodology only; a changed raw vintage produces a new output identity without changing that methodology version.
+
+### `processed_observation_inputs`
+
+One row per raw observation used by a processed output. Its foreign keys identify the exact raw primary key: source, series ID, observation date, and vintage. `input_role` records the stable semantic role of the input. Direct source normalization will use `source`; a future 10Y−2Y calculation can use `ten_year` and `two_year`. This one-to-many relationship is authoritative lineage; `processed_observations` intentionally has no singular raw-source fields.
+
+### Phase 1.3A migration
+
+The former processed key, `(indicator_id, date, processing_version)`, could not retain an immutable result when the same raw observation gained a new vintage. The schema initializer replaces that legacy table only if it is empty. If any legacy processed rows exist, initialization raises an explicit migration error and leaves all tables unchanged; migration would otherwise fabricate missing raw-vintage lineage. `raw_observations` is never altered.
+
+### Phase 1.3B direct Treasury normalization
+
+Only `fred`/`DGS2` → `us_treasury_2y_yield` and `fred`/`DGS10` → `us_treasury_10y_yield` are approved. They are validated identity normalizations: a finite raw value remains a percent-per-annum value (for example, `4.25` remains `4.25`), using processing version `fred_treasury_direct_percent_identity_v1` and transformation `validated_identity_percent_per_annum`. A null FRED raw value is an expected missing observation and produces no processed row; it is never filled, interpolated, or replaced with zero.
+
+For each source, series, and observation date, processing chooses the valid Phase 1.2 FRED vintage with the greatest `(realtime_start, realtime_end, vintage)` tuple parsed from `fred_realtime:<start>:<end>`. ISO-date lexical order is chronological. Processing inserts a separate immutable result for a newer selected vintage, without deleting older raw or processed rows and without changing methodology version. Every output has exactly one `source` lineage row identifying the selected raw primary key. The manual command `python -m cross_asset_market_intelligence process-fred-treasury` reads local raw rows only; it never calls FRED.
+
+To inspect the resulting lineage locally:
+
+```sql
+SELECT processed.indicator_id, processed.date, processed.value,
+       processed.processing_version, processed.processed_observation_id,
+       input.raw_source, input.raw_series_id, input.raw_observation_date,
+       input.raw_vintage, input.input_role
+FROM processed_observations AS processed
+JOIN processed_observation_inputs AS input USING (processed_observation_id)
+ORDER BY processed.indicator_id, processed.date, input.raw_vintage;
+```
 
 ### `signals`
 
