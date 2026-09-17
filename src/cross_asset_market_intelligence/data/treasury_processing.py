@@ -5,14 +5,14 @@ from __future__ import annotations
 import logging
 import math
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-from typing import Iterable
+from datetime import date
 
 import duckdb
 
 from ..database import initialize_phase_0_schema
-from ..exceptions import ProcessingPersistenceError, ProcessingValidationError
+from ..exceptions import ProcessingValidationError
 from ..lineage import RawInputIdentity, processed_observation_id
+from .processed_persistence import ProcessedRawRecord, persist_processed_raw_records
 
 APPROVED_FRED_TREASURY_MAPPING = {
     "DGS2": "us_treasury_2y_yield",
@@ -120,7 +120,7 @@ def process_fred_treasury_series(
     """Normalize one approved source series without retrieving or mutating raw data."""
     indicator_id = approved_indicator_for(source, series_id)
     selected = select_latest_raw_vintages(connection, source, series_id)
-    records = []
+    records: list[ProcessedRawRecord] = []
     skipped_missing = 0
     for raw in selected:
         if raw.value is None:
@@ -134,86 +134,27 @@ def process_fred_treasury_series(
             raw_vintage=raw.vintage,
         )
         records.append(
-            (
-                processed_observation_id(
+            ProcessedRawRecord(
+                processed_observation_id=processed_observation_id(
                     indicator_id,
                     raw.observation_date,
                     DIRECT_TREASURY_PROCESSING_VERSION,
                     [input_identity],
                 ),
-                indicator_id,
-                raw.observation_date,
-                float(raw.value),
-                input_identity,
+                indicator_id=indicator_id,
+                observation_date=raw.observation_date,
+                value=float(raw.value),
+                input_identity=input_identity,
             )
         )
-    inserted = _persist_processed_records(connection, records)
+    inserted = persist_processed_raw_records(
+        connection,
+        records,
+        processing_version=DIRECT_TREASURY_PROCESSING_VERSION,
+        transformation=DIRECT_TREASURY_TRANSFORMATION,
+        subject="Treasury",
+    )
     return TreasuryProcessingResult(inserted=inserted, skipped_missing=skipped_missing)
-
-
-def _persist_processed_records(
-    connection: duckdb.DuckDBPyConnection,
-    records: Iterable[tuple[str, str, date, float, RawInputIdentity]],
-) -> int:
-    """Persist complete parent-and-lineage pairs in a single transaction."""
-    rows = list(records)
-    if not rows:
-        return 0
-    transaction_started = False
-    try:
-        connection.execute("BEGIN TRANSACTION")
-        transaction_started = True
-        inserted = 0
-        for identifier, indicator_id, observation_date, value, input_identity in rows:
-            existing = connection.execute(
-                "SELECT 1 FROM processed_observations WHERE processed_observation_id = ?",
-                (identifier,),
-            ).fetchone()
-            connection.execute(
-                """
-                INSERT INTO processed_observations (
-                    processed_observation_id, indicator_id, date, value,
-                    processing_version, transformation, created_timestamp
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT DO NOTHING
-                """,
-                (
-                    identifier,
-                    indicator_id,
-                    observation_date,
-                    value,
-                    DIRECT_TREASURY_PROCESSING_VERSION,
-                    DIRECT_TREASURY_TRANSFORMATION,
-                    datetime.now(timezone.utc),
-                ),
-            )
-            connection.execute(
-                """
-                INSERT INTO processed_observation_inputs (
-                    processed_observation_id, input_role, raw_source, raw_series_id,
-                    raw_observation_date, raw_vintage
-                ) VALUES (?, ?, ?, ?, ?, ?)
-                ON CONFLICT DO NOTHING
-                """,
-                (
-                    identifier,
-                    input_identity.input_role,
-                    input_identity.raw_source,
-                    input_identity.raw_series_id,
-                    input_identity.raw_observation_date,
-                    input_identity.raw_vintage,
-                ),
-            )
-            if existing is None:
-                inserted += 1
-        connection.execute("COMMIT")
-        return inserted
-    except duckdb.Error as error:
-        if transaction_started:
-            connection.execute("ROLLBACK")
-        raise ProcessingPersistenceError(
-            "Could not persist complete processed Treasury observation lineage"
-        ) from error
 
 
 def _fred_vintage_rank(vintage: str) -> tuple[str, str, str]:

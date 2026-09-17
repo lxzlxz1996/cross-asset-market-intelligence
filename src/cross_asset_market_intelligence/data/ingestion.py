@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import logging
 from datetime import date, datetime, timezone
 from typing import Iterable
@@ -10,8 +9,8 @@ from typing import Iterable
 import duckdb
 
 from ..database import initialize_phase_0_schema
-from ..exceptions import PersistenceError
 from .fred import FredClient, FredObservation
+from .raw_persistence import RawObservationRecord, persist_raw_observation_records
 
 APPROVED_FRED_SERIES = frozenset({"DGS2", "DGS10"})
 
@@ -50,57 +49,26 @@ def persist_fred_observations(
     if timestamp.tzinfo is None or timestamp.utcoffset() is None:
         raise ValueError("retrieved_at must be timezone-aware")
 
-    rows = [
-        (
-            "fred",
-            observation.series_id,
-            observation.observation_date,
-            observation.value,
-            timestamp,
-            None,
-            observation.vintage_key,
-            json.dumps(
-                {
-                    "fred_realtime_start": observation.realtime_start,
-                    "fred_realtime_end": observation.realtime_end,
-                    "fred_raw_value": observation.raw_value,
-                    "is_missing": observation.value is None,
-                }
-            ),
+    records = [
+        RawObservationRecord(
+            source="fred",
+            series_id=observation.series_id,
+            observation_date=observation.observation_date,
+            value=observation.value,
+            publication_timestamp=None,
+            vintage=observation.vintage_key,
+            metadata={
+                "fred_realtime_start": observation.realtime_start,
+                "fred_realtime_end": observation.realtime_end,
+                "fred_raw_value": observation.raw_value,
+                "is_missing": observation.value is None,
+            },
         )
         for observation in observations
     ]
-    if not rows:
-        return 0
-
-    transaction_started = False
-    try:
-        connection.execute("BEGIN TRANSACTION")
-        transaction_started = True
-        inserted = 0
-        for row in rows:
-            existing = connection.execute(
-                """
-                SELECT 1 FROM raw_observations
-                WHERE source = ? AND series_id = ? AND observation_date = ? AND vintage = ?
-                """,
-                (row[0], row[1], row[2], row[6]),
-            ).fetchone()
-            if existing is not None:
-                continue
-            connection.execute(
-                """
-                INSERT INTO raw_observations (
-                    source, series_id, observation_date, value, retrieval_timestamp,
-                    publication_timestamp, vintage, metadata
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                row,
-            )
-            inserted += 1
-        connection.execute("COMMIT")
-        return inserted
-    except duckdb.Error as error:
-        if transaction_started:
-            connection.execute("ROLLBACK")
-        raise PersistenceError("Could not persist raw FRED observations") from error
+    return persist_raw_observation_records(
+        connection,
+        records,
+        retrieved_at=timestamp,
+        source_name="FRED",
+    )

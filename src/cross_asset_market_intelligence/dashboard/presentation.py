@@ -1,11 +1,14 @@
-"""Pure formatting and chart-shaping helpers for the Treasury Streamlit page."""
+"""Pure formatting and chart-shaping helpers for the read-only dashboard."""
 
 from __future__ import annotations
 
 from .treasury_read_model import TreasuryDashboardObservation
+from .sofr_read_model import SofrDashboardObservation
+
+DashboardObservation = TreasuryDashboardObservation | SofrDashboardObservation
 
 
-def format_level(observation: TreasuryDashboardObservation) -> str:
+def format_level(observation: DashboardObservation) -> str:
     """Format a dashboard level without changing its underlying unit contract."""
     suffix = "%" if observation.unit == "percent" else "pp"
     return f"{observation.value:.2f}{suffix}"
@@ -17,7 +20,7 @@ def format_change(value: float | None) -> str:
 
 
 def historical_chart_rows(
-    observations: tuple[TreasuryDashboardObservation, ...],
+    observations: tuple[DashboardObservation, ...],
     series_name: str,
 ) -> list[dict[str, object]]:
     """Shape selected history with date-only labels for a native chart."""
@@ -53,7 +56,7 @@ def chart_y_domain(rows: list[dict[str, object]]) -> list[float] | None:
     return [lower - padding, upper + padding]
 
 
-def direct_lineage_rows(observation: TreasuryDashboardObservation) -> list[dict[str, object]]:
+def direct_lineage_rows(observation: DashboardObservation) -> list[dict[str, object]]:
     """Return concise direct raw-lineage fields for display."""
     lineage = observation.lineage
     if not hasattr(lineage, "raw_input"):

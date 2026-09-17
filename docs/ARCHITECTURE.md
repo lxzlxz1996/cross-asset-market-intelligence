@@ -141,6 +141,30 @@ The local Streamlit page is a presentation-only layer over the Phase 1.5A/1.5B r
 
 The presentation uses date-only, chronological chart labels and a compact display domain around the stored levels; neither changes any plotted observation. Current cards expose the level, each descriptive change window, and as-of date independently. Lineage remains collapsed by default.
 
+### Phase 1.6A official FRBNY SOFR raw ingestion
+
+Only the official FRBNY SOFR API is authorized at this stage. The `frbny` / `SOFR` raw mapping stores `effectiveDate` as the business/reference `observation_date` and `percentRate` unchanged as percent per annum. The scheduled approximately 8:00 a.m. ET publication time is not inserted as an observation timestamp: the API does not provide one, so `publication_timestamp` remains null and the system records its timezone-aware retrieval time.
+
+The source field `revisionIndicator` is preserved in JSON metadata and establishes the raw vintage `frbny_sofr_revision:<indicator-or-original>`. Thus an original empty indicator and a later revised `r` indicator can coexist for the same reference date. This is not an invented intraday timestamp and cannot recover a revision that was never retrieved; the official response does not expose a stronger revision identity. The entire source record is retained in metadata. The source omits non-publication days, and ingestion creates no substitute row.
+
+Run `python -m cross_asset_market_intelligence ingest-sofr` for the latest published record, or `python -m cross_asset_market_intelligence ingest-sofr --start YYYY-MM-DD --end YYYY-MM-DD` for an official bounded range. The client uses only standard-library HTTP and no authentication.
+
+### Phase 1.6B validated SOFR raw-to-processed normalization
+
+Only `frbny` / `SOFR` maps to processed indicator `sofr`. The finite raw percent value is retained unchanged using `frbny_sofr_direct_percent_identity_v1` and transformation `validated_identity_percent_per_annum`. For each effective date, processing recognizes only `frbny_sofr_revision:original` and `frbny_sofr_revision:r`; it explicitly selects `r` when available, otherwise `original`, and rejects any other state without ranking vintage strings. It reads only locally stored raw states, never calls FRBNY, and cannot reconstruct an unobserved source revision.
+
+Each output’s deterministic processed ID uses the established complete raw-input identity. It has exactly one `source` row in `processed_observation_inputs` identifying `frbny`, `SOFR`, the exact effective date, and exact selected vintage. A later stored revised state creates a separate immutable processed output and leaves the original raw and processed records intact. Missing raw values produce no processed output. Run `python -m cross_asset_market_intelligence process-sofr`.
+
+### Phase 1.6C SOFR read model and dashboard integration
+
+The SOFR read model selects the `frbny_sofr_direct_percent_identity_v1` processed observation whose sole source lineage exactly matches the currently recognized raw revision for each date: `r` when present, otherwise `original`. It does not rank IDs, timestamps, or arbitrary database order. It returns one selected row per actual stored reference date in ascending order; old immutable revisions remain stored but are excluded from the current projection. Missing, ambiguous, or invalid lineage raises explicitly rather than appearing as a missing metric.
+
+SOFR retains its `percent` level unit. Its read-only 1D, 5D, and 20D values are `current − N-valid-selected-observations-earlier`, in `percentage_points`; they are not calendar-day lookbacks, returns, or basis-point conversions. Insufficient history remains `None` and displays as `N/A`. The Streamlit page preserves the Treasury presentation and adds a separate Funding / Liquidity SOFR card, separate date-only SOFR history chart, and collapsed exact raw lineage fields. It opens DuckDB read-only and does not retrieve, ingest, process, or mutate data. `show-sofr-dashboard-data` is the corresponding small textual read-only inspection command. Only three local SOFR observations currently exist, so its 5D and 20D values are unavailable.
+
+### Phase 1.6D bounded official SOFR historical backfill
+
+The existing `ingest-sofr --start 2026-06-19 --end 2026-09-16` range command retrieved only official FRBNY records through the existing Phase 1.6A path. It added 58 distinguishable raw records to the three already stored, then the unchanged `process-sofr` flow created 58 selected immutable outputs. Repeating both operations added zero records. Returned business dates range from 2026-06-22 through 2026-09-16; weekends, holidays, and non-returned dates remain absent. The backfill changed neither source/revision semantics nor the SOFR direct-percent methodology. It supplies sufficient selected observations for the existing dashboard to calculate 5D and 20D descriptive differences.
+
 ### `signals`
 
 Versioned, explainable rule outputs keyed by `(signal_id, indicator_id, date, model_version)`. A signal is not a decision. The table intentionally does not add portfolio fields.

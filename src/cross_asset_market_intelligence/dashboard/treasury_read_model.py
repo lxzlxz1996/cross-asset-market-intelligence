@@ -15,6 +15,7 @@ from ..data.treasury_spread_processing import (
     select_current_direct_treasury_observations,
 )
 from ..exceptions import DashboardLineageError, DashboardReadError, ProcessingValidationError
+from .read_model_common import DashboardChange, changes_for_index
 
 DIRECT_INDICATORS = ("us_treasury_2y_yield", "us_treasury_10y_yield")
 APPROVED_TREASURY_INDICATORS = (*DIRECT_INDICATORS, TREASURY_SPREAD_INDICATOR)
@@ -32,7 +33,7 @@ class RawLineageSummary:
 
 @dataclass(frozen=True)
 class DirectDashboardLineage:
-    """Lineage summary for one direct Treasury observation."""
+    """Lineage summary for one direct dashboard observation."""
 
     raw_input: RawLineageSummary
 
@@ -64,15 +65,6 @@ class TreasuryDashboardObservation:
     change_1d: "DashboardChange"
     change_5d: "DashboardChange"
     change_20d: "DashboardChange"
-
-
-@dataclass(frozen=True)
-class DashboardChange:
-    """A descriptive difference from a prior valid selected observation."""
-
-    lag_observations: Literal[1, 5, 20]
-    value: float | None
-    unit: Literal["percentage_points"] = "percentage_points"
 
 
 _DEFINITIONS = {
@@ -113,7 +105,7 @@ def treasury_history(
     else:
         selected = _current_spread_history(connection)
     observations = [
-        _build_dashboard_observation(connection, observation, _changes_for_index(selected, index))
+        _build_dashboard_observation(connection, observation, changes_for_index(selected, index))
         for index, observation in enumerate(selected)
     ]
     return tuple(
@@ -250,30 +242,6 @@ def _build_dashboard_observation(
         change_1d=changes[0],
         change_5d=changes[1],
         change_20d=changes[2],
-    )
-
-
-def _changes_for_index(
-    selected: list[tuple[str, str, date, float, str]], index: int
-) -> tuple[DashboardChange, DashboardChange, DashboardChange]:
-    """Calculate approved observation-count lags from the selected history only."""
-    current_value = selected[index][3]
-    return (
-        _change_for_lag(selected, index, current_value, 1),
-        _change_for_lag(selected, index, current_value, 5),
-        _change_for_lag(selected, index, current_value, 20),
-    )
-
-
-def _change_for_lag(
-    selected: list[tuple[str, str, date, float, str]],
-    index: int,
-    current_value: float,
-    lag: Literal[1, 5, 20],
-) -> DashboardChange:
-    return DashboardChange(
-        lag_observations=lag,
-        value=current_value - selected[index - lag][3] if index >= lag else None,
     )
 
 

@@ -1,4 +1,4 @@
-"""Local, read-only Streamlit Treasury dashboard vertical slice."""
+"""Local, read-only Streamlit Treasury and SOFR dashboard vertical slice."""
 
 from __future__ import annotations
 
@@ -20,22 +20,29 @@ from cross_asset_market_intelligence.dashboard.treasury_read_model import (
     current_treasury_dashboard,
     treasury_history,
 )
+from cross_asset_market_intelligence.dashboard.sofr_read_model import (
+    SofrDashboardObservation,
+    current_sofr_observation,
+    sofr_history,
+)
 from cross_asset_market_intelligence.exceptions import DashboardLineageError, DashboardReadError
 
 
 def main() -> None:
-    """Render the page using the existing read-only Treasury dashboard model."""
+    """Render validated local Treasury and SOFR observations without mutation."""
     st.set_page_config(page_title="Cross-Asset Market Intelligence", layout="wide")
     st.title("Cross-Asset Market Intelligence")
-    st.caption("Treasury market — read-only local view of validated observations.")
+    st.caption("Read-only local view of validated Treasury and SOFR observations.")
     try:
         settings = load_settings()
         connection = connect(settings.database_path, read_only=True)
         try:
             dashboard = current_treasury_dashboard(connection)
+            sofr = current_sofr_observation(connection)
             _render_current_cards(dashboard)
             _render_history(connection)
-            _render_lineage(dashboard)
+            _render_sofr(connection, sofr)
+            _render_lineage(dashboard, sofr)
         finally:
             connection.close()
     except DashboardLineageError:
@@ -57,21 +64,7 @@ def _render_current_cards(
             if observation is None:
                 st.info(f"{indicator_id}: no validated observation available.")
             else:
-                st.metric(observation.display_name, format_level(observation))
-                change_columns = st.columns(3)
-                for change_column, label, change in zip(
-                    change_columns,
-                    ("1D", "5D", "20D"),
-                    (
-                        observation.change_1d,
-                        observation.change_5d,
-                        observation.change_20d,
-                    ),
-                ):
-                    with change_column:
-                        st.caption(label)
-                        st.write(format_change(change.value))
-                st.caption(f"As of {observation.observation_date.isoformat()}")
+                _render_observation_card(observation)
 
 
 def _render_history(connection) -> None:
@@ -89,6 +82,36 @@ def _render_history(connection) -> None:
         _render_chart(historical_chart_rows(spread, "10Y − 2Y (pp)"), "Spread (pp)")
     else:
         st.info("No validated 10Y − 2Y history is available.")
+
+
+def _render_sofr(connection, observation: SofrDashboardObservation | None) -> None:
+    """Keep funding data distinct from the Treasury market presentation."""
+    st.subheader("Funding / Liquidity")
+    if observation is None:
+        st.info("SOFR: no validated observation available.")
+    else:
+        _render_observation_card(observation)
+    st.markdown("**SOFR history**")
+    history = sofr_history(connection)
+    if history:
+        _render_chart(historical_chart_rows(history, "SOFR (%)"), "SOFR (%)")
+    else:
+        st.info("No validated SOFR history is available.")
+
+
+def _render_observation_card(observation: TreasuryDashboardObservation | SofrDashboardObservation) -> None:
+    """Render direct-indicator values without adding interpretation."""
+    st.metric(observation.display_name, format_level(observation))
+    change_columns = st.columns(3)
+    for change_column, label, change in zip(
+        change_columns,
+        ("1D", "5D", "20D"),
+        (observation.change_1d, observation.change_5d, observation.change_20d),
+    ):
+        with change_column:
+            st.caption(label)
+            st.write(format_change(change.value))
+    st.caption(f"As of {observation.observation_date.isoformat()}")
 
 
 def _render_chart(rows: list[dict[str, object]], y_title: str) -> None:
@@ -122,7 +145,10 @@ def _render_chart(rows: list[dict[str, object]], y_title: str) -> None:
     )
 
 
-def _render_lineage(dashboard: dict[str, TreasuryDashboardObservation | None]) -> None:
+def _render_lineage(
+    dashboard: dict[str, TreasuryDashboardObservation | None],
+    sofr: SofrDashboardObservation | None,
+) -> None:
     with st.expander("Data and lineage inspection"):
         for indicator_id, observation in dashboard.items():
             if observation is None:
@@ -133,6 +159,11 @@ def _render_lineage(dashboard: dict[str, TreasuryDashboardObservation | None]) -
             else:
                 st.write(observation.display_name)
                 st.dataframe(direct_lineage_rows(observation), hide_index=True)
+        if sofr is None:
+            st.write("SOFR: no validated observation available.")
+        else:
+            st.write(sofr.display_name)
+            st.dataframe(direct_lineage_rows(sofr), hide_index=True)
 
 
 if __name__ == "__main__":
