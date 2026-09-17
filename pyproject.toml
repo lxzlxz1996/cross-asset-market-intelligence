@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cross-asset-market-intelligence"
+version = "0.1.0"
+description = "Research-first cross-asset market intelligence and portfolio risk foundation"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.0,<2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0,<9.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --basetemp=.pytest_tmp"
+
+[tool.setuptools.packages.find]
+where = ["src"]

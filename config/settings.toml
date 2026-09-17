@@ -1,0 +1,12 @@
+[paths]
+database = "data/market_intelligence.duckdb"
+raw_data = "data/raw"
+processed_data = "data/processed"
+log_directory = "logs"
+
+[logging]
+level = "INFO"
+
+[database]
+# Schema creation is explicit; opening a connection alone does not create tables.
+read_only = false

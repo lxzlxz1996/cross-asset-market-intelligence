@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: cross-asset-market-intelligence
+Version: 0.1.0
+Summary: Research-first cross-asset market intelligence and portfolio risk foundation
+Requires-Python: >=3.11
+Requires-Dist: duckdb<2.0,>=1.0
+Provides-Extra: dev
+Requires-Dist: pytest<9.0,>=8.0; extra == "dev"
