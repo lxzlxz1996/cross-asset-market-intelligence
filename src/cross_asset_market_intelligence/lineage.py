@@ -30,6 +30,21 @@ class RawInputIdentity:
         }
 
 
+@dataclass(frozen=True, order=True)
+class ProcessedDependencyIdentity:
+    """The identity of one upstream processed observation and its semantic role."""
+
+    input_role: str
+    input_processed_observation_id: str
+
+    def canonical_mapping(self) -> dict[str, str]:
+        """Return the stable, JSON-ready representation used in derived identity."""
+        return {
+            "input_role": self.input_role,
+            "input_processed_observation_id": self.input_processed_observation_id,
+        }
+
+
 def processed_observation_id(
     indicator_id: str,
     observation_date: date,
@@ -46,6 +61,27 @@ def processed_observation_id(
         "observation_date": observation_date.isoformat(),
         "processing_version": processing_version,
         "inputs": canonical_inputs,
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return f"proc_sha256:{hashlib.sha256(encoded).hexdigest()}"
+
+
+def derived_processed_observation_id(
+    indicator_id: str,
+    observation_date: date,
+    processing_version: str,
+    dependencies: Iterable[ProcessedDependencyIdentity],
+) -> str:
+    """Create a stable identity from methodology and exact processed dependencies."""
+    canonical_dependencies = [dependency.canonical_mapping() for dependency in sorted(dependencies)]
+    if not canonical_dependencies:
+        raise ValueError("A derived processed observation requires at least one dependency")
+    payload = {
+        "identity_algorithm": "processed_observation_sha256_v1",
+        "indicator_id": indicator_id,
+        "observation_date": observation_date.isoformat(),
+        "processing_version": processing_version,
+        "dependencies": canonical_dependencies,
     }
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return f"proc_sha256:{hashlib.sha256(encoded).hexdigest()}"

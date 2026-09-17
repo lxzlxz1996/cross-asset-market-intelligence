@@ -55,9 +55,9 @@ The entries below are Phase 1 candidates only; no feed is implemented by this do
 | frequency / native frequency / unit | Daily / daily inputs / percentage points. |
 | release lag / timezone | Available only after both validated input observations are available. Its availability timestamp is the later input availability timestamp; any missing input makes the result unavailable. |
 | higher means / lower means | Steeper/flatter curve; economic interpretation depends on level, drivers, and regime. |
-| transformation | `10Y − 2Y`, calculated only from same-date validated observations; transformation version required. |
+| transformation | `10Y − 2Y`, calculated only from same-date validated processed `us_treasury_10y_yield` and `us_treasury_2y_yield` observations. Processing version: `treasury_10y_minus_2y_percentage_points_v1`. Unit remains percentage points; do not multiply by 100. |
 | expected start date | Intersection of verified input histories. |
-| missing / revision policy | Null if either input is missing; recompute when an input vintage changes and preserve processing version. |
+| missing / revision policy | No processed spread row if either same-date current validated input is missing. Do not fill, interpolate, or pair mismatched dates. For each upstream indicator/date, select the approved direct processed row whose exact raw lineage matches the greatest valid stored FRED realtime vintage; a revision creates a new immutable spread output while preserving the methodology version and history. |
 | publication timestamp available | Derived; governed by latest available input timestamp. |
 | predictive or descriptive | Descriptive / potential leading research candidate; requires validation. |
 | notes | Unit must not be mislabeled as basis points unless explicitly multiplied by 100. |

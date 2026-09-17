@@ -66,6 +66,19 @@ CREATE TABLE IF NOT EXISTS processed_observation_inputs (
     FOREIGN KEY (raw_source, raw_series_id, raw_observation_date, raw_vintage)
         REFERENCES raw_observations(source, series_id, observation_date, vintage)
 );
+
+CREATE TABLE IF NOT EXISTS processed_observation_dependencies (
+    output_processed_observation_id VARCHAR NOT NULL,
+    input_processed_observation_id VARCHAR NOT NULL,
+    input_role VARCHAR NOT NULL,
+    PRIMARY KEY (output_processed_observation_id, input_processed_observation_id),
+    UNIQUE (output_processed_observation_id, input_role),
+    CHECK (output_processed_observation_id != input_processed_observation_id),
+    FOREIGN KEY (output_processed_observation_id)
+        REFERENCES processed_observations(processed_observation_id),
+    FOREIGN KEY (input_processed_observation_id)
+        REFERENCES processed_observations(processed_observation_id)
+);
 """
 
 
@@ -77,7 +90,7 @@ def connect(database_path: Path, *, read_only: bool = False) -> duckdb.DuckDBPyC
 
 
 def initialize_phase_0_schema(connection: duckdb.DuckDBPyConnection) -> None:
-    """Create the foundation schema and safely evolve processed lineage when empty."""
+    """Create the foundation schema and safely evolve processed lineage."""
     connection.execute(PHASE_0_SCHEMA_SQL)
     migrate_processed_observation_lineage(connection)
 

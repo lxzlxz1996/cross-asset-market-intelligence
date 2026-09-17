@@ -56,6 +56,12 @@ Immutable processed outputs keyed by `processed_observation_id`. The ID is a SHA
 
 One row per raw observation used by a processed output. Its foreign keys identify the exact raw primary key: source, series ID, observation date, and vintage. `input_role` records the stable semantic role of the input. Direct source normalization will use `source`; a future 10Y−2Y calculation can use `ten_year` and `two_year`. This one-to-many relationship is authoritative lineage; `processed_observations` intentionally has no singular raw-source fields.
 
+### `processed_observation_dependencies`
+
+One row per upstream processed observation used by a derived processed output. `output_processed_observation_id` and `input_processed_observation_id` both foreign-key to `processed_observations`; a check rejects self-dependency, and `(output_processed_observation_id, input_role)` is unique so that roles cannot be ambiguous. This relationship is deliberately distinct from `processed_observation_inputs`: direct observations cite raw inputs, while derived observations cite validated processed observations. The resulting chain is transitive: derived output → processed dependency → exact raw input.
+
+Derived identity is a SHA-256 digest of indicator, date, processing version, and canonical `(input_role, input_processed_observation_id)` definitions. Dependencies are sorted canonically, so caller ordering is irrelevant. A changed upstream processed ID—whether caused by a raw-vintage revision or upstream methodology change—therefore produces a new derived ID. A future 10Y−2Y output must depend on same-date validated 10Y and 2Y processed observations with roles `ten_year` and `two_year`; it must not bypass those observations to read raw inputs directly.
+
 ### Phase 1.3A migration
 
 The former processed key, `(indicator_id, date, processing_version)`, could not retain an immutable result when the same raw observation gained a new vintage. The schema initializer replaces that legacy table only if it is empty. If any legacy processed rows exist, initialization raises an explicit migration error and leaves all tables unchanged; migration would otherwise fabricate missing raw-vintage lineage. `raw_observations` is never altered.
@@ -77,6 +83,41 @@ FROM processed_observations AS processed
 JOIN processed_observation_inputs AS input USING (processed_observation_id)
 ORDER BY processed.indicator_id, processed.date, input.raw_vintage;
 ```
+
+### Phase 1.4A processed dependency migration
+
+Schema initialization adds `processed_observation_dependencies` with `CREATE TABLE IF NOT EXISTS`. It does not alter `raw_observations`, `processed_observations`, or `processed_observation_inputs`, so existing direct Treasury outputs and their raw lineage remain intact. Phase 1.4A adds no actual derived market observations or dependency rows.
+
+### Phase 1.4B Treasury 10Y minus 2Y derivation
+
+`us_treasury_10y_minus_2y` is descriptive processed data defined strictly as same-date validated `us_treasury_10y_yield` minus `us_treasury_2y_yield`. Its unit is percentage points: `4.30 − 3.80 = 0.50`; it is not multiplied by 100 or labeled basis points. Processing version `treasury_10y_minus_2y_percentage_points_v1` means exactly this same-date subtraction from approved direct Treasury processing version `fred_treasury_direct_percent_identity_v1`.
+
+For each upstream indicator/date, current selection follows Phase 1.3B semantics: find the greatest valid raw FRED real-time vintage for its DGS series, then select the one direct processed record at the approved direct version whose `source` raw lineage matches that exact raw primary key. No insertion order, processed-ID ordering, or mutable current flag is used. If either current finite input is absent, no spread is created; dates are never filled or paired across dates. A new upstream raw vintage leads to a new direct processed ID and therefore a new immutable spread ID, while preserving old outputs.
+
+Each spread has only two processed dependencies: `ten_year` → selected 10Y processed ID and `two_year` → selected 2Y processed ID. It has no direct `processed_observation_inputs` row. This keeps raw provenance transitive through the validated direct Treasury outputs. Run `python -m cross_asset_market_intelligence process-treasury-spread` after direct processing; it reads only local processed observations and never calls FRED.
+
+Inspect a spread and its immediate dependencies:
+
+```sql
+SELECT spread.date, spread.value, spread.processing_version,
+       spread.processed_observation_id AS spread_processed_id,
+       max(CASE WHEN dependency.input_role = 'ten_year'
+           THEN upstream.processed_observation_id END) AS ten_year_processed_id,
+       max(CASE WHEN dependency.input_role = 'ten_year' THEN upstream.value END) AS ten_year_value,
+       max(CASE WHEN dependency.input_role = 'two_year'
+           THEN upstream.processed_observation_id END) AS two_year_processed_id,
+       max(CASE WHEN dependency.input_role = 'two_year' THEN upstream.value END) AS two_year_value
+FROM processed_observations AS spread
+JOIN processed_observation_dependencies AS dependency
+    ON spread.processed_observation_id = dependency.output_processed_observation_id
+JOIN processed_observations AS upstream
+    ON dependency.input_processed_observation_id = upstream.processed_observation_id
+WHERE spread.indicator_id = 'us_treasury_10y_minus_2y'
+GROUP BY spread.date, spread.value, spread.processing_version, spread.processed_observation_id
+ORDER BY spread.date;
+```
+
+Trace each selected upstream input to its raw FRED vintage by joining `processed_observation_dependencies` to `processed_observation_inputs` on the input processed ID, then joining `raw_observations` on source, series, observation date, and vintage.
 
 ### `signals`
 
