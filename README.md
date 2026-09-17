@@ -4,7 +4,7 @@ Local, research-first infrastructure for understanding cross-asset market condit
 
 ## Current status
 
-**Phase 1.2 — FRED Raw Ingestion for DGS2 and DGS10.** Phases 0 and 1.1 are complete. This subphase authorizes raw FRED ingestion for those two series only: no processed observations, yield-curve calculation, dashboard, signals, models, portfolio optimization, or backtesting is implemented. Phase 2 remains out of scope.
+**Phase 1.5C — Treasury dashboard vertical slice.** The local application displays read-only current and selected-history data for 2Y, 10Y, and 10Y−2Y Treasury indicators, including descriptive 1D/5D/20D changes and inspectable lineage. It is not a completed cross-asset dashboard; no signals, portfolio logic, or Phase 2 functionality is implemented.
 
 ## Quick start (when Python is installed)
 
@@ -18,6 +18,16 @@ pytest
 Copy `.env.example` to `.env` only when a future data source requires credentials. Never commit `.env`.
 
 See [the project blueprint](docs/PROJECT_BLUEPRINT.md), [architecture](docs/ARCHITECTURE.md), and [development roadmap](docs/DEVELOPMENT_ROADMAP.md).
+
+## Local Treasury dashboard
+
+After local raw ingestion and Treasury processing have populated `data/market_intelligence.duckdb`, launch the graphical dashboard with:
+
+```powershell
+streamlit run src/cross_asset_market_intelligence/dashboard/streamlit_app.py
+```
+
+The page is strictly read-only: opening or refreshing it does not call FRED, ingest data, process Treasury observations, or write to DuckDB. It currently covers only 2Y, 10Y, and 10Y−2Y Treasury data; unavailable metrics such as a 20D change with insufficient history display as `N/A`.
 
 ## Phase 1.2 manual raw ingestion
 

@@ -119,6 +119,24 @@ ORDER BY spread.date;
 
 Trace each selected upstream input to its raw FRED vintage by joining `processed_observation_dependencies` to `processed_observation_inputs` on the input processed ID, then joining `raw_observations` on source, series, observation date, and vintage.
 
+### Phase 1.5A Treasury dashboard read model
+
+The read-only Treasury dashboard model projects exactly one current observation per approved indicator, without changing immutable history or storing a mutable `is_current` flag. For direct 2Y/10Y observations, it applies the Phase 1.3B current raw-vintage rule and accepts only `fred_treasury_direct_percent_identity_v1`. For the spread, it accepts only `treasury_10y_minus_2y_percentage_points_v1` and selects the record whose `ten_year` and `two_year` dependencies are the selected current direct processed IDs for that same date. The latest dashboard date is determined separately for each indicator.
+
+The model exposes typed indicator, display metadata, date, value, explicit unit, processing version, processed ID, and a lineage summary. Direct yields use `percent`; the spread uses `percentage_points`. Its history query returns at most one deterministic current projection per valid date in ascending order, while preserving all underlying immutable revisions in storage. A missing history is represented as unavailable (`None` for the current read); unsupported indicators and incomplete/ambiguous lineage raise explicit errors. Read operations issue queries only and never ingest, process, or mutate tables.
+
+Use `python -m cross_asset_market_intelligence show-treasury-dashboard-data` for a small read-only textual inspection. It is not a dashboard UI.
+
+### Phase 1.5B descriptive Treasury dashboard changes
+
+The read model calculates only descriptive 1D, 5D, and 20D changes in memory from the deterministic selected history. For lag `N`, `change_N = current_value − selected_value_N_valid_observations_earlier`; these are observation-count lags, not calendar-day lookbacks. Weekends, holidays, and missing dates are neither filled nor interpolated. All three indicator changes use `percentage_points`, including 2Y/10Y yield changes; no ×100 conversion, basis-point presentation conversion, percentage return, classification, or database persistence occurs.
+
+If fewer than `N` prior valid selected observations exist, that change is explicitly unavailable (`None`). This is normal insufficient-history behavior, distinct from empty history or lineage integrity failure. `show-treasury-dashboard-data` displays each change or `N/A`; it remains a read-only textual inspection.
+
+### Phase 1.5C graphical Treasury dashboard
+
+The local Streamlit page is a presentation-only layer over the Phase 1.5A/1.5B read model. It shows three current cards, separate selected-history charts for 2Y/10Y yields and the 10Y−2Y spread, and an expandable lineage inspection section. Display formatting uses `%` for percent levels and `pp` for percentage-point levels/changes, rounded only in the UI; the read model and database retain precision and units. The page opens DuckDB read-only and never selects revisions, derives data, or writes state itself.
+
 ### `signals`
 
 Versioned, explainable rule outputs keyed by `(signal_id, indicator_id, date, model_version)`. A signal is not a decision. The table intentionally does not add portfolio fields.

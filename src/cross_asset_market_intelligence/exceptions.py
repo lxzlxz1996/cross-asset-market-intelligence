@@ -27,3 +27,11 @@ class ProcessingValidationError(ValueError):
 
 class ProcessingPersistenceError(RuntimeError):
     """Raised when a processed observation and its lineage cannot be stored."""
+
+
+class DashboardReadError(RuntimeError):
+    """Raised when a read-only dashboard projection cannot query the database."""
+
+
+class DashboardLineageError(RuntimeError):
+    """Raised when dashboard selection finds incomplete or ambiguous lineage."""
