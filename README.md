@@ -4,7 +4,9 @@ Local, research-first infrastructure for understanding cross-asset market condit
 
 ## Current status
 
-**Phase 1.5C — Treasury dashboard vertical slice.** The local application displays read-only current and selected-history data for 2Y, 10Y, and 10Y−2Y Treasury indicators, including descriptive 1D/5D/20D changes and inspectable lineage. It is not a completed cross-asset dashboard; no signals, portfolio logic, or Phase 2 functionality is implemented.
+**Phase 1 engineering baseline frozen (Phase 1.8C).** The local application presents read-only current and selected-history data, descriptive 1D/5D/20D observation-count changes, and inspectable lineage for Treasury (2Y, 10Y, 10Y−2Y), SOFR, and Credit (IG/HY OAS). It also exposes manual refresh-run status and Data Status without changing market data.
+
+Phase 1 is **6 implemented / 3 deferred source integrations**. `spx`, `vix`, and `move_index` remain `source_pending`: their long-term data-source and usage-rights conditions are unresolved, so they are not implemented or represented as production-authorized. The durable conditions for resuming each integration are recorded in [Deferred Source Integrations](docs/DEVELOPMENT_ROADMAP.md#deferred-source-integrations). The Signal Engine, regime logic, risk/portfolio logic, and backtesting are future work; no Phase 2 functionality is implemented.
 
 ## Quick start (when Python is installed)
 
@@ -19,7 +21,7 @@ Copy `.env.example` to `.env` only when a future data source requires credential
 
 See [the project blueprint](docs/PROJECT_BLUEPRINT.md), [architecture](docs/ARCHITECTURE.md), and [development roadmap](docs/DEVELOPMENT_ROADMAP.md).
 
-## Local Treasury dashboard
+## Local dashboard
 
 After local raw ingestion and Treasury processing have populated `data/market_intelligence.duckdb`, launch the graphical dashboard with:
 
@@ -27,7 +29,16 @@ After local raw ingestion and Treasury processing have populated `data/market_in
 streamlit run src/cross_asset_market_intelligence/dashboard/streamlit_app.py
 ```
 
-The page is strictly read-only: opening or refreshing it does not call FRED, ingest data, process Treasury observations, or write to DuckDB. It currently covers only 2Y, 10Y, and 10Y−2Y Treasury data; unavailable metrics such as a 20D change with insufficient history display as `N/A`.
+The page is strictly read-only: opening or refreshing it does not call external sources, ingest data, process observations, initiate a refresh, or write to DuckDB. It shows Treasury, Funding / Liquidity, Credit, Data Status, and Data & Lineage. Unavailable metrics such as a 20D change with insufficient history display as `N/A`.
+
+Manual refresh is explicit and limited to implemented pipelines:
+
+```powershell
+python -m cross_asset_market_intelligence refresh-market-data --pipeline treasury
+python -m cross_asset_market_intelligence show-data-health
+```
+
+The refresh command is not scheduled and does not invoke governance-pending indicators.
 
 ## Phase 1.2 manual raw ingestion
 

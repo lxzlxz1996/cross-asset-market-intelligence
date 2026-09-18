@@ -313,12 +313,12 @@ V1–V4：观察市场；V5–V7：研究市场；V8–V10：管理资金。
 
 ## 10. 项目状态记录
 
-当前阶段：Phase 1.5C — Graphical Treasury Dashboard Vertical Slice（完成）
+当前阶段：Phase 1.8C — Phase 1 Stabilization, Audit, and Freeze（完成）
 
-当前重点：完成 Treasury 三项指标的 local/read-only Streamlit dashboard vertical slice
+当前重点：Phase 1 engineering baseline 已冻结：Treasury、SOFR、Credit、手动 refresh 记录和 Data Status 已实现并完成审计；SPX、VIX、MOVE 仍为 source_pending。
 
-下一里程碑：TBD；需要明确授权后再定义，当前不得扩展其他 Phase 1 功能
+下一里程碑：Phase 2.1 需要单独授权；不得在冻结的 Phase 1 范围内实现 signals、regimes、risk、portfolio 或 backtesting。
 
-Phase 0、Phase 1.1、Phase 1.2、Phase 1.3A、Phase 1.3B、Phase 1.4A、Phase 1.4B、Phase 1.5A、Phase 1.5B 与 Phase 1.5C 状态：完成。当前不得扩展其他 Phase 1 功能。Phase 2 — Signal Engine 明确不在当前范围内；不得实现 Z-score、percentile、trend、momentum、regime 或交易/组合逻辑。
+Phase 0、Phase 1.1、Phase 1.2、Phase 1.3A、Phase 1.3B、Phase 1.4A、Phase 1.4B、Phase 1.5A、Phase 1.5B、Phase 1.5C、Phase 1.5C.1、Phase 1.6A–1.6D、Phase 1.7A–1.7D、Phase 1.8A、Phase 1.8B 与 Phase 1.8C 状态：完成。Phase 1 的六项开发指标为 Treasury 2Y、Treasury 10Y、10Y−2Y、SOFR、IG OAS、HY OAS；SPX、VIX 与 MOVE 仍因 source-governance 待定而未实现。Phase 2 — Signal Engine 是未来工作，当前没有 Z-score、percentile、trend、momentum、regime 或交易/组合逻辑。
 
 最后更新：2026-09-17

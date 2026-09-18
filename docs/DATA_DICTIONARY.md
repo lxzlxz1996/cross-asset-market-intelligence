@@ -123,7 +123,7 @@ The entries below are Phase 1 candidates only; no feed is implemented by this do
 | indicator_id | `move_index` |
 | category / subcategory | Volatility / Rates implied volatility |
 | description / rationale | ICE BofA MOVE Index, a measure of implied volatility in U.S. Treasury markets. |
-| source / identifier / reference | ICE Data Indices, ICE BofA U.S. Bond Market Option Volatility Estimate Index (MOVE). [Official product specification](https://developer.ice.com/fixed-income-data-services/catalog/ice-data-indices-move-index). Exact production instrument identifier is **TBD / requires verification with ICE**. |
+| source / identifier / reference | ICE Data Indices, ICE BofA U.S. Bond Market Option Volatility Estimate Index (MOVE). [Official product specification](https://developer.ice.com/fixed-income-data-services/catalog/ice-data-indices-move-index). ICE's public page does not disclose a production delivery identifier; it is **TBD / requires an ICE entitlement**. |
 | frequency / native frequency / unit | ICE states intraday and daily availability; index-point unit and exact end-of-day convention are **TBD / requires verification with ICE**. |
 | release lag / timezone | **TBD / requires verification with ICE**; no free public publication schedule was verified. |
 | higher means / lower means | Higher/lower expected Treasury-market volatility; not direction. |
@@ -132,7 +132,7 @@ The entries below are Phase 1 candidates only; no feed is implemented by this do
 | missing / revision policy | **TBD / requires verification with ICE**. |
 | publication timestamp available | **TBD / requires verification with ICE**. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | ICE lists ICE Connect, ICE Consolidated History, ICE Consolidated Feed, ICE Data API, and ICE Data Files as delivery mechanisms. These are entitlement/licensed products; an ICE agreement is required before this indicator can be ingested. Phase 1-compatible approach: obtain an ICE entitlement and record the contracted identifier, EOD convention, terms, and publication timestamp; otherwise leave MOVE unavailable rather than substitute an unofficial feed. |
+| notes | **Phase 1.8A classification: IMPLEMENTABLE WITH EXPLICIT USER-SUPPLIED ENTITLEMENT / CREDENTIAL.** ICE lists ICE Connect, ICE Consolidated History, ICE Consolidated Feed, ICE Data API, and ICE Data Files as delivery mechanisms, but the public product page requires login to inspect coverage and does not provide a free public historical endpoint. Before implementation, an ICE agreement and credential must establish the exact identifier, delivered fields and unit, EOD convention and timezone, publication-time field, revision/version behavior, retention/local-storage rights, and redistribution limits. The current raw schema is conditionally adequate only after these fields are contracted; do not invent a MOVE vintage or substitute an unofficial feed. |
 
 ### VIX
 
@@ -141,16 +141,16 @@ The entries below are Phase 1 candidates only; no feed is implemented by this do
 | indicator_id | `vix` |
 | category / subcategory | Volatility / Equity implied volatility |
 | description / rationale | Cboe Volatility Index, a model-based measure of S&P 500 option-implied volatility. |
-| source / identifier / reference | Cboe, VIX Index historical daily-close download. [Official historical-data page](https://www.cboe.com/tradable_products/vix/vix_historical_data), [methodology](https://cdn.cboe.com/api/global/us_indices/governance/VIX_Methodology.pdf). Download identifier/URL: `VIX_History.csv` (linked by Cboe; treat its URL as an external contract, not a stable API). |
+| source / identifier / reference | Cboe, VIX Index historical daily-close download. [Official historical-data page](https://www.cboe.com/tradable_products/vix/vix_historical_data), [methodology](https://cdn.cboe.com/resources/vix/VIX_Methodology.pdf). Current linked download is `VIX_History.csv` at `https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv` (an externally linked file, not a documented stable API). |
 | frequency / native frequency / unit | Daily close / daily close / annualized implied-volatility index points. |
 | release lag / timezone | Cboe says the historical file is updated daily; a fixed daily publication time is **TBD / requires verification**. The close convention must be retained as supplied by Cboe; do not infer an intraday timestamp. |
 | higher means / lower means | Higher/lower implied volatility and protection demand; not a directional price forecast. |
 | transformation | Raw close or specified timestamp; method must be explicit. |
-| expected start date | 1990-01-02 in the official Cboe daily history, subject to the methodology caveat below. |
-| missing / revision policy | Preserve source values and non-trading-day gaps. Historical-file revision policy and observation-level publication timestamps are **TBD / requires verification**. |
+| expected start date | Cboe states “1990 to present”; the exact earliest row was not reverified because the linked CSV returned HTTP 503 during the Phase 1.8A verification. |
+| missing / revision policy | Preserve source values and non-trading-day gaps. The historical-page and methodology materials do not disclose a historical-file correction policy, source vintage, or observation-level publication timestamp. The current file schema is **TBD / requires an authorized successful retrieval**. |
 | publication timestamp available | No observation-level publication timestamp was verified; store retrieval timestamp. |
 | predictive or descriptive | Descriptive / confirmation. |
-| notes | Cboe's current VIX methodology is SPX-option based; the pre-2003 original VIX used S&P 100 options and its history corresponds to VXO. Do not mix intraday and close values. The free download is furnished subject to Cboe website terms and disclaimers; confirm permitted local persistence/use before automation or redistribution. |
+| notes | Cboe calculates VIX as an expected 30-day S&P 500 volatility measure from midpoint SPX-option quotes. The current methodology began in 2003; the pre-2003 original VIX used S&P 100 options and corresponds to VXO, so do not merge them. **Phase 1.8A classification: IMPLEMENTABLE WITH EXPLICIT USER-SUPPLIED ENTITLEMENT / CREDENTIAL.** The Cboe [Use of Content terms](https://www.cboe.com/use-of-content) require advance approval and a signed license for Cboe data use; the methodology also prohibits database storage without prior consent. The public linked file was unavailable during verification and has no documented API or correction/vintage contract. A user-supplied Cboe agreement must explicitly cover automated retrieval, local research storage, internal use, and any redistribution; it must also identify the supported delivery/schema and revision treatment. Without a disclosed source version, do not fabricate a raw vintage for later corrected same-date values. |
 
 ### S&P 500
 
@@ -164,8 +164,8 @@ The entries below are Phase 1 candidates only; no feed is implemented by this do
 | release lag / timezone | Observation is the market close, typically 4:00 p.m. ET and sometimes earlier on holidays. FRED shows `last_updated` in Central Time but a guaranteed publication time is **TBD / requires verification**. |
 | higher means / lower means | Higher/lower price level; does not itself identify the underlying driver. |
 | transformation | Raw close or explicitly specified observation timestamp; return series are derived separately. |
-| expected start date | 2016-09-19 in the verified FRED distribution; FRED says the agreement provides ten years of daily history, so the available start rolls forward. |
+| expected start date | In the Phase 1.8A verification window, FRED SP500 covered 2016-09-19 through 2026-09-16. FRED says its agreement provides ten years of daily history, so the available start rolls forward. |
 | missing / revision policy | Preserve source gaps and corrections; FRED states data are subject to revision and offers vintage functionality. Do not imply total return from the price index. |
 | publication timestamp available | No observation-level publication timestamp was verified from FRED; record retrieval timestamp. |
 | predictive or descriptive | Descriptive. |
-| notes | FRED API requires a registered API key. S&P terms on the FRED series prohibit reproduction without prior written permission. Phase 1 may use this series only after confirming the intended local storage/use is permitted; a longer history or broader use requires an appropriately licensed S&P provider. Price index, not total-return index, unless a separately defined series is chosen. |
+| notes | **Phase 1.8A classification: IMPLEMENTABLE WITH EXPLICIT USER-SUPPLIED ENTITLEMENT / CREDENTIAL.** Conditional on rights, use source `fred`, series `SP500`, FRED `date` as `observation_date`, and numeric `value` unchanged as index points; retain `publication_timestamp` as null, a timezone-aware UTC retrieval timestamp, `fred_realtime:<start>:<end>` vintage, and the existing FRED realtime/raw-value/missing metadata. The raw schema fits this conditional contract. FRED API requires a registered API key and supports realtime/vintage parameters, but FRED's reviewed terms prohibit storing, caching, or archiving FRED/API content in a database and do not override third-party rights; S&P says reproduction requires prior written permission. An API key alone is insufficient: the user must supply an arrangement expressly permitting local database persistence plus written S&P rights for the intended use. FRED exposes series-level `last_updated` in Central Time, not an observation-level publication timestamp; preserve trading-day gaps and do not infer availability time. The series is a price index, not a total-return index. |

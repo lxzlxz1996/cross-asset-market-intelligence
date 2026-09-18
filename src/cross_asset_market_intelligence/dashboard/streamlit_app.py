@@ -30,6 +30,12 @@ from cross_asset_market_intelligence.dashboard.credit_read_model import (
     credit_history,
     current_credit_dashboard,
 )
+from cross_asset_market_intelligence.dashboard.data_health_read_model import (
+    DataHealthRecord,
+    current_data_health,
+    data_health_rows,
+    failed_refresh_rows,
+)
 from cross_asset_market_intelligence.exceptions import DashboardLineageError, DashboardReadError
 
 
@@ -45,10 +51,12 @@ def main() -> None:
             dashboard = current_treasury_dashboard(connection)
             sofr = current_sofr_observation(connection)
             credit = current_credit_dashboard(connection)
+            data_health = current_data_health(connection)
             _render_current_cards(dashboard)
             _render_history(connection)
             _render_sofr(connection, sofr)
             _render_credit(connection, credit)
+            _render_data_health(data_health)
             _render_lineage(dashboard, sofr, credit)
         finally:
             connection.close()
@@ -138,6 +146,17 @@ def _render_credit(
         )
     else:
         st.info("No validated High Yield OAS history is available.")
+
+
+def _render_data_health(records: tuple[DataHealthRecord, ...]) -> None:
+    """Render operational state only; this dashboard code never initiates a refresh."""
+    st.subheader("Data status")
+    st.caption("Observation availability and refresh execution are shown separately.")
+    st.dataframe(data_health_rows(records), hide_index=True, use_container_width=True)
+    failures = failed_refresh_rows(records)
+    if failures:
+        with st.expander("Recent refresh failure details"):
+            st.dataframe(failures, hide_index=True, use_container_width=True)
 
 
 def _render_observation_card(

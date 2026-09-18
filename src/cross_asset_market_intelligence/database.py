@@ -82,6 +82,22 @@ CREATE TABLE IF NOT EXISTS processed_observation_dependencies (
 """
 
 
+OPERATIONAL_SCHEMA_SQL = """
+CREATE TABLE IF NOT EXISTS refresh_runs (
+    refresh_run_id VARCHAR PRIMARY KEY,
+    pipeline_name VARCHAR NOT NULL,
+    started_timestamp TIMESTAMPTZ NOT NULL,
+    completed_timestamp TIMESTAMPTZ,
+    status VARCHAR NOT NULL,
+    stage VARCHAR NOT NULL,
+    records_inserted INTEGER,
+    records_skipped INTEGER,
+    error_type VARCHAR,
+    error_message VARCHAR
+);
+"""
+
+
 def connect(database_path: Path, *, read_only: bool = False) -> duckdb.DuckDBPyConnection:
     """Open a local DuckDB database, creating parent directories when writable."""
     if not read_only:
@@ -90,9 +106,10 @@ def connect(database_path: Path, *, read_only: bool = False) -> duckdb.DuckDBPyC
 
 
 def initialize_phase_0_schema(connection: duckdb.DuckDBPyConnection) -> None:
-    """Create the foundation schema and safely evolve processed lineage."""
+    """Create the foundation, lineage, and separate operational schemas."""
     connection.execute(PHASE_0_SCHEMA_SQL)
     migrate_processed_observation_lineage(connection)
+    connection.execute(OPERATIONAL_SCHEMA_SQL)
 
 
 def migrate_processed_observation_lineage(connection: duckdb.DuckDBPyConnection) -> None:

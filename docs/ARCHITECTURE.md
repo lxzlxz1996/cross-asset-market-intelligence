@@ -187,6 +187,18 @@ Each selected history is ascending and includes only actual stored dates. Levels
 
 The local Streamlit page adds a separate Credit section over the established Credit read model. It shows distinct Investment Grade OAS and High Yield OAS cards with native percentage-point levels, descriptive observation-count changes, and as-of dates, followed by separate date-only historical charts. The charts retain actual selected values without a shared scale, dual axis, normalization, or inference. The existing collapsed lineage inspection exposes the exact raw FRED source, series, observation date, and vintage for each Credit card. The page continues to open DuckDB read-only; it does not select raw or processed revisions itself, retrieve, ingest, process, or mutate data.
 
+### Phase 1.8B refresh orchestration and data health
+
+Operational execution state is stored separately in `refresh_runs`, never in raw observations, processed observations, or lineage tables. Each explicit attempt has a generated run ID, pipeline name, UTC start/completion timestamps, operational status, final stage, known inserted/skipped counts, and a concise sanitized failure type/message when needed. A second idempotent refresh creates a second operational record while leaving market-observation idempotency unchanged.
+
+`refresh-market-data --pipeline treasury|sofr|credit` is an explicit manual CLI operation. Treasury invokes the existing approved FRED ingestion, direct Treasury processing, and same-date spread processing; SOFR invokes its existing FRBNY ingestion and processing; Credit invokes its existing approved FRED ingestion and processing. Required-stage errors mark that pipeline run failed at its stage and do not delete previously valid observations or affect independent pipelines. There is no scheduler, background service, or automatic dashboard refresh.
+
+`show-data-health` and the compact Streamlit Data status section are read-only projections. They reuse the established selected-observation read models and separately display availability, latest observation date, latest refresh attempt/result, and latest successful refresh. Failed attempts therefore remain visible alongside previously valid data. SPX, VIX, and MOVE are reported as `source_pending`, not failures, until their Phase 1.8A source-governance conditions are resolved. Operational state is not a financial signal, classification, or alert.
+
+### Phase 1.8C stabilization and freeze
+
+The Phase 1 baseline is frozen after audit of the source-adapter-to-presentation paths and the separate refresh-to-health path. The five Phase 1 operational/market tables retain foreign-keyed immutable lineage; `refresh_runs` remains operational state and `signals` remains empty Phase 0 schema, with no Phase 2 behavior. The dashboard opens DuckDB read-only and consumes only read models; it does not retrieve, process, refresh, or classify data. Treasury, SOFR, and Credit are implemented development indicators. SPX, VIX, and MOVE remain neutral `source_pending` entries until their documented source-governance conditions are met.
+
 ### `signals`
 
 Versioned, explainable rule outputs keyed by `(signal_id, indicator_id, date, model_version)`. A signal is not a decision. The table intentionally does not add portfolio fields.

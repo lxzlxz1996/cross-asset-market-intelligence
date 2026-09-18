@@ -18,10 +18,12 @@ from .data.sofr_ingestion import ingest_sofr
 from .data.sofr_processing import process_sofr
 from .data.treasury_processing import process_approved_fred_treasuries
 from .data.treasury_spread_processing import process_treasury_spread
+from .data.refresh_orchestration import SUPPORTED_REFRESH_PIPELINES, refresh_market_data
 from .database import connect
 from .dashboard.treasury_read_model import current_treasury_dashboard
 from .dashboard.sofr_read_model import current_sofr_observation
 from .dashboard.credit_read_model import current_credit_dashboard
+from .dashboard.data_health_read_model import current_data_health
 from .logging_setup import configure_logging
 
 
@@ -44,11 +46,16 @@ def main() -> None:
             "show-treasury-dashboard-data",
             "show-sofr-dashboard-data",
             "show-credit-dashboard-data",
+            "refresh-market-data",
+            "show-data-health",
         ],
     )
     parser.add_argument("--start", type=date.fromisoformat)
     parser.add_argument("--end", type=date.fromisoformat)
+    parser.add_argument("--pipeline", choices=sorted(SUPPORTED_REFRESH_PIPELINES))
     arguments = parser.parse_args()
+    if arguments.command == "refresh-market-data" and arguments.pipeline is None:
+        parser.error("--pipeline is required for refresh-market-data")
 
     settings = load_settings()
     logger = configure_logging(settings)
@@ -58,6 +65,7 @@ def main() -> None:
             "show-treasury-dashboard-data",
             "show-sofr-dashboard-data",
             "show-credit-dashboard-data",
+            "show-data-health",
         },
     )
     try:
@@ -130,7 +138,7 @@ def main() -> None:
                     f"5D {_format_change(observation.change_5d.value)}; "
                     f"20D {_format_change(observation.change_20d.value)}"
                 )
-        else:
+        elif arguments.command == "show-credit-dashboard-data":
             for indicator_id, observation in current_credit_dashboard(connection).items():
                 if observation is None:
                     print(f"{indicator_id} unavailable")
@@ -142,6 +150,34 @@ def main() -> None:
                         f"5D {_format_change(observation.change_5d.value)}; "
                         f"20D {_format_change(observation.change_20d.value)}"
                     )
+        elif arguments.command == "refresh-market-data":
+            run = refresh_market_data(
+                connection,
+                arguments.pipeline,
+                observation_start=arguments.start,
+                observation_end=arguments.end,
+                logger=logger,
+            )
+            print(
+                f"{run.pipeline_name} {run.status} at {run.stage}; "
+                f"inserted {run.records_inserted}; skipped {run.records_skipped}; "
+                f"run {run.refresh_run_id}"
+            )
+            if run.error_type is not None:
+                print(f"{run.error_type}: {run.error_message}")
+        else:
+            for record in current_data_health(connection):
+                latest_date = (
+                    "N/A"
+                    if record.latest_observation_date is None
+                    else record.latest_observation_date.isoformat()
+                )
+                status = record.latest_refresh_status or "not_attempted"
+                print(
+                    f"{record.indicator_id} {record.availability}; "
+                    f"latest data {latest_date}; latest refresh {status}; "
+                    f"pipeline {record.pipeline_name or 'source_pending'}"
+                )
     finally:
         connection.close()
 
