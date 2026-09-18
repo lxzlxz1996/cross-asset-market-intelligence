@@ -25,6 +25,9 @@ from .dashboard.sofr_read_model import current_sofr_observation
 from .dashboard.credit_read_model import current_credit_dashboard
 from .dashboard.data_health_read_model import current_data_health
 from .logging_setup import configure_logging
+from .signals.sofr_rate_state import generate_sofr_rate_state
+from .signals.sofr_rate_state_v2 import generate_sofr_rate_state_v2
+from .signals.sofr_rate_state_v3 import generate_sofr_rate_state_v3
 
 
 def _format_change(value: float | None) -> str:
@@ -48,11 +51,14 @@ def main() -> None:
             "show-credit-dashboard-data",
             "refresh-market-data",
             "show-data-health",
+            "generate-sofr-rate-state",
         ],
     )
     parser.add_argument("--start", type=date.fromisoformat)
     parser.add_argument("--end", type=date.fromisoformat)
     parser.add_argument("--pipeline", choices=sorted(SUPPORTED_REFRESH_PIPELINES))
+    parser.add_argument("--as-of", type=date.fromisoformat)
+    parser.add_argument("--version", choices=("v1", "v2", "v3"), default="v1")
     arguments = parser.parse_args()
     if arguments.command == "refresh-market-data" and arguments.pipeline is None:
         parser.error("--pipeline is required for refresh-market-data")
@@ -165,6 +171,23 @@ def main() -> None:
             )
             if run.error_type is not None:
                 print(f"{run.error_type}: {run.error_message}")
+        elif arguments.command == "generate-sofr-rate-state":
+            generator = {
+                "v1": generate_sofr_rate_state,
+                "v2": generate_sofr_rate_state_v2,
+                "v3": generate_sofr_rate_state_v3,
+            }[arguments.version]
+            result = generator(
+                connection,
+                as_of_observation_date=arguments.as_of,
+            )
+            action = "inserted" if result.observation_inserted else "replayed"
+            print(
+                f"{result.observation.signal_id}/{result.observation.signal_version} {action}; "
+                f"as of {result.observation.as_of_observation_date}; "
+                f"quality {result.observation.evidence_quality.value}; "
+                f"observation {result.observation.signal_observation_id}"
+            )
         else:
             for record in current_data_health(connection):
                 latest_date = (

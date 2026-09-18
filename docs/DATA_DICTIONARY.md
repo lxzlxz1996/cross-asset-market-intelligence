@@ -1,5 +1,21 @@
 # Market Data Dictionary
 
+## Signal Engine foundation (Phase 2.1A)
+
+Signal metadata and derived observations are not raw market indicators. `signal_definitions` holds the versioned economic/methodology contract; `signal_observations` holds evidence, optional independent level/direction/anomaly states, evidence quality, and point-in-time semantics; `signal_observation_inputs` holds every exact processed input. See [Signal Engine Foundation](SIGNAL_ENGINE_FOUNDATION.md).
+
+## SOFR anomaly evidence (Phase 2.1B-3 methodology freeze)
+
+Production `sofr_rate_state/v1` uses component methodology `sofr_change_rarity_v1`. Its anomaly evidence contains signed and absolute consecutive-valid-observation bp change; strict/midrank/weak absolute-change percentiles and less/equal/greater counts for separate prior-60 and prior-252 windows; baseline dates; deterministic month/quarter/year-end context; and nullable secondary standard-Z diagnostics. `anomaly_state` is null, robust Z is absent, and there is no materiality threshold or calendar adjustment. Exact ordered processed SOFR level inputs provide lineage. See [SOFR anomaly methodology v1](SOFR_ANOMALY_METHODOLOGY_V1.md) for normative formulas, warm-up rules, quality mapping, explanation constraints, implementation interface, and versioning.
+
+## SOFR direction evidence (Phase 2.1B-6 methodology freeze)
+
+Production outer `sofr_rate_state/v2` implements component methodology `sofr_direction_evidence_v1`; existing outer v1 remains immutable and anomaly-only. Direction uses exactly 20 consecutive valid changes reconstructed from 21 selected processed SOFR levels. Persisted evidence comprises `net_change_20_bp`; exact positive/zero/negative counts; `path_total_abs_20_bp`; `largest_change_abs_20_bp`; `largest_change_share_20`; baseline dates; and a secondary-only OLS slope over the latest 20 levels in bp per valid observation. Shares and direction balance derived from sign counts are not persisted. Median change, 5/10/60 windows, calendar adjustment, scores, thresholds, and categorical direction are excluded; `direction_state` remains null. See [SOFR direction methodology v1](SOFR_DIRECTION_METHODOLOGY_V1.md) for normative calculations and [SOFR Rate State production versions](SOFR_RATE_STATE_VERSIONS.md) for version/CLI behavior.
+
+## SOFR Level evidence (Phase 2.1B-9 methodology freeze)
+
+Production outer `sofr_rate_state/v3` implements frozen component methodology `sofr_level_evidence_v1`; it is absent from immutable v1 and v2. Its mandatory evidence is the canonical processed `current_level_percent`; expanding prior-only broad context with prior count, baseline dates, exact less/equal/greater counts, and strict/midrank/weak percentiles; and recent context with the exact prior-60 median level and current-minus-median distance in bp. Midrank is the primary displayed broad rank, while strict/weak/count fields preserve ties. Percent values remain percent per annum and bp distance equals 100 times the percentage-point difference. Context status fields represent warm-up: broad rank needs at least one prior valid level and recent median needs exactly 60, without window shortening. Rolling level percentiles, rolling means, Level Z, robust Z/MAD, scores, policy/stress labels, thresholds, and categorical `level_state` are excluded. Exact expanding ordered processed-input lineage is mandatory. See [SOFR Level methodology v1](SOFR_LEVEL_METHODOLOGY_V1.md) for normative semantics, failures, explanation, quality, lineage, and versioning.
+
 ## Contract
 
 Each indicator record must define: `indicator_id`, `name`, `category`, `subcategory`, `description`, `economic_rationale`, `source`, `source_identifier`, `source_reference`, `frequency`, `unit`, `native_frequency`, `release_lag`, `timezone`, `higher_means`, `lower_means`, `transformation`, `expected_start_date`, `missing_data_policy`, `revision_policy`, `publication_timestamp_available`, `predictive_or_descriptive`, and `notes`.

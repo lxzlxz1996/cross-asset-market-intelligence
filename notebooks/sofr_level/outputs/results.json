@@ -1,0 +1,508 @@
+{
+  "provenance": {
+    "analysis_version": "sofr_level_research_v1",
+    "executed_at": "2026-09-18T14:38:43.139986+00:00",
+    "database": "C:\\Users\\lxzlx\\OneDrive\\\u6587\u6863\\\u5929\u9a6c\u884c\u7a7a3\\data\\market_intelligence.duckdb",
+    "git_commit": "fcae57e2f36df59a7765a26009c4a76c7026449b",
+    "script_sha256": "e2c939e77586b7a6c761c047712432f5c8fa01d20b339697e993541383d20ca5",
+    "selected_snapshot_sha256": "bef72683a3fe8fe0da76518ca325a19867fbb9249a7a69a76c510f65d167792d",
+    "direction_artifact": "notebooks\\sofr_direction\\outputs\\direction_research.csv",
+    "production_versions_unchanged": true
+  },
+  "dataset": {
+    "observation_count": 2112,
+    "first_date": "2018-04-03",
+    "last_date": "2026-09-16",
+    "production_signal_level_state_counts": [
+      {
+        "signal_version": "v1",
+        "observation_count": 1,
+        "level_state_populated": 0
+      },
+      {
+        "signal_version": "v2",
+        "observation_count": 1,
+        "level_state_populated": 0
+      }
+    ]
+  },
+  "percentile_summaries": {
+    "full_history": {
+      "eligible_n": 2111,
+      "midrank_exact_0_count": 21,
+      "midrank_exact_100_count": 21,
+      "midrank_saturation_percent": 1.989578398863098,
+      "mean_tie_bracket_points": 2.51093724075138,
+      "median_tie_bracket_points": 0.9189189189189193,
+      "p90_tie_bracket_points": 6.838709677419359,
+      "max_tie_bracket_points": 60.0
+    },
+    "60": {
+      "eligible_n": 2052,
+      "midrank_exact_0_count": 65,
+      "midrank_exact_100_count": 58,
+      "midrank_saturation_percent": 5.994152046783626,
+      "mean_tie_bracket_points": 18.848278102664068,
+      "median_tie_bracket_points": 8.333333333333329,
+      "p90_tie_bracket_points": 63.16666666666682,
+      "max_tie_bracket_points": 100.0
+    },
+    "120": {
+      "eligible_n": 1992,
+      "midrank_exact_0_count": 59,
+      "midrank_exact_100_count": 46,
+      "midrank_saturation_percent": 5.271084337349397,
+      "mean_tie_bracket_points": 13.811914323962517,
+      "median_tie_bracket_points": 5.0,
+      "p90_tie_bracket_points": 42.5,
+      "max_tie_bracket_points": 96.66666666666667
+    },
+    "252": {
+      "eligible_n": 1860,
+      "midrank_exact_0_count": 48,
+      "midrank_exact_100_count": 34,
+      "midrank_saturation_percent": 4.408602150537634,
+      "mean_tie_bracket_points": 8.243300904591228,
+      "median_tie_bracket_points": 3.174603174603176,
+      "p90_tie_bracket_points": 23.41269841269841,
+      "max_tie_bracket_points": 69.84126984126985
+    },
+    "504": {
+      "eligible_n": 1608,
+      "midrank_exact_0_count": 20,
+      "midrank_exact_100_count": 32,
+      "midrank_saturation_percent": 3.2338308457711444,
+      "mean_tie_bracket_points": 4.900472834241491,
+      "median_tie_bracket_points": 1.9841269841269877,
+      "p90_tie_bracket_points": 14.880952380952381,
+      "max_tie_bracket_points": 37.1031746031746
+    }
+  },
+  "method_summaries": {
+    "full_history_percentile_expanding": {
+      "eligible_n": 2111,
+      "median_abs_daily_revision": 0.1835619783155451,
+      "p90_abs_daily_revision": 4.19573725151582,
+      "flat_level_comparisons": 923,
+      "flat_level_metric_changed_count": 920,
+      "flat_level_metric_changed_percent": 99.67497291440954,
+      "flat_level_median_abs_revision": 0.03687445643231513,
+      "correlation_with_current_level": 0.8118489020416558,
+      "correlation_with_direction_net20": 0.2992307910610971,
+      "correlation_with_recent_anomaly_rarity": 0.07577487712672776
+    },
+    "rolling_percentile_60": {
+      "eligible_n": 2052,
+      "median_abs_daily_revision": 1.6666666666666679,
+      "p90_abs_daily_revision": 28.333333333333336,
+      "flat_level_comparisons": 911,
+      "flat_level_metric_changed_count": 742,
+      "flat_level_metric_changed_percent": 81.44895718990121,
+      "flat_level_median_abs_revision": 0.8333333333333286,
+      "correlation_with_current_level": 0.07503307323718339,
+      "correlation_with_direction_net20": 0.543281581393805,
+      "correlation_with_recent_anomaly_rarity": 0.13442380884298677
+    },
+    "rolling_percentile_120": {
+      "eligible_n": 1992,
+      "median_abs_daily_revision": 0.8333333333333334,
+      "p90_abs_daily_revision": 19.58333333333333,
+      "flat_level_comparisons": 891,
+      "flat_level_metric_changed_count": 796,
+      "flat_level_metric_changed_percent": 89.337822671156,
+      "flat_level_median_abs_revision": 0.4166666666666667,
+      "correlation_with_current_level": 0.1214521293203796,
+      "correlation_with_direction_net20": 0.5300168548095111,
+      "correlation_with_recent_anomaly_rarity": 0.11657176249269463
+    },
+    "rolling_percentile_252": {
+      "eligible_n": 1860,
+      "median_abs_daily_revision": 0.39682539682539186,
+      "p90_abs_daily_revision": 11.111111111111114,
+      "flat_level_comparisons": 866,
+      "flat_level_metric_changed_count": 842,
+      "flat_level_metric_changed_percent": 97.22863741339492,
+      "flat_level_median_abs_revision": 0.19841269841269593,
+      "correlation_with_current_level": 0.25053644934141195,
+      "correlation_with_direction_net20": 0.5104787952798598,
+      "correlation_with_recent_anomaly_rarity": 0.08798445896040546
+    },
+    "rolling_percentile_504": {
+      "eligible_n": 1608,
+      "median_abs_daily_revision": 0.09920634920635507,
+      "p90_abs_daily_revision": 5.555555555555556,
+      "flat_level_comparisons": 807,
+      "flat_level_metric_changed_count": 807,
+      "flat_level_metric_changed_percent": 100.0,
+      "flat_level_median_abs_revision": 0.0992063492063492,
+      "correlation_with_current_level": 0.3683648296226205,
+      "correlation_with_direction_net20": 0.5002581028163537,
+      "correlation_with_recent_anomaly_rarity": 0.056913166009212694
+    },
+    "distance_from_mean_20": {
+      "eligible_n": 2092,
+      "median_abs_daily_revision": 1.0499999999999998,
+      "p90_abs_daily_revision": 4.8500000000000005,
+      "flat_level_comparisons": 918,
+      "flat_level_metric_changed_count": 587,
+      "flat_level_metric_changed_percent": 63.94335511982571,
+      "flat_level_median_abs_revision": 0.050000000000000044,
+      "correlation_with_current_level": 0.06550913859888298,
+      "correlation_with_direction_net20": 0.8458367224233355,
+      "correlation_with_recent_anomaly_rarity": 0.0825446050900731
+    },
+    "distance_from_mean_60": {
+      "eligible_n": 2052,
+      "median_abs_daily_revision": 1.0166666666666666,
+      "p90_abs_daily_revision": 4.299999999999997,
+      "flat_level_comparisons": 911,
+      "flat_level_metric_changed_count": 742,
+      "flat_level_metric_changed_percent": 81.44895718990121,
+      "flat_level_median_abs_revision": 0.08333333333333337,
+      "correlation_with_current_level": 0.11099407888366641,
+      "correlation_with_direction_net20": 0.8466008648005677,
+      "correlation_with_recent_anomaly_rarity": 0.07009103095893718
+    },
+    "distance_from_mean_120": {
+      "eligible_n": 1992,
+      "median_abs_daily_revision": 1.0166666666666666,
+      "p90_abs_daily_revision": 4.108333333333334,
+      "flat_level_comparisons": 891,
+      "flat_level_metric_changed_count": 796,
+      "flat_level_metric_changed_percent": 89.337822671156,
+      "flat_level_median_abs_revision": 0.20833333333333393,
+      "correlation_with_current_level": 0.18228149990071274,
+      "correlation_with_direction_net20": 0.729053937152641,
+      "correlation_with_recent_anomaly_rarity": 0.05298474176931419
+    },
+    "distance_from_mean_252": {
+      "eligible_n": 1860,
+      "median_abs_daily_revision": 0.9444444444444429,
+      "p90_abs_daily_revision": 3.7015873015873133,
+      "flat_level_comparisons": 866,
+      "flat_level_metric_changed_count": 842,
+      "flat_level_metric_changed_percent": 97.22863741339492,
+      "flat_level_median_abs_revision": 0.30555555555555713,
+      "correlation_with_current_level": 0.3322981595777364,
+      "correlation_with_direction_net20": 0.5907714376162393,
+      "correlation_with_recent_anomaly_rarity": 0.023587918852365795
+    },
+    "distance_from_median_20": {
+      "eligible_n": 2092,
+      "median_abs_daily_revision": 1.0,
+      "p90_abs_daily_revision": 5.0,
+      "flat_level_comparisons": 918,
+      "flat_level_metric_changed_count": 159,
+      "flat_level_metric_changed_percent": 17.320261437908496,
+      "flat_level_median_abs_revision": 0.0,
+      "correlation_with_current_level": 0.05987223430841816,
+      "correlation_with_direction_net20": 0.7493344563701008,
+      "correlation_with_recent_anomaly_rarity": 0.07804367672679464
+    },
+    "distance_from_median_60": {
+      "eligible_n": 2052,
+      "median_abs_daily_revision": 1.0,
+      "p90_abs_daily_revision": 5.0,
+      "flat_level_comparisons": 911,
+      "flat_level_metric_changed_count": 155,
+      "flat_level_metric_changed_percent": 17.014270032930845,
+      "flat_level_median_abs_revision": 0.0,
+      "correlation_with_current_level": 0.0876765699888871,
+      "correlation_with_direction_net20": 0.8231772071829333,
+      "correlation_with_recent_anomaly_rarity": 0.06474516556883043
+    },
+    "distance_from_median_120": {
+      "eligible_n": 1992,
+      "median_abs_daily_revision": 1.0,
+      "p90_abs_daily_revision": 5.0,
+      "flat_level_comparisons": 891,
+      "flat_level_metric_changed_count": 149,
+      "flat_level_metric_changed_percent": 16.722783389450058,
+      "flat_level_median_abs_revision": 0.0,
+      "correlation_with_current_level": 0.14595929646532385,
+      "correlation_with_direction_net20": 0.7061919963564341,
+      "correlation_with_recent_anomaly_rarity": 0.053767209781390185
+    },
+    "distance_from_median_252": {
+      "eligible_n": 1860,
+      "median_abs_daily_revision": 1.0,
+      "p90_abs_daily_revision": 5.0,
+      "flat_level_comparisons": 866,
+      "flat_level_metric_changed_count": 144,
+      "flat_level_metric_changed_percent": 16.628175519630485,
+      "flat_level_median_abs_revision": 0.0,
+      "correlation_with_current_level": 0.26658257607787245,
+      "correlation_with_direction_net20": 0.595713677054718,
+      "correlation_with_recent_anomaly_rarity": 0.03345331164272479
+    },
+    "level_z_60": {
+      "eligible_n": 2017,
+      "median_abs_daily_revision": 0.0845070457272753,
+      "p90_abs_daily_revision": 1.0043594573229426,
+      "flat_level_comparisons": 876,
+      "flat_level_metric_changed_count": 738,
+      "flat_level_metric_changed_percent": 84.24657534246575,
+      "flat_level_median_abs_revision": 0.02684355399815863,
+      "correlation_with_current_level": 0.015808525326130304,
+      "correlation_with_direction_net20": 0.4110520717226112,
+      "correlation_with_recent_anomaly_rarity": 0.08712299170532146
+    },
+    "level_z_120": {
+      "eligible_n": 1992,
+      "median_abs_daily_revision": 0.04474313040840361,
+      "p90_abs_daily_revision": 0.6536845309293642,
+      "flat_level_comparisons": 891,
+      "flat_level_metric_changed_count": 796,
+      "flat_level_metric_changed_percent": 89.337822671156,
+      "flat_level_median_abs_revision": 0.015603025285975125,
+      "correlation_with_current_level": 0.027742400570384636,
+      "correlation_with_direction_net20": 0.49304496585213553,
+      "correlation_with_recent_anomaly_rarity": 0.08355337299637097
+    },
+    "level_z_252": {
+      "eligible_n": 1860,
+      "median_abs_daily_revision": 0.022871390070206443,
+      "p90_abs_daily_revision": 0.21679103830953503,
+      "flat_level_comparisons": 866,
+      "flat_level_metric_changed_count": 842,
+      "flat_level_metric_changed_percent": 97.22863741339492,
+      "flat_level_median_abs_revision": 0.007584054124942452,
+      "correlation_with_current_level": 0.04396396530841054,
+      "correlation_with_direction_net20": 0.61559860946906,
+      "correlation_with_recent_anomaly_rarity": 0.07803724422818514
+    },
+    "level_z_504": {
+      "eligible_n": 1608,
+      "median_abs_daily_revision": 0.012160188046995701,
+      "p90_abs_daily_revision": 0.09529906654972557,
+      "flat_level_comparisons": 807,
+      "flat_level_metric_changed_count": 807,
+      "flat_level_metric_changed_percent": 100.0,
+      "flat_level_median_abs_revision": 0.004885944757904187,
+      "correlation_with_current_level": 0.13932764059979,
+      "correlation_with_direction_net20": 0.6447715714004529,
+      "correlation_with_recent_anomaly_rarity": 0.06089900903670527
+    }
+  },
+  "z_summaries": {
+    "60": {
+      "eligible_n": 2052,
+      "zero_scale_count": 35,
+      "available_count": 2017,
+      "abs_z_at_least_2_count": 272,
+      "zero_scale_percent": 1.7056530214424952,
+      "abs_z_at_least_2_percent_of_available": 13.485374318294497
+    },
+    "120": {
+      "eligible_n": 1992,
+      "zero_scale_count": 0,
+      "available_count": 1992,
+      "abs_z_at_least_2_count": 313,
+      "zero_scale_percent": 0.0,
+      "abs_z_at_least_2_percent_of_available": 15.71285140562249
+    },
+    "252": {
+      "eligible_n": 1860,
+      "zero_scale_count": 0,
+      "available_count": 1860,
+      "abs_z_at_least_2_count": 410,
+      "zero_scale_percent": 0.0,
+      "abs_z_at_least_2_percent_of_available": 22.043010752688172
+    },
+    "504": {
+      "eligible_n": 1608,
+      "zero_scale_count": 0,
+      "available_count": 1608,
+      "abs_z_at_least_2_count": 397,
+      "zero_scale_percent": 0.0,
+      "abs_z_at_least_2_percent_of_available": 24.68905472636816
+    }
+  },
+  "mad_zero_frequency": {
+    "60": {
+      "eligible_n": 2052,
+      "mad_zero_count": 401,
+      "mad_zero_percent": 19.541910331384017
+    },
+    "120": {
+      "eligible_n": 1992,
+      "mad_zero_count": 332,
+      "mad_zero_percent": 16.666666666666668
+    },
+    "252": {
+      "eligible_n": 1860,
+      "mad_zero_count": 176,
+      "mad_zero_percent": 9.46236559139785
+    },
+    "504": {
+      "eligible_n": 1608,
+      "mad_zero_count": 0,
+      "mad_zero_percent": 0.0
+    }
+  },
+  "observed_level_environments": [
+    {
+      "environment": "near_zero_level_environment",
+      "start_date": "2020-04-01",
+      "end_date": "2022-03-15",
+      "observation_count": 489,
+      "first_level": 0.01,
+      "last_level": 0.05,
+      "minimum_level": 0.01,
+      "maximum_level": 0.13,
+      "endpoint_change_bp": 4.0,
+      "zero_change_percent": 69.93865030674847,
+      "median_full_history_midrank": 13.381294964028777,
+      "median_level_midrank_252": 33.333333333333336,
+      "median_distance_median_60_bp": 0.0,
+      "median_level_z_252": -0.5643028108299875
+    },
+    {
+      "environment": "rising_level_transition",
+      "start_date": "2022-03-16",
+      "end_date": "2023-07-27",
+      "observation_count": 341,
+      "first_level": 0.05,
+      "last_level": 5.31,
+      "minimum_level": 0.05,
+      "maximum_level": 5.31,
+      "endpoint_change_bp": 526.0,
+      "zero_change_percent": 56.89149560117302,
+      "median_full_history_midrank": 98.77081681205392,
+      "median_level_midrank_252": 97.61904761904762,
+      "median_distance_median_60_bp": 45.0,
+      "median_level_z_252": 2.033932376049633
+    },
+    {
+      "environment": "high_level_plateau",
+      "start_date": "2023-07-28",
+      "end_date": "2024-09-18",
+      "observation_count": 287,
+      "first_level": 5.3,
+      "last_level": 5.33,
+      "minimum_level": 5.3,
+      "maximum_level": 5.4,
+      "endpoint_change_bp": 3.000000000000025,
+      "zero_change_percent": 59.930313588850176,
+      "median_full_history_midrank": 98.16608996539793,
+      "median_level_midrank_252": 88.88888888888889,
+      "median_distance_median_60_bp": 1.0,
+      "median_level_z_252": 0.8283145797987733
+    },
+    {
+      "environment": "falling_level_transition",
+      "start_date": "2024-09-19",
+      "end_date": "2026-09-16",
+      "observation_count": 496,
+      "first_level": 4.82,
+      "last_level": 3.62,
+      "minimum_level": 3.5,
+      "maximum_level": 5.05,
+      "endpoint_change_bp": -120.00000000000001,
+      "zero_change_percent": 21.169354838709676,
+      "median_full_history_midrank": 65.11659921734298,
+      "median_level_midrank_252": 7.142857142857143,
+      "median_distance_median_60_bp": -3.0,
+      "median_level_z_252": -1.4136647082300704
+    }
+  ],
+  "case_definitions": [
+    {
+      "case": "near_zero_plateau",
+      "anchor_date": "2021-10-18",
+      "offsets": [
+        0
+      ],
+      "description": "long observational plateau near 0.05%"
+    },
+    {
+      "case": "upward_step",
+      "anchor_date": "2022-06-16",
+      "offsets": [
+        -1,
+        0,
+        1,
+        5,
+        10,
+        20,
+        60
+      ],
+      "description": "discrete upward level shift"
+    },
+    {
+      "case": "sustained_rising_environment",
+      "anchor_date": "2023-07-27",
+      "offsets": [
+        0
+      ],
+      "description": "end portion of a sustained rising level transition"
+    },
+    {
+      "case": "high_plateau",
+      "anchor_date": "2024-06-14",
+      "offsets": [
+        0
+      ],
+      "description": "historically high level with flat recent direction"
+    },
+    {
+      "case": "historical_high_recent_flat",
+      "anchor_date": "2024-08-15",
+      "offsets": [
+        0
+      ],
+      "description": "high broad position but little 20-change displacement"
+    },
+    {
+      "case": "downward_step",
+      "anchor_date": "2024-09-19",
+      "offsets": [
+        -1,
+        0,
+        1,
+        5,
+        10,
+        20,
+        60
+      ],
+      "description": "discrete downward level shift"
+    },
+    {
+      "case": "falling_environment",
+      "anchor_date": "2026-05-20",
+      "offsets": [
+        0
+      ],
+      "description": "sustained falling recent path"
+    }
+  ],
+  "research_decision": {
+    "status": "READY FOR LEVEL METHODOLOGY FREEZE",
+    "preferred_design": "current level plus broad prior-only full-history percentile tie audit plus recent prior-60 median distance",
+    "current_level_role": "mandatory raw evidence",
+    "broad_context": {
+      "method": "expanding prior-only empirical level percentile",
+      "persist_if_frozen": [
+        "less_count",
+        "equal_count",
+        "greater_count",
+        "strict",
+        "midrank",
+        "weak"
+      ],
+      "interpretation": "position within the available historical SOFR sample, not stress or policy state"
+    },
+    "recent_context": {
+      "method": "current level minus median of exactly 60 prior valid levels",
+      "unit": "basis_points",
+      "interpretation": "distance from the recent observational level environment"
+    },
+    "rolling_percentiles_role": "research-only diagnostics; shorter windows adapt quickly and have wide tie brackets",
+    "level_z_role": "exclude from proposed production evidence; transition-sensitive and scale-dependent",
+    "robust_z_role": "exclude; MAD is structurally zero in material fractions of shorter windows",
+    "level_state_policy": "null_evidence_only",
+    "lineage_if_frozen": "current plus every exact prior selected processed level for broad rank; final 61 levels reconstruct recent median distance",
+    "thresholds_frozen": false,
+    "production_modified": false
+  }
+}

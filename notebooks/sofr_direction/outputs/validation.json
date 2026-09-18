@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "implementation": "independent Python recomputation without importing analyze.py",
+  "validated_levels": 2112,
+  "validated_direction_rows": 2111,
+  "validated_calculations": 41694,
+  "selected_snapshot_sha256": "bef72683a3fe8fe0da76518ca325a19867fbb9249a7a69a76c510f65d167792d",
+  "checks": [
+    "snapshot hash and chronological uniqueness",
+    "decimal-safe consecutive changes and 5/10/20/60 net changes",
+    "independent OLS slopes",
+    "10/20/60 sign counts and medians",
+    "warm-up nulls and no future rows"
+  ]
+}

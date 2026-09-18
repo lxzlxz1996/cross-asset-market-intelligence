@@ -1,0 +1,377 @@
+{
+  "provenance": {
+    "analysis_version": "sofr_direction_research_v1",
+    "executed_at": "2026-09-18T09:18:56.383376+00:00",
+    "database": "C:\\Users\\lxzlx\\OneDrive\\\u6587\u6863\\\u5929\u9a6c\u884c\u7a7a3\\data\\market_intelligence.duckdb",
+    "git_commit": "fcae57e2f36df59a7765a26009c4a76c7026449b",
+    "script_sha256": "82df00fc11ed836982bc6c4509d79f7c123e809c02627cd90caaaf997b45b99f",
+    "selected_snapshot_sha256": "bef72683a3fe8fe0da76518ca325a19867fbb9249a7a69a76c510f65d167792d",
+    "anomaly_artifact": "notebooks\\sofr_daily_change_anomaly\\outputs_phase_2_1b_2\\rolling_scores.csv",
+    "anomaly_methodology_unchanged": true
+  },
+  "dataset": {
+    "observation_count": 2112,
+    "change_count": 2111,
+    "first_date": "2018-04-03",
+    "last_date": "2026-09-16",
+    "production_sofr_rate_state_observations": 1,
+    "production_direction_states_populated": 0
+  },
+  "method_summaries": {
+    "net_change_5": {
+      "eligible_n": 2107,
+      "zero_count": 594,
+      "zero_percent": 28.19174181300427,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 7.0,
+      "adjacent_nonzero_sign_pairs": 1299,
+      "adjacent_sign_flip_count": 211,
+      "adjacent_sign_flip_percent": 16.243264049268667
+    },
+    "net_change_10": {
+      "eligible_n": 2102,
+      "zero_count": 501,
+      "zero_percent": 23.83444338725024,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 6.0,
+      "adjacent_nonzero_sign_pairs": 1434,
+      "adjacent_sign_flip_count": 194,
+      "adjacent_sign_flip_percent": 13.528591352859136
+    },
+    "net_change_20": {
+      "eligible_n": 2092,
+      "zero_count": 454,
+      "zero_percent": 21.70172084130019,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 6.0,
+      "adjacent_nonzero_sign_pairs": 1475,
+      "adjacent_sign_flip_count": 149,
+      "adjacent_sign_flip_percent": 10.101694915254237
+    },
+    "net_change_60": {
+      "eligible_n": 2052,
+      "zero_count": 217,
+      "zero_percent": 10.57504873294347,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 7.0,
+      "adjacent_nonzero_sign_pairs": 1771,
+      "adjacent_sign_flip_count": 76,
+      "adjacent_sign_flip_percent": 4.291360813099944
+    },
+    "linear_slope_5": {
+      "eligible_n": 2108,
+      "zero_count": 447,
+      "zero_percent": 21.20493358633776,
+      "median_abs_daily_change": 0.30000000000000027,
+      "p90_abs_daily_change": 1.800000000000002,
+      "adjacent_nonzero_sign_pairs": 1533,
+      "adjacent_sign_flip_count": 289,
+      "adjacent_sign_flip_percent": 18.851924331376384
+    },
+    "linear_slope_10": {
+      "eligible_n": 2103,
+      "zero_count": 250,
+      "zero_percent": 11.887779362815026,
+      "median_abs_daily_change": 0.10303030303030303,
+      "p90_abs_daily_change": 0.7515151515151507,
+      "adjacent_nonzero_sign_pairs": 1833,
+      "adjacent_sign_flip_count": 266,
+      "adjacent_sign_flip_percent": 14.511729405346427
+    },
+    "linear_slope_20": {
+      "eligible_n": 2093,
+      "zero_count": 149,
+      "zero_percent": 7.118967988533206,
+      "median_abs_daily_change": 0.039097744360902104,
+      "p90_abs_daily_change": 0.3193984962406015,
+      "adjacent_nonzero_sign_pairs": 1936,
+      "adjacent_sign_flip_count": 150,
+      "adjacent_sign_flip_percent": 7.74793388429752
+    },
+    "linear_slope_60": {
+      "eligible_n": 2053,
+      "zero_count": 35,
+      "zero_percent": 1.7048222113979543,
+      "median_abs_daily_change": 0.007738260627952229,
+      "p90_abs_daily_change": 0.048505140316754784,
+      "adjacent_nonzero_sign_pairs": 2015,
+      "adjacent_sign_flip_count": 30,
+      "adjacent_sign_flip_percent": 1.488833746898263
+    },
+    "sign_balance_10": {
+      "eligible_n": 2102,
+      "zero_count": 633,
+      "zero_percent": 30.11417697431018,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 2.0,
+      "adjacent_nonzero_sign_pairs": 1237,
+      "adjacent_sign_flip_count": 59,
+      "adjacent_sign_flip_percent": 4.7696038803556995
+    },
+    "sign_balance_20": {
+      "eligible_n": 2092,
+      "zero_count": 575,
+      "zero_percent": 27.48565965583174,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 2.0,
+      "adjacent_nonzero_sign_pairs": 1305,
+      "adjacent_sign_flip_count": 45,
+      "adjacent_sign_flip_percent": 3.4482758620689653
+    },
+    "sign_balance_60": {
+      "eligible_n": 2052,
+      "zero_count": 340,
+      "zero_percent": 16.569200779727094,
+      "median_abs_daily_change": 1.0,
+      "p90_abs_daily_change": 2.0,
+      "adjacent_nonzero_sign_pairs": 1567,
+      "adjacent_sign_flip_count": 38,
+      "adjacent_sign_flip_percent": 2.4250159540523293
+    },
+    "median_change_10": {
+      "eligible_n": 2102,
+      "zero_count": 1375,
+      "zero_percent": 65.4138915318744,
+      "median_abs_daily_change": 0.0,
+      "p90_abs_daily_change": 0.5,
+      "adjacent_nonzero_sign_pairs": 619,
+      "adjacent_sign_flip_count": 27,
+      "adjacent_sign_flip_percent": 4.361873990306947
+    },
+    "median_change_20": {
+      "eligible_n": 2092,
+      "zero_count": 1630,
+      "zero_percent": 77.91586998087953,
+      "median_abs_daily_change": 0.0,
+      "p90_abs_daily_change": 0.5,
+      "adjacent_nonzero_sign_pairs": 401,
+      "adjacent_sign_flip_count": 3,
+      "adjacent_sign_flip_percent": 0.7481296758104738
+    },
+    "median_change_60": {
+      "eligible_n": 2052,
+      "zero_count": 1953,
+      "zero_percent": 95.17543859649123,
+      "median_abs_daily_change": 0.0,
+      "p90_abs_daily_change": 0.0,
+      "adjacent_nonzero_sign_pairs": 82,
+      "adjacent_sign_flip_count": 0,
+      "adjacent_sign_flip_percent": 0.0
+    }
+  },
+  "median_change_zero_frequency": {
+    "10": {
+      "eligible_n": 2102,
+      "zero_count": 1375,
+      "zero_percent": 65.4138915318744
+    },
+    "20": {
+      "eligible_n": 2092,
+      "zero_count": 1630,
+      "zero_percent": 77.91586998087953
+    },
+    "60": {
+      "eligible_n": 2052,
+      "zero_count": 1953,
+      "zero_percent": 95.17543859649123
+    }
+  },
+  "calendar_context": {
+    "largest_absolute_changes_examined": 20,
+    "calendar_flagged_among_largest": 3,
+    "calendar_flagged_dates": [
+      "2018-12-31",
+      "2019-09-30",
+      "2019-04-30"
+    ],
+    "interpretation": "calendar-associated extremes exist but are not the majority; no direction adjustment was applied"
+  },
+  "orthogonality": {
+    "eligible_n": 2051,
+    "pearson_signed_net20_vs_recent_rarity": 0.04556932972378242,
+    "pearson_abs_net20_vs_recent_rarity": 0.05861859996497988,
+    "pearson_signed_slope20_vs_recent_rarity": 0.06032397452400028,
+    "examples": {
+      "persistent_rising_low_anomaly": {
+        "count": 94,
+        "example_dates": [
+          "2018-08-16",
+          "2018-08-20",
+          "2018-08-22",
+          "2018-08-24",
+          "2018-08-27",
+          "2018-08-28",
+          "2018-08-29",
+          "2018-08-30",
+          "2018-09-04",
+          "2018-09-05"
+        ],
+        "selection_cutoffs_are_research_diagnostics_not_production_thresholds": true
+      },
+      "persistent_falling_low_anomaly": {
+        "count": 237,
+        "example_dates": [
+          "2018-07-23",
+          "2018-07-24",
+          "2018-07-25",
+          "2018-07-27",
+          "2018-07-30",
+          "2018-08-02",
+          "2018-09-26",
+          "2018-10-29",
+          "2018-12-11",
+          "2019-01-25"
+        ],
+        "selection_cutoffs_are_research_diagnostics_not_production_thresholds": true
+      },
+      "endpoint_stable_high_anomaly": {
+        "count": 35,
+        "example_dates": [
+          "2020-08-31",
+          "2020-10-02",
+          "2020-11-02",
+          "2020-11-18",
+          "2020-12-22",
+          "2020-12-24",
+          "2020-12-31",
+          "2021-01-04",
+          "2021-10-19",
+          "2021-10-22"
+        ],
+        "selection_cutoffs_are_research_diagnostics_not_production_thresholds": true
+      },
+      "rising_high_anomaly": {
+        "count": 40,
+        "example_dates": [
+          "2018-08-17",
+          "2018-09-18",
+          "2018-12-20",
+          "2018-12-31",
+          "2019-01-02",
+          "2019-01-03",
+          "2019-01-04",
+          "2019-03-29",
+          "2019-04-30",
+          "2019-05-01"
+        ],
+        "selection_cutoffs_are_research_diagnostics_not_production_thresholds": true
+      },
+      "falling_high_anomaly": {
+        "count": 30,
+        "example_dates": [
+          "2019-01-31",
+          "2019-08-01",
+          "2020-03-04",
+          "2020-03-05",
+          "2020-03-16",
+          "2020-03-17",
+          "2020-03-18",
+          "2020-08-20",
+          "2020-08-31",
+          "2020-11-18"
+        ],
+        "selection_cutoffs_are_research_diagnostics_not_production_thresholds": true
+      }
+    }
+  },
+  "case_definitions": [
+    {
+      "case": "gradual_up_path",
+      "anchor_date": "2018-08-27",
+      "offsets": [
+        0
+      ],
+      "description": "many small positive changes; no single move dominates"
+    },
+    {
+      "case": "reversal",
+      "anchor_date": "2019-01-03",
+      "offsets": [
+        -1,
+        0,
+        1,
+        5,
+        10,
+        20
+      ],
+      "description": "large negative shift after a short rising sequence"
+    },
+    {
+      "case": "large_isolated_move",
+      "anchor_date": "2019-09-17",
+      "offsets": [
+        -1,
+        0,
+        1,
+        5,
+        10,
+        20
+      ],
+      "description": "large isolated upward move immediately reversed"
+    },
+    {
+      "case": "noisy_endpoint_flat",
+      "anchor_date": "2019-10-21",
+      "offsets": [
+        0
+      ],
+      "description": "20-change net is zero despite 184bp total path movement"
+    },
+    {
+      "case": "long_flat_period",
+      "anchor_date": "2021-10-18",
+      "offsets": [
+        0
+      ],
+      "description": "end of an 84-change zero run"
+    },
+    {
+      "case": "step_followed_by_flat",
+      "anchor_date": "2022-06-16",
+      "offsets": [
+        -1,
+        0,
+        1,
+        5,
+        10,
+        20
+      ],
+      "description": "large upward step followed by a mostly flat level"
+    },
+    {
+      "case": "down_step_followed_by_flat",
+      "anchor_date": "2024-09-19",
+      "offsets": [
+        -1,
+        0,
+        1,
+        5,
+        10,
+        20
+      ],
+      "description": "large downward step followed by a mostly flat level"
+    },
+    {
+      "case": "gradual_down_path",
+      "anchor_date": "2026-05-20",
+      "offsets": [
+        0
+      ],
+      "description": "many small negative changes; no single move dominates"
+    }
+  ],
+  "optional_robust_path_slope": {
+    "evaluated": false,
+    "reason": "Required candidates already isolate endpoint displacement, fitted path, sign persistence, and zero-heavy median behavior; an additional O(N^2) estimator was not needed to answer the decision questions."
+  },
+  "research_decision": {
+    "preferred_evidence": "two-component net movement plus sign composition; slope remains comparison evidence",
+    "candidate_horizon": 20,
+    "stable_evidence": "small net displacement considered jointly with weak or balanced sign persistence and path concentration; no numeric boundary selected",
+    "step_change_handling": "net movement records the level displacement while sign composition and path concentration distinguish a single step from repeated movement",
+    "reversal_evidence": "20-window sign composition changed before 20-window endpoint displacement in the studied reversal; shorter net change is useful diagnostic evidence but noisier",
+    "direction_anomaly_independent": true,
+    "thresholds_frozen": false,
+    "readiness": "READY FOR DIRECTION METHODOLOGY FREEZE"
+  }
+}

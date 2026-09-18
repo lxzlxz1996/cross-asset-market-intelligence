@@ -40,6 +40,26 @@ The arrows describe data lineage, not an authorization to automate investment de
 
 ## Storage and data lineage
 
+### Phase 2.1A signal contracts
+
+Phase 2.1A adds `signal_definitions` (immutable versioned methodology metadata), `signal_observations` (deterministic evidence and optional orthogonal states), and `signal_observation_inputs` (exact processed-input lineage). The legacy Phase 0 `signals` table remains untouched as a historical placeholder and is not used by the Phase 2 contract. See [Signal Engine Foundation](SIGNAL_ENGINE_FOUNDATION.md) for availability semantics, versioning, and explicit non-goals.
+
+### Phase 2.1B-3/4 SOFR anomaly methodology and implementation
+
+The frozen [SOFR anomaly methodology v1](SOFR_ANOMALY_METHODOLOGY_V1.md) is implemented as the evidence-only anomaly component of `sofr_rate_state/v1`: signed/absolute consecutive-observation bp change, auditable midrank absolute-change rarity over separate prior-60 and prior-252 horizons, contextual calendar flags, and nullable secondary standard-Z diagnostics. `anomaly_state` remains null; robust Z, materiality thresholds, calendar adjustment, and downstream market interpretation are excluded. One ordered `sofr_level_history` sequence supplies exact processed lineage; a full broad observation stores 254 unique levels, with current last, previous penultimate, and recent history reconstructed as the suffix. The generic Phase 2.1A schema is unchanged.
+
+### Phase 2.1B-5/6 SOFR Direction research and methodology
+
+The frozen [SOFR direction methodology v1](SOFR_DIRECTION_METHODOLOGY_V1.md) specifies evidence-only recent-path semantics: exact 20-change endpoint displacement, positive/zero/negative counts, total absolute path, largest absolute change and its path share, plus a secondary-only slope over the latest 20 levels. It applies no calendar adjustment, multi-window vote, threshold, score, or categorical state; `direction_state` remains null.
+
+Active `sofr_rate_state/v1` is an immutable anomaly-only definition with persisted history. Direction is implemented in the distinct outer `sofr_rate_state/v2`, which retains anomaly methodology `sofr_change_rarity_v1` unchanged and adds component methodology `sofr_direction_evidence_v1`. The existing ordered `sofr_level_history` lineage remains sufficient: Direction uses its final 21 levels and slope its final 20, without duplicate input rows or a schema change. Generation requires explicit `--version v1|v2`; omission preserves the historical v1 default. See [SOFR Rate State production versions](SOFR_RATE_STATE_VERSIONS.md).
+
+### Phase 2.1B-8/9 SOFR Level research and methodology
+
+The frozen [SOFR Level methodology v1](SOFR_LEVEL_METHODOLOGY_V1.md) specifies evidence-only Level semantics: the canonical processed SOFR level in percent, an expanding prior-only empirical historical rank with complete strict/midrank/weak tie audit, and the distance in bp from the median of exactly the prior 60 valid levels. Broad and recent contexts remain separate; rolling level percentiles, Level Z, robust Z/MAD, policy/stress interpretation, thresholds, and categorical Level state are excluded.
+
+Level is implemented in distinct outer `sofr_rate_state/v3`; v1 and v2 remain immutable. V3 delegates unchanged anomaly and Direction calculation to the v2 implementation, then adds Level evidence. Its single ordered `sofr_level_history` lineage contains every eligible prior selected level plus current, oldest first. Anomaly and Direction inputs and the recent-60 Level window are suffixes of that set, so duplicate input rows are unnecessary. At the validated 2026-09-16 as-of date v3 persists 2,112 exact processed-input links (2,111 prior plus current). This growing storage cost is accepted specifically for SOFR Level v1 to preserve the Phase 2.1A exact-lineage contract; dates, counts, hashes, and opaque aggregates cannot replace exact inputs, and no architecture-wide expanding-lineage rule is implied.
+
 ### `raw_observations`
 
 Append-only source observations keyed by `(source, series_id, observation_date, vintage)`. `retrieval_timestamp` records when this system received the observation; `publication_timestamp` records when it became publicly available when supplied by the source. `metadata` is source-specific JSON, reserved for items such as native units, payload identifiers, or release details.

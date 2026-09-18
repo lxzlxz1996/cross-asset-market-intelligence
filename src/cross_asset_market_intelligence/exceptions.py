@@ -35,3 +35,19 @@ class DashboardReadError(RuntimeError):
 
 class DashboardLineageError(RuntimeError):
     """Raised when dashboard selection finds incomplete or ambiguous lineage."""
+
+
+class SignalDefinitionImmutableError(ValueError):
+    """Raised when a persisted signal methodology version would be changed."""
+
+
+class SignalValidationError(ValueError):
+    """Raised when a signal contract violates point-in-time or identity rules."""
+
+
+class SignalPersistenceError(RuntimeError):
+    """Raised when a signal observation and its complete lineage cannot be stored."""
+
+
+class SignalGenerationError(SignalValidationError):
+    """Raised when production signal evidence cannot satisfy its frozen methodology."""

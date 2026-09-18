@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "implementation": "independent Python recomputation without importing analyze.py",
+  "validated_levels": 2112,
+  "validated_rows": 2112,
+  "validated_calculations": 83353,
+  "selected_snapshot_sha256": "bef72683a3fe8fe0da76518ca325a19867fbb9249a7a69a76c510f65d167792d",
+  "checks": [
+    "snapshot hash, exact processed identities, chronology, and row count",
+    "prior-only full-history and 60/120/252/504 percentiles with exact tie counts",
+    "prior-only 20/60/120/252 mean and median bp distances",
+    "prior-only sample-standard-deviation level Z and zero-scale nulls",
+    "exact warm-up nulls, fixed window sizes, and no future observations"
+  ]
+}

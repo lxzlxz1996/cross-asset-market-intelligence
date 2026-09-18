@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "implementation": "independent in-memory DuckDB SQL",
+  "validated_levels": 61,
+  "validated_changes": 60,
+  "validated_score_rows": 40,
+  "validated_report_tables": 7,
+  "windows": [
+    20,
+    60,
+    120,
+    252
+  ],
+  "selected_snapshot_sha256": "553358fb9ccbc3db1b27dfed39efea5da0748a3fd94390d378714a36cde2c9ac",
+  "checks": [
+    "input snapshot hash and chronological uniqueness",
+    "Decimal level differences and lineage IDs",
+    "ddof1 standard deviation and all signed quantiles",
+    "strict prior-only windows, dates, mean/std/median/MAD and all five scores",
+    "all 11 report sections and seven table column layouts"
+  ]
+}
