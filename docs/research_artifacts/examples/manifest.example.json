@@ -1,0 +1,206 @@
+{
+  "artifact_standard_version": "research_artifacts_v1",
+  "research_id": "example_component_research",
+  "research_version": "v1",
+  "run_id": "run_sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "subject": {
+    "signal_id": null,
+    "proposed_signal_id": "example_signal",
+    "component_id": "example_component",
+    "indicator_ids": [
+      "example_indicator"
+    ]
+  },
+  "research_status": "READY_FOR_METHODOLOGY_FREEZE",
+  "dataset": {
+    "applicability": "selected_observations",
+    "observation_count": 100,
+    "first_observation_date": "2025-01-02",
+    "last_observation_date": "2025-05-23",
+    "selected_input_snapshot_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "snapshot_identity_profile": "canonical_selected_inputs_v1",
+    "input_selection_rule": "Example deterministic canonical selection rule.",
+    "source_ids": [
+      "example_source"
+    ],
+    "series_ids": [
+      "EXAMPLE_SERIES"
+    ],
+    "vintage_summary": {
+      "identity": "example_vintage"
+    },
+    "availability_summary": {
+      "precision": "date_only"
+    },
+    "not_applicable_reason": null
+  },
+  "execution": {
+    "executed_at": "2026-09-18T20:00:00Z",
+    "git_commit": "0000000000000000000000000000000000000000",
+    "git_commit_unavailable_reason": null,
+    "working_tree_state": "clean",
+    "working_tree_diff_hash": null,
+    "research_entrypoint": "research/example_component/analyze.py",
+    "research_code_files": [
+      {
+        "relative_path": "research/example_component/analyze.py",
+        "raw_file_hash": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      }
+    ],
+    "research_code_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "validator_entrypoint": "research/example_component/validate.py",
+    "validator_code_files": [
+      {
+        "relative_path": "research/example_component/validate.py",
+        "raw_file_hash": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "validator_code_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "runtime": {
+      "language": "python",
+      "version": "3.11.0",
+      "environment_reference": "pyproject.toml",
+      "environment_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  },
+  "methodology_candidates": [
+    {
+      "candidate_id": "example_method_a",
+      "parameters": {
+        "example_parameter": 20
+      },
+      "configuration_reference": null
+    }
+  ],
+  "artifacts": [
+    {
+      "logical_name": "selected_observations",
+      "relative_path": "research/example_component/outputs/selected_observations.json",
+      "artifact_type": "json",
+      "media_type": "application/json",
+      "requirement": "conditional",
+      "raw_file_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "authoritative_for": [
+        "selected_input_set"
+      ],
+      "storage_policy": "committed",
+      "external_reference": null,
+      "columns": [],
+      "column_schema_path": null,
+      "row_count": null
+    },
+    {
+      "logical_name": "research_results",
+      "relative_path": "research/example_component/outputs/research_results.csv",
+      "artifact_type": "csv",
+      "media_type": "text/csv",
+      "requirement": "conditional",
+      "raw_file_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "authoritative_for": [
+        "row_level_evidence"
+      ],
+      "storage_policy": "committed",
+      "external_reference": null,
+      "columns": [
+        {
+          "name": "observation_date",
+          "logical_type": "date",
+          "unit": "not_applicable",
+          "description": "Economic observation date.",
+          "null_semantics": "never null"
+        },
+        {
+          "name": "example_change_bp",
+          "logical_type": "number",
+          "unit": "basis_point",
+          "description": "Illustrative measured change.",
+          "null_semantics": "empty only during documented warm-up"
+        }
+      ],
+      "column_schema_path": null,
+      "row_count": 100
+    },
+    {
+      "logical_name": "results",
+      "relative_path": "research/example_component/outputs/results.json",
+      "artifact_type": "json",
+      "media_type": "application/json",
+      "requirement": "mandatory",
+      "raw_file_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "authoritative_for": [
+        "research_conclusions",
+        "research_decision"
+      ],
+      "storage_policy": "committed",
+      "external_reference": null,
+      "columns": [],
+      "column_schema_path": null,
+      "row_count": null
+    },
+    {
+      "logical_name": "validation",
+      "relative_path": "research/example_component/outputs/validation.json",
+      "artifact_type": "json",
+      "media_type": "application/json",
+      "requirement": "mandatory",
+      "raw_file_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "authoritative_for": [
+        "independent_validation"
+      ],
+      "storage_policy": "committed",
+      "external_reference": null,
+      "columns": [],
+      "column_schema_path": null,
+      "row_count": null
+    },
+    {
+      "logical_name": "report",
+      "relative_path": "research/example_component/outputs/report.md",
+      "artifact_type": "markdown",
+      "media_type": "text/markdown",
+      "requirement": "mandatory",
+      "raw_file_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "authoritative_for": [
+        "human_review_narrative"
+      ],
+      "storage_policy": "committed",
+      "external_reference": null,
+      "columns": [],
+      "column_schema_path": null,
+      "row_count": null
+    },
+    {
+      "logical_name": "readme",
+      "relative_path": "research/example_component/README.md",
+      "artifact_type": "markdown",
+      "media_type": "text/markdown",
+      "requirement": "mandatory",
+      "raw_file_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "authoritative_for": [
+        "reproduction_instructions"
+      ],
+      "storage_policy": "committed",
+      "external_reference": null,
+      "columns": [],
+      "column_schema_path": null,
+      "row_count": null
+    }
+  ],
+  "conditional_omissions": [
+    {
+      "logical_name": "method_comparison",
+      "status": "not_applicable",
+      "rationale": "The example envelope illustrates one predetermined candidate only."
+    },
+    {
+      "logical_name": "case_studies",
+      "status": "not_applicable",
+      "rationale": "No historical case analysis is represented by this documentation fixture."
+    }
+  ],
+  "validation_status": "passed",
+  "decision_status": "READY_FOR_METHODOLOGY_FREEZE",
+  "reproducibility_notes": [
+    "This is a non-empirical documentation fixture."
+  ]
+}

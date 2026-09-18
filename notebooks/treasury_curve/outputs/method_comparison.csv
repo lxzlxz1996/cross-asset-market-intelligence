@@ -1,0 +1,18 @@
+method_id,parameter_set_id,parameters_json,evaluated_count,eligible_count,warmup_count,minimum_value,maximum_value,unit,median_tie_band_pct,slope_endpoint_disagreement_count,authority,limitation
+shape,shape,"{""method"":""shape""}",10,10,0,32.00,43.00,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+net_path,net_path_1,"{""changes"":1,""method"":""net_path""}",10,9,1,-6.00,3.00,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+net_path,net_path_3,"{""changes"":3,""method"":""net_path""}",10,7,3,-8.00,1.00,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+net_path,net_path_5,"{""changes"":5,""method"":""net_path""}",10,5,5,-10.00,0.00,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+net_path,net_path_10,"{""changes"":10,""method"":""net_path""}",10,0,10,,,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+slope,slope_3,"{""changes"":3,""method"":""slope""}",10,7,3,-3.0,0.6,basis_point_per_aligned_observation,,0,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+slope,slope_5,"{""changes"":5,""method"":""slope""}",10,5,5,-2.000000000000000000000000,0.02857142857142857142857142857,basis_point_per_aligned_observation,,1,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+slope,slope_10,"{""changes"":10,""method"":""slope""}",10,0,10,,,basis_point_per_aligned_observation,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+change_cdf,change_cdf_5,"{""method"":""change_cdf"",""prior_changes"":5}",10,4,6,,,percent,30,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+change_cdf,change_cdf_21,"{""method"":""change_cdf"",""prior_changes"":21}",10,0,10,,,percent,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+change_cdf,change_cdf_63,"{""method"":""change_cdf"",""prior_changes"":63}",10,0,10,,,percent,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+change_cdf,change_cdf_expanding,"{""method"":""change_cdf"",""minimum"":5,""prior_changes"":""expanding""}",10,4,6,,,percent,24.28571428571428571428571428,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+median_distance,median_distance_5,"{""method"":""median_distance"",""prior_levels"":5}",10,5,5,-8.00,-1.00,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+median_distance,median_distance_21,"{""method"":""median_distance"",""prior_levels"":21}",10,0,10,,,basis_point,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+level_cdf,level_cdf_5,"{""method"":""level_cdf"",""prior_levels"":5}",10,5,5,,,percent,0,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+level_cdf,level_cdf_21,"{""method"":""level_cdf"",""prior_levels"":21}",10,0,10,,,percent,,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.
+level_cdf,level_cdf_expanding,"{""method"":""level_cdf"",""minimum"":5,""prior_levels"":""expanding""}",10,5,5,,,percent,0,,research_only,Ten observed levels cannot select a horizon or calibrate distribution states.

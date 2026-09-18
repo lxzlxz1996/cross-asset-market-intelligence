@@ -1,0 +1,1067 @@
+{
+  "artifact_standard_version": "research_artifacts_v1",
+  "artifacts": [
+    {
+      "artifact_type": "csv",
+      "authoritative_for": [
+        "aligned_levels"
+      ],
+      "column_schema_path": null,
+      "columns": [
+        {
+          "description": "observation date; see research contract for formula and grain",
+          "logical_type": "date",
+          "name": "observation_date",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "two year percent; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "two_year_percent",
+          "null_semantics": "never null",
+          "unit": "percent"
+        },
+        {
+          "description": "ten year percent; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "ten_year_percent",
+          "null_semantics": "never null",
+          "unit": "percent"
+        },
+        {
+          "description": "spread bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "spread_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "derived processed observation id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "derived_processed_observation_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "two year processed observation id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "two_year_processed_observation_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "ten year processed observation id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "ten_year_processed_observation_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        }
+      ],
+      "external_reference": null,
+      "logical_name": "aligned_levels",
+      "media_type": "text/csv",
+      "raw_file_hash": "sha256:c852f1bd138db4743b9e41be1045a389f98984ca7b56d8b226cc255f7133d1d3",
+      "relative_path": "notebooks/treasury_curve/outputs/aligned_levels.csv",
+      "requirement": "optional",
+      "row_count": 10,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "csv",
+      "authoritative_for": [
+        "alignment_audit"
+      ],
+      "column_schema_path": null,
+      "columns": [
+        {
+          "description": "observation date; see research contract for formula and grain",
+          "logical_type": "date",
+          "name": "observation_date",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "two year status; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "two_year_status",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "two year vintage; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "two_year_vintage",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "two year processed id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "two_year_processed_id",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "ten year status; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "ten_year_status",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "ten year vintage; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "ten_year_vintage",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "ten year processed id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "ten_year_processed_id",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "aligned; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "aligned",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        }
+      ],
+      "external_reference": null,
+      "logical_name": "alignment_audit",
+      "media_type": "text/csv",
+      "raw_file_hash": "sha256:623fffd3a116e01aca69cc379f771e3023793a49a6d027b41acc4457a89a11e4",
+      "relative_path": "notebooks/treasury_curve/outputs/alignment_audit.csv",
+      "requirement": "optional",
+      "row_count": 11,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "csv",
+      "authoritative_for": [
+        "case_studies"
+      ],
+      "column_schema_path": null,
+      "columns": [
+        {
+          "description": "case id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "case_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "case name; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "case_name",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "anchor date; see research contract for formula and grain",
+          "logical_type": "date",
+          "name": "anchor_date",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "case type; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "case_type",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "selection reason; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "selection_reason",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "relevant method id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "relevant_method_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "start spread bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "start_spread_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "end spread bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "end_spread_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "change_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "start shape; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "start_shape",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "end shape; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "end_shape",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "two year change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "two_year_change_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "ten year change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "ten_year_change_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "path absolute bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "path_absolute_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "path retention ratio; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "path_retention_ratio",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "ratio"
+        },
+        {
+          "description": "derived processed observation id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "derived_processed_observation_id",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "not_applicable"
+        }
+      ],
+      "external_reference": null,
+      "logical_name": "case_studies",
+      "media_type": "text/csv",
+      "raw_file_hash": "sha256:a8e5be695a6ae91dfba559bc4509e3ceffc79ffd47fb46e93904f233ade5d95a",
+      "relative_path": "notebooks/treasury_curve/outputs/case_studies.csv",
+      "requirement": "conditional",
+      "row_count": 13,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "environment"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "environment",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:d47a257e8271788bb040e73b18f44748699ecbb9d4ad51597612a342bd4b9dab",
+      "relative_path": "notebooks/treasury_curve/outputs/environment.json",
+      "requirement": "optional",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "csv",
+      "authoritative_for": [
+        "framework_scorecard"
+      ],
+      "column_schema_path": null,
+      "columns": [
+        {
+          "description": "framework capability; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "framework_capability",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "result; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "result",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "evidence; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "evidence",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "issue; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "issue",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        }
+      ],
+      "external_reference": null,
+      "logical_name": "framework_scorecard",
+      "media_type": "text/csv",
+      "raw_file_hash": "sha256:8f320c54446cb1341967c6887abcfcca8207c600e744f8caa742794f040b984b",
+      "relative_path": "notebooks/treasury_curve/outputs/framework_scorecard.csv",
+      "requirement": "optional",
+      "row_count": 17,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "csv",
+      "authoritative_for": [
+        "method_comparison"
+      ],
+      "column_schema_path": null,
+      "columns": [
+        {
+          "description": "method id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "method_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "parameter set id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "parameter_set_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "parameters json; see research contract for formula and grain",
+          "logical_type": "json",
+          "name": "parameters_json",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "evaluated count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "evaluated_count",
+          "null_semantics": "never null",
+          "unit": "count"
+        },
+        {
+          "description": "eligible count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "eligible_count",
+          "null_semantics": "never null",
+          "unit": "count"
+        },
+        {
+          "description": "warmup count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "warmup_count",
+          "null_semantics": "never null",
+          "unit": "count"
+        },
+        {
+          "description": "minimum value; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "minimum_value",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "declared_in_unit_column"
+        },
+        {
+          "description": "maximum value; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "maximum_value",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "declared_in_unit_column"
+        },
+        {
+          "description": "unit; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "unit",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "median tie band pct; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "median_tie_band_pct",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "percent"
+        },
+        {
+          "description": "slope endpoint disagreement count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "slope_endpoint_disagreement_count",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "count"
+        },
+        {
+          "description": "authority; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "authority",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "limitation; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "limitation",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        }
+      ],
+      "external_reference": null,
+      "logical_name": "method_comparison",
+      "media_type": "text/csv",
+      "raw_file_hash": "sha256:0f27be5167935a86285c3b7c2ff0d9dbbb29675de692d262248f1f1be9344d3f",
+      "relative_path": "notebooks/treasury_curve/outputs/method_comparison.csv",
+      "requirement": "conditional",
+      "row_count": 17,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "markdown",
+      "authoritative_for": [
+        "readme"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "readme",
+      "media_type": "text/markdown",
+      "raw_file_hash": "sha256:ef15c864548904412de842eeaa2d48d779553e43e493444f4ba17a4f56151c86",
+      "relative_path": "notebooks/treasury_curve/outputs/README.md",
+      "requirement": "mandatory",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "markdown",
+      "authoritative_for": [
+        "report"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "report",
+      "media_type": "text/markdown",
+      "raw_file_hash": "sha256:c5c13d91ab54f6ad98d41fdd1df8c054b412070b35f38ed39f5318b067891116",
+      "relative_path": "notebooks/treasury_curve/outputs/report.md",
+      "requirement": "mandatory",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "research_brief"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "research_brief",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:9b8ff2198fcfec25844a791dda72b248627c3359144254a9e0c9ec1a160002fe",
+      "relative_path": "notebooks/treasury_curve/outputs/research_brief.json",
+      "requirement": "optional",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "csv",
+      "authoritative_for": [
+        "research_results"
+      ],
+      "column_schema_path": null,
+      "columns": [
+        {
+          "description": "observation date; see research contract for formula and grain",
+          "logical_type": "date",
+          "name": "observation_date",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "method id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "method_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "parameter set id; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "parameter_set_id",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "status; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "status",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "current spread bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "current_spread_bp",
+          "null_semantics": "never null",
+          "unit": "basis_point"
+        },
+        {
+          "description": "current shape; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "current_shape",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "reference count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "reference_count",
+          "null_semantics": "never null",
+          "unit": "count"
+        },
+        {
+          "description": "reference first date; see research contract for formula and grain",
+          "logical_type": "date",
+          "name": "reference_first_date",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "reference last date; see research contract for formula and grain",
+          "logical_type": "date",
+          "name": "reference_last_date",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "value; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "value",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "declared_in_unit_column"
+        },
+        {
+          "description": "unit; see research contract for formula and grain",
+          "logical_type": "string",
+          "name": "unit",
+          "null_semantics": "never null",
+          "unit": "not_applicable"
+        },
+        {
+          "description": "signed change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "signed_change_bp",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "basis_point"
+        },
+        {
+          "description": "absolute change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "absolute_change_bp",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "basis_point"
+        },
+        {
+          "description": "strict pct; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "strict_pct",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "percent"
+        },
+        {
+          "description": "weak pct; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "weak_pct",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "percent"
+        },
+        {
+          "description": "less count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "less_count",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "count"
+        },
+        {
+          "description": "equal count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "equal_count",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "count"
+        },
+        {
+          "description": "greater count; see research contract for formula and grain",
+          "logical_type": "integer",
+          "name": "greater_count",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "count"
+        },
+        {
+          "description": "two year change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "two_year_change_bp",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "basis_point"
+        },
+        {
+          "description": "ten year change bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "ten_year_change_bp",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "basis_point"
+        },
+        {
+          "description": "path absolute bp; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "path_absolute_bp",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "basis_point"
+        },
+        {
+          "description": "path retention ratio; see research contract for formula and grain",
+          "logical_type": "number",
+          "name": "path_retention_ratio",
+          "null_semantics": "empty for candidate warm-up, inapplicable metric, missing leg/identity, or zero gross path; status/case_type defines context",
+          "unit": "ratio"
+        }
+      ],
+      "external_reference": null,
+      "logical_name": "research_results",
+      "media_type": "text/csv",
+      "raw_file_hash": "sha256:71b6469ab887cbdd80bc2bdd1782fddb41237ec950352df1b1fbb3b144c07610",
+      "relative_path": "notebooks/treasury_curve/outputs/research_results.csv",
+      "requirement": "conditional",
+      "row_count": 170,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "results"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "results",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:41fe90aed3030eb310dd5a3027878b0993ee529d3062c24fa1a8c805294cfdbd",
+      "relative_path": "notebooks/treasury_curve/outputs/results.json",
+      "requirement": "mandatory",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "selected_observations"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "selected_observations",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:13bf799132811bcf5fc5c58626e811e022798d28aeac527e8a519eadf7cde840",
+      "relative_path": "notebooks/treasury_curve/outputs/selected_observations.json",
+      "requirement": "conditional",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "synthetic_fixtures"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "synthetic_fixtures",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:9eb1b3d9830c722a4c3b5705a88f0035611e6cf3ef6caf93e6eb12a0abdc4234",
+      "relative_path": "notebooks/treasury_curve/outputs/synthetic_fixtures.json",
+      "requirement": "optional",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "test_summary"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "test_summary",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:309623cffa5e6d386a923914ee5b8f91d44d05dbe9bd61519b6966344999767e",
+      "relative_path": "notebooks/treasury_curve/outputs/test_summary.json",
+      "requirement": "optional",
+      "row_count": null,
+      "storage_policy": "committed"
+    },
+    {
+      "artifact_type": "json",
+      "authoritative_for": [
+        "validation"
+      ],
+      "column_schema_path": null,
+      "columns": [],
+      "external_reference": null,
+      "logical_name": "validation",
+      "media_type": "application/json",
+      "raw_file_hash": "sha256:939c0b3cc406eac43d5fff6a0021c39e939119401d3d3c6936ad1bd5f3dc1b89",
+      "relative_path": "notebooks/treasury_curve/outputs/validation.json",
+      "requirement": "mandatory",
+      "row_count": null,
+      "storage_policy": "committed"
+    }
+  ],
+  "conditional_omissions": [],
+  "dataset": {
+    "applicability": "selected_observations",
+    "availability_summary": {
+      "event_time_replay": false,
+      "precisions": {
+        "unknown": 20
+      }
+    },
+    "first_observation_date": "2026-09-01",
+    "input_selection_rule": "Existing Phase 1 latest valid raw-vintage/current direct processed selection; inner-align same dates; date/role snapshot order; raw missingness in alignment_audit.",
+    "last_observation_date": "2026-09-15",
+    "not_applicable_reason": null,
+    "observation_count": 20,
+    "selected_input_snapshot_hash": "sha256:e5b62399d3134492fb2697f0fe1a5aa9fd1a3c25274a7f450801cc296df62ba5",
+    "series_ids": [
+      "DGS2",
+      "DGS10"
+    ],
+    "snapshot_identity_profile": "canonical_selected_inputs_v1",
+    "source_ids": [
+      "fred"
+    ],
+    "vintage_summary": {
+      "database_reference": "data/market_intelligence.duckdb",
+      "vintages": [
+        "fred_realtime:2026-09-16:2026-09-16",
+        "fred_realtime:2026-09-17:2026-09-17"
+      ]
+    }
+  },
+  "decision_status": "MORE_RESEARCH_REQUIRED",
+  "execution": {
+    "executed_at": "2026-09-18T17:11:39.309721Z",
+    "git_commit": "7a0f686cd6aca01e359f8dc572a9f79c22cd2e79",
+    "git_commit_unavailable_reason": null,
+    "research_code_files": [
+      {
+        "raw_file_hash": "sha256:bd273ca165a711d6b679b66c16c7aa4224c548cb8deb96040e8a521e86fba1b6",
+        "relative_path": "docs/research_artifacts/manifest.schema.json"
+      },
+      {
+        "raw_file_hash": "sha256:e71e9182b223187cf3dccff1f4722461430e76612166622930e9fca534ea75a0",
+        "relative_path": "docs/research_artifacts/results.schema.json"
+      },
+      {
+        "raw_file_hash": "sha256:cb963ead4bf1fc69551e8761d79c54f754037feaf138a235825a1242f5a92b26",
+        "relative_path": "docs/research_artifacts/validation.schema.json"
+      },
+      {
+        "raw_file_hash": "sha256:7281b7222a0bc2477b4100fb7b7f147d65e57a90dbbbec6a8a8530f211b24ef6",
+        "relative_path": "notebooks/treasury_curve/README.md"
+      },
+      {
+        "raw_file_hash": "sha256:59b17c65f8b46f08521586c77f06bcabb4364a6500ddafa0a4d471b64ac49f6d",
+        "relative_path": "notebooks/treasury_curve/analyze.py"
+      },
+      {
+        "raw_file_hash": "sha256:7b321752b1fa25fadec1bd8b76c1618195db375028e23f1456f4d0226c404451",
+        "relative_path": "notebooks/treasury_curve/report_template.md"
+      },
+      {
+        "raw_file_hash": "sha256:148fda5326033fbf6ee510f3dd430d1aeee4056a6d82c2d7f7f5f222c06934aa",
+        "relative_path": "notebooks/treasury_curve/research_contract.json"
+      },
+      {
+        "raw_file_hash": "sha256:2ac70ae3f94216219f5d74df04328ba81fcf24908a356d66a723f54c3f9cbefe",
+        "relative_path": "notebooks/treasury_curve/synthetic_cases.json"
+      },
+      {
+        "raw_file_hash": "sha256:de3e6b86bc727b0cfa0ac30112d65aa40c035e903714fe7f2e55c2016c0252e1",
+        "relative_path": "notebooks/treasury_curve/validate.py"
+      },
+      {
+        "raw_file_hash": "sha256:55ada14b186aa48d51061f24c59ce7a669f8999cf16531c0a5b1a7f82a111717",
+        "relative_path": "src/cross_asset_market_intelligence/data/fred_vintages.py"
+      },
+      {
+        "raw_file_hash": "sha256:7d85a9e8e06059c619d6328cc72f10a293919abd6e0a8a67c7c362ebcc9e3215",
+        "relative_path": "src/cross_asset_market_intelligence/data/treasury_processing.py"
+      },
+      {
+        "raw_file_hash": "sha256:71576b8dc2aeb2aeaf68bd90922720139c9dd4220ab71f6dae100e180b2023b9",
+        "relative_path": "src/cross_asset_market_intelligence/data/treasury_spread_processing.py"
+      },
+      {
+        "raw_file_hash": "sha256:de8ec05298d7618052c200f0b7c461533c2e002e96e18fb78899785335463e6a",
+        "relative_path": "src/cross_asset_market_intelligence/lineage.py"
+      },
+      {
+        "raw_file_hash": "sha256:bde08717647c50efb893c23c0174be17f9b01d1eb7fd149fc715813c9904d19d",
+        "relative_path": "src/cross_asset_market_intelligence/research/artifacts.py"
+      },
+      {
+        "raw_file_hash": "sha256:7fc63f48edfaecb1c2ddfb85c6e1a388092f2af6f929613ab36402fb8eec3c52",
+        "relative_path": "src/cross_asset_market_intelligence/research/primitives.py"
+      },
+      {
+        "raw_file_hash": "sha256:e92970495a9befe4acd8728c231a6872acb850bd5464b95d5275e23564c57885",
+        "relative_path": "src/cross_asset_market_intelligence/signals/explanations.py"
+      },
+      {
+        "raw_file_hash": "sha256:aa02afa23999a8b5a14158e31a86305f69500227173c13b764f0f7b99cd2eab4",
+        "relative_path": "src/cross_asset_market_intelligence/utils/canonical.py"
+      }
+    ],
+    "research_code_hash": "sha256:a09f10565071223d05e7fdc5d49392499ec60d9e554a7dcf4be73bcbc52a0ce5",
+    "research_entrypoint": "notebooks/treasury_curve/analyze.py",
+    "runtime": {
+      "environment_hash": "sha256:d47a257e8271788bb040e73b18f44748699ecbb9d4ad51597612a342bd4b9dab",
+      "environment_reference": "notebooks/treasury_curve/outputs/environment.json",
+      "language": "python",
+      "version": "3.12.10"
+    },
+    "validator_code_files": [
+      {
+        "raw_file_hash": "sha256:bd273ca165a711d6b679b66c16c7aa4224c548cb8deb96040e8a521e86fba1b6",
+        "relative_path": "docs/research_artifacts/manifest.schema.json"
+      },
+      {
+        "raw_file_hash": "sha256:e71e9182b223187cf3dccff1f4722461430e76612166622930e9fca534ea75a0",
+        "relative_path": "docs/research_artifacts/results.schema.json"
+      },
+      {
+        "raw_file_hash": "sha256:cb963ead4bf1fc69551e8761d79c54f754037feaf138a235825a1242f5a92b26",
+        "relative_path": "docs/research_artifacts/validation.schema.json"
+      },
+      {
+        "raw_file_hash": "sha256:148fda5326033fbf6ee510f3dd430d1aeee4056a6d82c2d7f7f5f222c06934aa",
+        "relative_path": "notebooks/treasury_curve/research_contract.json"
+      },
+      {
+        "raw_file_hash": "sha256:2ac70ae3f94216219f5d74df04328ba81fcf24908a356d66a723f54c3f9cbefe",
+        "relative_path": "notebooks/treasury_curve/synthetic_cases.json"
+      },
+      {
+        "raw_file_hash": "sha256:de3e6b86bc727b0cfa0ac30112d65aa40c035e903714fe7f2e55c2016c0252e1",
+        "relative_path": "notebooks/treasury_curve/validate.py"
+      },
+      {
+        "raw_file_hash": "sha256:de8ec05298d7618052c200f0b7c461533c2e002e96e18fb78899785335463e6a",
+        "relative_path": "src/cross_asset_market_intelligence/lineage.py"
+      },
+      {
+        "raw_file_hash": "sha256:bde08717647c50efb893c23c0174be17f9b01d1eb7fd149fc715813c9904d19d",
+        "relative_path": "src/cross_asset_market_intelligence/research/artifacts.py"
+      },
+      {
+        "raw_file_hash": "sha256:7fc63f48edfaecb1c2ddfb85c6e1a388092f2af6f929613ab36402fb8eec3c52",
+        "relative_path": "src/cross_asset_market_intelligence/research/primitives.py"
+      },
+      {
+        "raw_file_hash": "sha256:e92970495a9befe4acd8728c231a6872acb850bd5464b95d5275e23564c57885",
+        "relative_path": "src/cross_asset_market_intelligence/signals/explanations.py"
+      },
+      {
+        "raw_file_hash": "sha256:aa02afa23999a8b5a14158e31a86305f69500227173c13b764f0f7b99cd2eab4",
+        "relative_path": "src/cross_asset_market_intelligence/utils/canonical.py"
+      }
+    ],
+    "validator_code_hash": "sha256:568fd5a2dd0b5d0fd6a528095ae32db8461f432e8085fa58b9e03396100f1089",
+    "validator_entrypoint": "notebooks/treasury_curve/validate.py",
+    "working_tree_diff_hash": "sha256:eb8d764f68a7d677cdf84382948824afe0df27eaf8b91ce4c33dca8b2feece93",
+    "working_tree_state": "dirty"
+  },
+  "methodology_candidates": [
+    {
+      "candidate_id": "shape",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "shape"
+      }
+    },
+    {
+      "candidate_id": "net_path_1",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 1,
+        "method": "net_path"
+      }
+    },
+    {
+      "candidate_id": "net_path_3",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 3,
+        "method": "net_path"
+      }
+    },
+    {
+      "candidate_id": "net_path_5",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 5,
+        "method": "net_path"
+      }
+    },
+    {
+      "candidate_id": "net_path_10",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 10,
+        "method": "net_path"
+      }
+    },
+    {
+      "candidate_id": "slope_3",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 3,
+        "method": "slope"
+      }
+    },
+    {
+      "candidate_id": "slope_5",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 5,
+        "method": "slope"
+      }
+    },
+    {
+      "candidate_id": "slope_10",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "changes": 10,
+        "method": "slope"
+      }
+    },
+    {
+      "candidate_id": "change_cdf_5",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "change_cdf",
+        "prior_changes": 5
+      }
+    },
+    {
+      "candidate_id": "change_cdf_21",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "change_cdf",
+        "prior_changes": 21
+      }
+    },
+    {
+      "candidate_id": "change_cdf_63",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "change_cdf",
+        "prior_changes": 63
+      }
+    },
+    {
+      "candidate_id": "change_cdf_expanding",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "change_cdf",
+        "minimum": 5,
+        "prior_changes": "expanding"
+      }
+    },
+    {
+      "candidate_id": "median_distance_5",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "median_distance",
+        "prior_levels": 5
+      }
+    },
+    {
+      "candidate_id": "median_distance_21",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "median_distance",
+        "prior_levels": 21
+      }
+    },
+    {
+      "candidate_id": "level_cdf_5",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "level_cdf",
+        "prior_levels": 5
+      }
+    },
+    {
+      "candidate_id": "level_cdf_21",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "level_cdf",
+        "prior_levels": 21
+      }
+    },
+    {
+      "candidate_id": "level_cdf_expanding",
+      "configuration_reference": "notebooks/treasury_curve/research_contract.json",
+      "parameters": {
+        "method": "level_cdf",
+        "minimum": 5,
+        "prior_levels": "expanding"
+      }
+    }
+  ],
+  "reproducibility_notes": [
+    "Offline read-only source database; selected values/vintages and exact derived pair links retained for audit.",
+    "Dirty diff scoped to sorted declared code/config paths: git diff --binary HEAD -- <declared tracked paths>; untracked code bound by explicit file inventory.",
+    "Snapshot count means selected leg records, while aligned_levels count means curve dates.",
+    "Synthetic anchor dates are fixture labels, excluded from observed data, snapshots and distributions.",
+    "MORE_RESEARCH_REQUIRED is a well-formed research outcome, not package corruption or production freeze readiness."
+  ],
+  "research_id": "treasury_2s10s_framework_validation",
+  "research_status": "MORE_RESEARCH_REQUIRED",
+  "research_version": "v1",
+  "run_id": "run_sha256:819aff4b35857e1c71c73b8a4bef690933416d7991b56395cd58c6b6a142ab09",
+  "subject": {
+    "component_id": "curve_evidence_research",
+    "indicator_ids": [
+      "us_treasury_2y_yield",
+      "us_treasury_10y_yield",
+      "us_treasury_10y_minus_2y"
+    ],
+    "proposed_signal_id": "treasury_2s10s_curve",
+    "signal_id": null
+  },
+  "validation_status": "passed_with_warnings"
+}

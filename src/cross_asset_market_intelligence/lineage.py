@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from dataclasses import dataclass
 from datetime import date
 from typing import Iterable
+
+from .utils.canonical import canonical_json
 
 
 @dataclass(frozen=True, order=True)
@@ -62,7 +63,7 @@ def processed_observation_id(
         "processing_version": processing_version,
         "inputs": canonical_inputs,
     }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    encoded = canonical_json(payload).encode("utf-8")
     return f"proc_sha256:{hashlib.sha256(encoded).hexdigest()}"
 
 
@@ -83,5 +84,5 @@ def derived_processed_observation_id(
         "processing_version": processing_version,
         "dependencies": canonical_dependencies,
     }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    encoded = canonical_json(payload).encode("utf-8")
     return f"proc_sha256:{hashlib.sha256(encoded).hexdigest()}"

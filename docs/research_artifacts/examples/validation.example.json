@@ -1,0 +1,53 @@
+{
+  "artifact_standard_version": "research_artifacts_v1",
+  "research_id": "example_component_research",
+  "research_version": "v1",
+  "run_id": "run_sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "validation_version": "v1",
+  "status": "passed",
+  "validated_at": "2026-09-18T20:05:00Z",
+  "validator": {
+    "entrypoint": "research/example_component/validate.py",
+    "code_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "independence_notes": "The example check uses structural invariants rather than calling a research calculator."
+  },
+  "checks": [
+    {
+      "check_id": "check_001",
+      "description": "Research identity is consistent across the example envelopes.",
+      "method": "structural_validation",
+      "targets": [
+        "manifest",
+        "results",
+        "validation"
+      ],
+      "invariant": "research_id, research_version, and run_id are equal",
+      "expected": true,
+      "observed": true,
+      "passed": true,
+      "severity": "blocking",
+      "notes": null
+    },
+    {
+      "check_id": "check_002",
+      "description": "The example decision is explicit.",
+      "method": "structural_validation",
+      "targets": [
+        "results.production_readiness_decision"
+      ],
+      "invariant": "value belongs to the frozen research decision set",
+      "expected": "READY_FOR_METHODOLOGY_FREEZE",
+      "observed": "READY_FOR_METHODOLOGY_FREEZE",
+      "passed": true,
+      "severity": "blocking",
+      "notes": null
+    }
+  ],
+  "summary": {
+    "total_checks": 2,
+    "passed": 2,
+    "failed": 0,
+    "warnings": 0
+  },
+  "unresolved_limitations": []
+}

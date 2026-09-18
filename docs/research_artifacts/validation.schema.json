@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:cross-asset-market-intelligence:research-artifacts:v1:validation",
+  "title": "Signal research validation envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_standard_version",
+    "research_id",
+    "research_version",
+    "run_id",
+    "validation_version",
+    "status",
+    "validated_at",
+    "validator",
+    "checks",
+    "summary",
+    "unresolved_limitations"
+  ],
+  "properties": {
+    "artifact_standard_version": {"const": "research_artifacts_v1"},
+    "research_id": {"$ref": "#/definitions/stableId"},
+    "research_version": {"$ref": "#/definitions/stableId"},
+    "run_id": {"type": "string", "pattern": "^run_sha256:[0-9a-f]{64}$"},
+    "validation_version": {"$ref": "#/definitions/stableId"},
+    "status": {"enum": ["passed", "passed_with_warnings", "failed"]},
+    "validated_at": {"type": "string", "format": "date-time"},
+    "validator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entrypoint", "code_hash", "independence_notes"],
+      "properties": {
+        "entrypoint": {"$ref": "#/definitions/repoPath"},
+        "code_hash": {"$ref": "#/definitions/sha256"},
+        "independence_notes": {"type": "string", "minLength": 1}
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check_id",
+          "description",
+          "method",
+          "targets",
+          "invariant",
+          "passed",
+          "severity",
+          "notes"
+        ],
+        "properties": {
+          "check_id": {"$ref": "#/definitions/stableId"},
+          "description": {"type": "string", "minLength": 1},
+          "method": {
+            "enum": [
+              "independent_sql",
+              "separate_implementation",
+              "exact_fixture",
+              "manual_golden",
+              "algebraic_invariant",
+              "structural_validation",
+              "other"
+            ]
+          },
+          "targets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "invariant": {"type": ["string", "null"], "minLength": 1},
+          "expected": {},
+          "observed": {},
+          "passed": {"type": "boolean"},
+          "severity": {"enum": ["blocking", "warning"]},
+          "notes": {"type": ["string", "null"], "minLength": 1}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_checks", "passed", "failed", "warnings"],
+      "properties": {
+        "total_checks": {"type": "integer", "minimum": 0},
+        "passed": {"type": "integer", "minimum": 0},
+        "failed": {"type": "integer", "minimum": 0},
+        "warnings": {"type": "integer", "minimum": 0}
+      }
+    },
+    "unresolved_limitations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["limitation_id", "description", "blocking"],
+        "properties": {
+          "limitation_id": {"$ref": "#/definitions/stableId"},
+          "description": {"type": "string", "minLength": 1},
+          "blocking": {"type": "boolean"}
+        }
+      }
+    }
+  },
+  "definitions": {
+    "stableId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![A-Za-z]:)(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    }
+  }
+}

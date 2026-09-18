@@ -313,12 +313,12 @@ V1–V4：观察市场；V5–V7：研究市场；V8–V10：管理资金。
 
 ## 10. 项目状态记录
 
-当前阶段：Phase 2.1B-7 — SOFR Direction Production Implementation（完成）
+当前阶段：Phase 2.2D — Framework Validation（机械与生命周期范围内完成，带非阻断跟进项）；Curve 研究仍需更多历史。
 
 当前重点：Phase 1 engineering baseline 已冻结：Treasury、SOFR、Credit、手动 refresh 记录和 Data Status 已实现并完成审计；SPX、VIX、MOVE 仍为 source_pending。
 
-下一里程碑需要单独授权。`sofr_rate_state/v1` 继续作为不可变 anomaly-only production version。Phase 2.1B-7 已创建独立 outer `sofr_rate_state/v2`，原样复用 frozen anomaly evidence，并加入 `sofr_direction_evidence_v1` 的 20-change net movement、exact sign composition、path concentration、secondary-only slope 与 deterministic explanation。level/direction/anomaly states 均保持 null。
+下一里程碑需要单独授权。`sofr_rate_state/v1`、`v2`、`v3` 均保持不可变；v3 在不改变 anomaly 和 Direction 的前提下加入 frozen SOFR Level evidence，所有 categorical states 仍为 null。Phase 2.2A 已冻结跨指标研究生命周期；Phase 2.2B 已冻结 `research_artifacts_v1` 的文件角色、通用 JSON envelope、来源与执行身份、输入/文件哈希、序列化、跨文件一致性、独立验证和 finalization gate。Phase 2.2C 已实现并测试通用 canonical/hash、run/code identity、ordered/prior-only validation、明确单位 bp 转换、严格命名字段渲染和 artifact validator；未迁移既有 SOFR 研究产物，未增加任何新 signal 方法、阈值或 state engine。
 
-Phase 0、Phase 1.1–1.8C、Phase 2.1A 与 Phase 2.1B-1–2.1B-7 状态：完成。Phase 1 的六项开发指标为 Treasury 2Y、Treasury 10Y、10Y−2Y、SOFR、IG OAS、HY OAS；SPX、VIX 与 MOVE 仍因 source-governance 待定而未实现。Level Research 尚未开始；本次实现未改变 anomaly v1、Phase 1 语义或 Phase 3 行为。
+Phase 0、Phase 1.1–1.8C、Phase 2.1A、Phase 2.1B-1–2.1B-11、Phase 2.2A、Phase 2.2B 与 Phase 2.2C 状态：完成。Phase 1 的六项开发指标为 Treasury 2Y、Treasury 10Y、10Y−2Y、SOFR、IG OAS、HY OAS；SPX、VIX 与 MOVE 仍因 source-governance 待定而未实现。Phase 2.2D 的 Treasury 2s10s 研究验证了双腿精确 lineage、研究产物与独立校验；框架结论为 PHASE 2.2 FRAMEWORK VALIDATED WITH NON-BLOCKING FOLLOW-UPS，Curve 结论为 MORE_RESEARCH_REQUIRED（仅 10 个对齐有效日期）。详见 docs/PHASE_22D_FRAMEWORK_VALIDATION.md。未冻结 Curve 方法、未新增 Curve production signal；Phase 3 尚未开始，SOFR 方法与 Phase 1 存储语义保持不变。
 
 最后更新：2026-09-18

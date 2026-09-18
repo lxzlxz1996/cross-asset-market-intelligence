@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from dataclasses import dataclass
 from datetime import date, datetime
 from enum import StrEnum
-from typing import Any, Iterable, Mapping
+from typing import Any, Mapping
 
 from ..exceptions import SignalValidationError
+from ..utils.canonical import canonical_json
 
 
 class SignalDefinitionStatus(StrEnum):
@@ -45,11 +45,6 @@ class SignalObservationInput:
             "processed_observation_id": self.processed_observation_id,
             "window_position": self.window_position,
         }
-
-
-def canonical_json(value: Mapping[str, Any] | Iterable[str]) -> str:
-    """Serialize contract values without hidden ordering or formatting variation."""
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
 
 
 @dataclass(frozen=True)

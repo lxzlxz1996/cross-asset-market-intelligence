@@ -1,0 +1,349 @@
+{
+  "artifact_standard_version": "research_artifacts_v1",
+  "deferred_questions": [
+    {
+      "blocking": true,
+      "question": "Expand through separately authorized Phase 1 history workflow to cover positive, inverted, zero-crossing and different volatility periods before selecting horizons or normalizations.",
+      "question_id": "expanded_local_history"
+    },
+    {
+      "blocking": true,
+      "question": "Freeze exact production nomenclature, quality, horizons, lineage scope and explanation only after sufficient research.",
+      "question_id": "curve_freeze"
+    }
+  ],
+  "design_recommendations": [
+    {
+      "basis_refs": [
+        "dataset",
+        "eligibility",
+        "bounded_meaning"
+      ],
+      "recommendation_id": "transparent_curve",
+      "statement": "Retain raw signed bp spread, exact sign, signed/absolute movement and two-leg decomposition as proposed evidence; preserve reversal context. Defer horizon selection, normalization authority and empirical states until expanded validated history supports comparison."
+    }
+  ],
+  "indicator_specific_findings": {
+    "dataset": {
+      "aligned_observation_count": 10,
+      "both_source_missing_dates": 1,
+      "first_date": "2026-09-01",
+      "last_date": "2026-09-15",
+      "latest_spread_bp": "33",
+      "observed_case_count": 4,
+      "one_leg_missing_dates": 0,
+      "one_step_changes_bp": [
+        "0",
+        "3",
+        "-2",
+        "0",
+        "-1",
+        "-1",
+        "-6",
+        "-1",
+        "1"
+      ],
+      "raw_date_union_count": 11,
+      "sample_net_change_bp": "-7",
+      "selected_leg_count": 20,
+      "sign_counts": {
+        "inverted": 0,
+        "positive": 10,
+        "zero": 0
+      },
+      "spread_max_bp": "43",
+      "spread_mean_bp": "38.2",
+      "spread_median_bp": "40",
+      "spread_min_bp": "32",
+      "strict_sign_crossings": 0,
+      "synthetic_case_count": 9,
+      "zero_touch_count": 0
+    },
+    "framework_outcome": "PHASE 2.2 FRAMEWORK VALIDATED WITH NON-BLOCKING FOLLOW-UPS",
+    "generic_corrections": [
+      "resolvable references",
+      "truthful validation status and bounded warnings",
+      "explicit matching report decision",
+      "CSV never-null and extra fields",
+      "array position order",
+      "strict ISO full-date"
+    ],
+    "historical_case_limits": "Observed positive/maximum sample steepening/flattening/closest-to-zero cases only; inversion, exact zero, crossing and large round trip are synthetic.",
+    "lineage": "Global positions enumerate (date, role); per-role positions carry time. Two current legs remain a pair, with no single current endpoint on the merged sequence.",
+    "redundancy": {
+      "distance_from_zero": "Signed raw spread already measures it; absolute distance is redundant unless explaining magnitude.",
+      "net_and_slope": "Both summarize a path; slope has different path weights, compare conflicts rather than count confirmations.",
+      "rarity_and_magnitude": "Keep bp visible; small finite-reference rarity is not economic materiality.",
+      "shape_and_sign": "Sign is a deterministic coarsening of spread, not independent evidence."
+    },
+    "scorecard": [
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "economic-question template",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "input contract",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "multi-input derived data",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "point-in-time metadata",
+        "issue": "Unknown publications preserved; event-time replay not established.",
+        "result": "PASS WITH FOLLOW-UP"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "candidate-method research",
+        "issue": "Only ten levels; horizon and tail calibration remain unvalidated.",
+        "result": "PASS WITH FOLLOW-UP"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "artifact standard",
+        "issue": "Six generic validation gaps corrected with regression tests; no envelope/profile change.",
+        "result": "PASS WITH FOLLOW-UP"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "snapshot identity",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "run identity",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "independent validation",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "exact lineage",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "ordered-lineage primitive",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "unit conversion",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "state governance",
+        "issue": "Exact-zero sign tested synthetically; empirical states deferred.",
+        "result": "PASS WITH FOLLOW-UP"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "evidence/state separation",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "methodology-freeze readiness",
+        "issue": "Gate correctly returns MORE_RESEARCH_REQUIRED; broader validated local history needed.",
+        "result": "PASS WITH FOLLOW-UP"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "validator CLI",
+        "issue": "none",
+        "result": "PASS"
+      },
+      {
+        "evidence": "research_contract;selected_observations;research_results;case_studies;validation",
+        "framework_capability": "SOFR independence",
+        "issue": "none",
+        "result": "PASS"
+      }
+    ],
+    "structural_context": "No rate-environment claims from ten dates. Synthetic inverted-versus-positive references show the same zero spread has strict rank 100% versus 0%."
+  },
+  "known_failure_modes": [
+    {
+      "blocking": true,
+      "description": "A rank can change drastically with the sign mix of its reference; short positive-only history cannot answer inversion/regime questions.",
+      "evidence_refs": [
+        "research_results",
+        "synthetic_fixtures"
+      ],
+      "failure_mode_id": "short_positive_sample"
+    },
+    {
+      "blocking": false,
+      "description": "Unchanged curve spread hides simultaneous equal leg movements; net change hides a round trip.",
+      "evidence_refs": [
+        "case_studies"
+      ],
+      "failure_mode_id": "common_leg_shift"
+    }
+  ],
+  "measured_facts": [
+    {
+      "evidence_refs": [
+        "selected_observations",
+        "alignment_audit",
+        "aligned_levels"
+      ],
+      "fact_id": "dataset",
+      "statement": "Current-vintage local Treasury sample and alignment coverage.",
+      "unit": "mixed_declared_fields",
+      "value": {
+        "aligned_observation_count": 10,
+        "both_source_missing_dates": 1,
+        "first_date": "2026-09-01",
+        "last_date": "2026-09-15",
+        "latest_spread_bp": "33",
+        "observed_case_count": 4,
+        "one_leg_missing_dates": 0,
+        "one_step_changes_bp": [
+          "0",
+          "3",
+          "-2",
+          "0",
+          "-1",
+          "-1",
+          "-6",
+          "-1",
+          "1"
+        ],
+        "raw_date_union_count": 11,
+        "sample_net_change_bp": "-7",
+        "selected_leg_count": 20,
+        "sign_counts": {
+          "inverted": 0,
+          "positive": 10,
+          "zero": 0
+        },
+        "spread_max_bp": "43",
+        "spread_mean_bp": "38.2",
+        "spread_median_bp": "40",
+        "spread_min_bp": "32",
+        "strict_sign_crossings": 0,
+        "synthetic_case_count": 9,
+        "zero_touch_count": 0
+      }
+    },
+    {
+      "evidence_refs": [
+        "method_comparison",
+        "research_results"
+      ],
+      "fact_id": "eligibility",
+      "statement": "Candidate availability is measured without partial-window fallback.",
+      "unit": "count",
+      "value": {
+        "change_cdf_21": 0,
+        "change_cdf_5": 4,
+        "change_cdf_63": 0,
+        "change_cdf_expanding": 4,
+        "level_cdf_21": 0,
+        "level_cdf_5": 5,
+        "level_cdf_expanding": 5,
+        "median_distance_21": 0,
+        "median_distance_5": 5,
+        "net_path_1": 9,
+        "net_path_10": 0,
+        "net_path_3": 7,
+        "net_path_5": 5,
+        "shape": 10,
+        "slope_10": 0,
+        "slope_3": 7,
+        "slope_5": 5
+      }
+    },
+    {
+      "evidence_refs": [
+        "case_studies",
+        "synthetic_fixtures"
+      ],
+      "fact_id": "semantics",
+      "statement": "Exact synthetic cases exercise inversion, zero, crossing, reversal and common-leg shifts; they are excluded from observed statistics.",
+      "unit": "count",
+      "value": 9
+    }
+  ],
+  "method_comparison_summary": {
+    "applicability": "performed",
+    "artifact_ref": "method_comparison",
+    "rationale": "Bounded endpoint/path/slope and prior-reference sensitivity; warm-up is a measured outcome, not a default horizon choice."
+  },
+  "production_readiness_decision": "MORE_RESEARCH_REQUIRED",
+  "recommended_evidence_design": {
+    "excluded": [
+      "recession forecast",
+      "materiality state",
+      "automatic anomaly state",
+      "generic component trio"
+    ],
+    "mandatory_proposal": [
+      "spread_bp",
+      "both_exact_leg_ids",
+      "direct_sign_descriptor",
+      "signed_change_bp",
+      "absolute_change_bp",
+      "two_year_change_bp",
+      "ten_year_change_bp"
+    ],
+    "secondary_research": [
+      "gross_path_bp",
+      "path_retention_ratio",
+      "strict_weak_cdf_band"
+    ]
+  },
+  "recommended_horizon_or_reference_design": {
+    "decision": "deferred",
+    "rationale": "Only ten levels; 21/63 reference candidates and 10-change movement have no eligible rows."
+  },
+  "research_id": "treasury_2s10s_framework_validation",
+  "research_interpretations": [
+    {
+      "based_on_fact_ids": [
+        "dataset",
+        "eligibility",
+        "semantics"
+      ],
+      "interpretation_id": "bounded_meaning",
+      "limitations": [
+        "Current vintages and unknown publication availability.",
+        "No historical inverted/zero observations or calibrated tails."
+      ],
+      "statement": "All observed spreads are positive in a ten-date sample. It cannot establish inversion-era or multi-environment distributions. Signed shape, endpoint movement and two-leg contributions answer distinct descriptive questions; rank and bp distance are not independent confirmations."
+    }
+  ],
+  "research_status": "MORE_RESEARCH_REQUIRED",
+  "research_version": "v1",
+  "run_id": "run_sha256:819aff4b35857e1c71c73b8a4bef690933416d7991b56395cd58c6b6a142ab09",
+  "state_recommendation": {
+    "boundary": {
+      "negative": "inverted",
+      "positive": "positive",
+      "zero": "zero"
+    },
+    "decision": "proposed",
+    "rationale": "Exact sign has direct meaning; nomenclature remains research-only, while near-flat/unusually-steep/anomaly thresholds are deferred."
+  }
+}

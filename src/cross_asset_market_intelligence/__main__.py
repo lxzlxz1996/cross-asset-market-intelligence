@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import json
 from datetime import date
+from pathlib import Path
 
 from .config import load_settings
 from .data.fred import FredClient
@@ -25,6 +27,7 @@ from .dashboard.sofr_read_model import current_sofr_observation
 from .dashboard.credit_read_model import current_credit_dashboard
 from .dashboard.data_health_read_model import current_data_health
 from .logging_setup import configure_logging
+from .research.artifacts import validate_research_artifacts
 from .signals.sofr_rate_state import generate_sofr_rate_state
 from .signals.sofr_rate_state_v2 import generate_sofr_rate_state_v2
 from .signals.sofr_rate_state_v3 import generate_sofr_rate_state_v3
@@ -35,7 +38,7 @@ def _format_change(value: float | None) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Approved Phase 1 raw-data workflows")
+    parser = argparse.ArgumentParser(description="Approved market-data and research-artifact workflows")
     parser.add_argument(
         "command",
         choices=[
@@ -52,16 +55,32 @@ def main() -> None:
             "refresh-market-data",
             "show-data-health",
             "generate-sofr-rate-state",
+            "validate-research-artifacts",
         ],
     )
+    parser.add_argument("research_directory", nargs="?", type=Path)
     parser.add_argument("--start", type=date.fromisoformat)
     parser.add_argument("--end", type=date.fromisoformat)
     parser.add_argument("--pipeline", choices=sorted(SUPPORTED_REFRESH_PIPELINES))
     parser.add_argument("--as-of", type=date.fromisoformat)
     parser.add_argument("--version", choices=("v1", "v2", "v3"), default="v1")
+    parser.add_argument("--repo-root", type=Path)
     arguments = parser.parse_args()
     if arguments.command == "refresh-market-data" and arguments.pipeline is None:
         parser.error("--pipeline is required for refresh-market-data")
+    if arguments.command == "validate-research-artifacts":
+        if arguments.research_directory is None:
+            parser.error("research_directory is required for validate-research-artifacts")
+        validation = validate_research_artifacts(
+            arguments.research_directory,
+            repository_root=arguments.repo_root,
+        )
+        print(json.dumps(validation.as_dict(), ensure_ascii=False, indent=2))
+        if validation.status == "failed":
+            raise SystemExit(1)
+        return
+    if arguments.research_directory is not None:
+        parser.error("research_directory is only valid for validate-research-artifacts")
 
     settings = load_settings()
     logger = configure_logging(settings)

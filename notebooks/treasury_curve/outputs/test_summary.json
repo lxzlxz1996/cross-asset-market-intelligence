@@ -1,0 +1,39 @@
+{
+  "full_suite": {
+    "status": "passed",
+    "tests": 223,
+    "passed": 223,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duration_seconds": 252.910,
+    "started_at": "2026-09-18T17:06:54.826847Z",
+    "junit_reference": "notebooks/treasury_curve/verification/full_suite.xml",
+    "junit_raw_file_hash": "sha256:ca2ca5997cd24ef52fb06b728beba071e0ac9547000c815cdea890afd7396c41",
+    "invocation": "python -m pytest -o addopts='' -p no:cacheprovider --junitxml=notebooks/treasury_curve/verification/full_suite.xml -q",
+    "temporary_directory_note": "Explicit Windows LocalAppData temporary directory used to avoid OneDrive test-temp locking."
+  },
+  "targeted_suite": {
+    "passed": 52,
+    "failures": 0,
+    "test_files": [
+      "tests/test_treasury_curve_research.py",
+      "tests/test_research_artifacts.py",
+      "tests/test_treasury_processing.py",
+      "tests/test_treasury_spread_processing.py"
+    ]
+  },
+  "independent_research_validation": {
+    "passed_checks": 14,
+    "failed_checks": 0,
+    "candidate_rows_checked": 170,
+    "cases_checked": 13,
+    "original_database_checked": true,
+    "status": "passed_with_warnings"
+  },
+  "artifact_validation_status": "passed_with_warnings",
+  "limitations": [
+    "Unknown historical publication availability.",
+    "Ten aligned dates validate bounded calculations, not long-history economic sufficiency."
+  ]
+}

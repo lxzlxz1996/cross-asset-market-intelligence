@@ -1,0 +1,14 @@
+case_id,case_name,anchor_date,case_type,selection_reason,relevant_method_id,start_spread_bp,end_spread_bp,change_bp,start_shape,end_shape,two_year_change_bp,ten_year_change_bp,path_absolute_bp,path_retention_ratio,derived_processed_observation_id
+observed_positive,observed_positive,2026-09-15,observed,Latest positive shape; no recession interpretation,shape,32.00,33.00,1.00,positive,positive,2.00,3.00,1.00,1,proc_sha256:23318609653ee2fcacccd6819de544a4feba5e54cbf08887807c206cbc607e55
+observed_closest_to_zero,observed_closest_to_zero,2026-09-14,observed,"Smallest absolute spread in sample, not a near-flat band",shape,33.00,32.00,-1.00,positive,positive,2.00,1.00,1.00,1,proc_sha256:c4025480d9e1222fb52c8e5c9830c801dbc14215a1a7b6f4115552141a73ee9d
+observed_max_steepening,observed_max_steepening,2026-09-03,observed,Largest signed one-step rise in bounded sample,shape,40.00,43.00,3.00,positive,positive,-5.00,-2.00,3.00,1,proc_sha256:5b152831cb1350919e49db7ffe950d7cf576f67a3e8e521138c3fc472ba96fa4
+observed_max_flattening,observed_max_flattening,2026-09-11,observed,Largest signed one-step fall in bounded sample,shape,39.00,33.00,-6.00,positive,positive,7.00,1.00,6.00,1,proc_sha256:c09f1d3b3b16052211ae3a7a055ef31261388f022b1b37a76c9545fc687f3ac2
+synthetic_positive_flattening,synthetic_positive_flattening,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,50.0,20.0,-30.0,positive,positive,30.0,0.0,30.0,1,
+synthetic_inversion_deepening,synthetic_inversion_deepening,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,-20.0,-60.0,-40.0,inverted,inverted,40.0,0,40.0,1,
+synthetic_inversion_easing,synthetic_inversion_easing,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,-60.0,-20.0,40.0,inverted,inverted,-40.0,0,40.0,1,
+synthetic_zero_crossing,synthetic_zero_crossing,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,-20.0,10.0,30.0,inverted,positive,-30.0,0,30.0,1,
+synthetic_exact_zero,synthetic_exact_zero,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,0,0,0,zero,zero,0,0,0,,
+synthetic_near_zero,synthetic_near_zero,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,1.00,-1.00,-2.00,positive,inverted,0,-2.00,2.00,1,
+synthetic_round_trip,synthetic_round_trip,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,0,0,0,zero,zero,0,0,100.0,0E+1,
+synthetic_common_leg_shift,synthetic_common_leg_shift,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,20.0,20.0,0.0,positive,positive,50.0,50.0,0.0,,
+synthetic_prolonged_inversion,synthetic_prolonged_inversion,2025-01-01,synthetic,"Exact semantic fixture; synthetic anchor, not observed history",shape,-20.0,-20.0,0.0,inverted,inverted,0,0.0,0.0,,

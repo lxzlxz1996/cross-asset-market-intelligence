@@ -1,0 +1,23 @@
+{
+  "research_id": "treasury_2s10s_framework_validation",
+  "research_version": "v1",
+  "economic_question": "What is the sign and bp distance of the same-date U.S. 10Y-minus-2Y Treasury spread from zero, how do recent movements decompose into its two yield legs, and can prior behavior contextualize movement without overstating the available history?",
+  "economic_relevance": "Distinguish curve shape from movement and identify whether a changing spread reflects the short leg, the long leg, or both.",
+  "what_it_measures": "Descriptive same-date yield difference, signed recent movement, path reversal and conditional prior-distribution context.",
+  "what_it_does_not_measure": ["recession probability", "Fed policy forecast", "equity direction", "bond returns", "trade recommendation"],
+  "downstream_intended_use": "Auditable market awareness and input to later separately authorized research.",
+  "input_selection": "Phase 1 current direct processed outputs matching the greatest valid (FRED realtime_start, realtime_end, vintage) for each series/date; include every retained valid leg in the snapshot; inner-align dates for calculation.",
+  "alignment": "Same economic date only; no forward fill, interpolation, alternate vintage fallback or calendar insertion; both source-null and absent-leg cases remain explicit.",
+  "snapshot_order": ["observation_date ascending", "role: two_year then ten_year"],
+  "movement_horizons": [1, 3, 5, 10],
+  "path_horizons": [3, 5, 10],
+  "rarity_prior_change_counts": [5, 21, 63],
+  "context_prior_level_counts": [5, 21],
+  "expanding_minimum_prior_count": 5,
+  "grid_rationale": "1 is consecutive aligned observation movement; 3/5 test very short endpoint versus path behavior; 10 checks a longer short-history boundary. 21/63 are exploratory approximately monthly/quarterly observation scales for sensitivity, not calendar-month guarantees or production defaults. 5 and expanding-minimum-5 expose small-reference failure; no horizon is selected by this study.",
+  "numeric_policy": "Decimal(str(stored percent value)); exact subtraction and percentage_point-to-bp primitive; no rounding, tolerance or epsilon for sign/ties. Compare Phase 1 binary-float derived values with tolerance 1e-10 percentage points only in validation, never for curve sign.",
+  "availability": "Preserve actual raw publication timestamp if present; otherwise null/unknown. FRED realtime dates are vintage identity, not publication times. This is a current-vintage descriptive snapshot, not historical event-time replay.",
+  "state_policy": "Research-only positive/zero/inverted sign descriptors have exact zero boundary. Near-flat, unusually steep, trend, anomaly and materiality states remain unclassified.",
+  "reference_policy": "Level contexts exclude current; change rarity compares current absolute one-step movement to preceding changes only. Strict and weak empirical CDF endpoints expose ties without choosing a tie point estimate. No fallback or partial rolling windows.",
+  "limitations": ["Ten local aligned dates cannot establish long-history or multiple-environment behavior.", "Synthetic cases test semantics and arithmetic, not observed historical frequency or predictive validity."]
+}

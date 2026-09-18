@@ -1,0 +1,65 @@
+{
+  "artifact_standard_version": "research_artifacts_v1",
+  "research_id": "example_component_research",
+  "research_version": "v1",
+  "run_id": "run_sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "research_status": "READY_FOR_METHODOLOGY_FREEZE",
+  "measured_facts": [
+    {
+      "fact_id": "fact_001",
+      "statement": "The documentation fixture contains 100 selected observation identities.",
+      "evidence_refs": [
+        "selected_observations",
+        "research_results"
+      ],
+      "value": 100,
+      "unit": "count"
+    }
+  ],
+  "research_interpretations": [
+    {
+      "interpretation_id": "interpretation_001",
+      "statement": "The example demonstrates separation between measured facts and interpretation.",
+      "based_on_fact_ids": [
+        "fact_001"
+      ],
+      "limitations": [
+        "This is a documentation fixture, not market research."
+      ]
+    }
+  ],
+  "design_recommendations": [
+    {
+      "recommendation_id": "recommendation_001",
+      "statement": "Use the generic envelope while keeping indicator findings inside the extension payload.",
+      "basis_refs": [
+        "fact_001",
+        "interpretation_001"
+      ]
+    }
+  ],
+  "method_comparison_summary": {
+    "applicability": "not_applicable",
+    "artifact_ref": null,
+    "rationale": "The fixture does not compare empirical methods."
+  },
+  "recommended_evidence_design": {
+    "example": "Indicator-specific structures are permitted here."
+  },
+  "recommended_horizon_or_reference_design": null,
+  "state_recommendation": {
+    "decision": "not_applicable",
+    "rationale": "The documentation fixture defines no economic state."
+  },
+  "known_failure_modes": [
+    {
+      "failure_mode_id": "failure_001",
+      "description": "Treating the fixture values as empirical evidence would be invalid.",
+      "evidence_refs": [],
+      "blocking": false
+    }
+  ],
+  "indicator_specific_findings": {},
+  "deferred_questions": [],
+  "production_readiness_decision": "READY_FOR_METHODOLOGY_FREEZE"
+}

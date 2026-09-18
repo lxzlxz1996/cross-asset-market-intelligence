@@ -1,0 +1,7 @@
+{
+  "duckdb": "1.5.5",
+  "jsonschema": "4.26.0",
+  "project_dependency_hash": "sha256:19b9f88ef4517b0cec7082b6b2abf0f6326665a5c91985d7c1bfffb68ac7e7e3",
+  "project_dependency_spec": "pyproject.toml",
+  "python": "3.12.10"
+}

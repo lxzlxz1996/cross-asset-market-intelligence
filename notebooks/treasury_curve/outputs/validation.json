@@ -1,0 +1,208 @@
+{
+  "artifact_standard_version": "research_artifacts_v1",
+  "checks": [
+    {
+      "check_id": "snapshot_hash",
+      "description": "snapshot hash",
+      "invariant": "Independent standard-library projection hash matches selected snapshot",
+      "method": "structural_validation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "selected_observations"
+      ]
+    },
+    {
+      "check_id": "snapshot_pair_math",
+      "description": "snapshot pair math",
+      "invariant": "Exact selected two-leg IDs share a date; Decimal spread is 100*(10Y-2Y)",
+      "method": "separate_implementation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "selected_observations",
+        "aligned_levels"
+      ]
+    },
+    {
+      "check_id": "two_role_ordering",
+      "description": "two role ordering",
+      "invariant": "Global enumeration and two separate role sequences reconstruct exact pairs without a single-series assumption",
+      "method": "structural_validation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "selected_observations"
+      ]
+    },
+    {
+      "check_id": "independent_sql_selection",
+      "description": "independent sql selection",
+      "invariant": "SQL latest-vintage selection equals full exported selected leg identity/value/time set",
+      "method": "independent_sql",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "selected_observations"
+      ]
+    },
+    {
+      "check_id": "independent_sql_spreads_and_lineage",
+      "description": "independent sql spreads and lineage",
+      "invariant": "All actual same-date spreads recompute in decimal SQL and resolve both saved Phase 1 dependency roles",
+      "method": "independent_sql",
+      "notes": null,
+      "observed": 10,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "aligned_levels"
+      ]
+    },
+    {
+      "check_id": "alignment_date_coverage",
+      "description": "alignment date coverage",
+      "invariant": "Audit includes every raw date without inserting non-publication dates",
+      "method": "independent_sql",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "alignment_audit"
+      ]
+    },
+    {
+      "check_id": "independent_candidate_metrics",
+      "description": "independent candidate metrics",
+      "invariant": "Every observed candidate row recomputes through separate formulas; decimal tolerance 1e-20 only for division",
+      "method": "separate_implementation",
+      "notes": null,
+      "observed": 170,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "research_results"
+      ]
+    },
+    {
+      "check_id": "prior_only_reference_indices",
+      "description": "prior only reference indices",
+      "invariant": "Reference end excludes current level/current change; no future indices",
+      "method": "separate_implementation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "research_results"
+      ]
+    },
+    {
+      "check_id": "warmup_and_no_fallback",
+      "description": "warmup and no fallback",
+      "invariant": "Each declared complete window and exact warm-up boundary is preserved",
+      "method": "separate_implementation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "research_results"
+      ]
+    },
+    {
+      "check_id": "comparison_eligibility",
+      "description": "comparison eligibility",
+      "invariant": "Method comparison counts reconcile with all rows",
+      "method": "separate_implementation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "method_comparison"
+      ]
+    },
+    {
+      "check_id": "observed_and_synthetic_cases",
+      "description": "observed and synthetic cases",
+      "invariant": "Observed cases resolve actual IDs; synthetic curves satisfy exact manually declared spreads and never enter market distributions",
+      "method": "exact_fixture",
+      "notes": null,
+      "observed": 13,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "case_studies",
+        "synthetic_fixtures"
+      ]
+    },
+    {
+      "check_id": "synthetic_reference_sensitivity",
+      "description": "synthetic reference sensitivity",
+      "invariant": "Same zero curve has 100% versus 0% strict CDF under opposite-sign synthetic references",
+      "method": "exact_fixture",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "synthetic_fixtures"
+      ]
+    },
+    {
+      "check_id": "summary_facts",
+      "description": "summary facts",
+      "invariant": "Counts/extrema/signs/net reconcile to observed data only",
+      "method": "separate_implementation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "results",
+        "aligned_levels"
+      ]
+    },
+    {
+      "check_id": "honest_research_gate",
+      "description": "honest research gate",
+      "invariant": "Bounded ten-level study does not assert methodology-freeze readiness",
+      "method": "separate_implementation",
+      "notes": null,
+      "passed": true,
+      "severity": "blocking",
+      "targets": [
+        "results"
+      ]
+    }
+  ],
+  "research_id": "treasury_2s10s_framework_validation",
+  "research_version": "v1",
+  "run_id": "run_sha256:819aff4b35857e1c71c73b8a4bef690933416d7991b56395cd58c6b6a142ab09",
+  "status": "passed_with_warnings",
+  "summary": {
+    "failed": 0,
+    "passed": 14,
+    "total_checks": 14,
+    "warnings": 0
+  },
+  "unresolved_limitations": [
+    {
+      "blocking": false,
+      "description": "No full historical publication-time replay is established; retrieval is not availability.",
+      "limitation_id": "unknown_availability"
+    },
+    {
+      "blocking": false,
+      "description": "Checks validate bounded research calculations; longer-history horizon/state/regime validity remains a blocking research question, not a validator error.",
+      "limitation_id": "short_history_scope"
+    }
+  ],
+  "validated_at": "2026-09-18T17:11:38.933938Z",
+  "validation_version": "v1",
+  "validator": {
+    "code_hash": "sha256:568fd5a2dd0b5d0fd6a528095ae32db8461f432e8085fa58b9e03396100f1089",
+    "entrypoint": "notebooks/treasury_curve/validate.py",
+    "independence_notes": "Independent SQL raw-vintage selection/Decimal pair math plus separate closed-form regression, median, CDF, warm-up, case and snapshot hash implementation; analyze.py is never imported."
+  }
+}

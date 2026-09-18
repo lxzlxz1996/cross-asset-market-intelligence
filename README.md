@@ -6,7 +6,9 @@ Local, research-first infrastructure for understanding cross-asset market condit
 
 **Phase 1 engineering baseline frozen (Phase 1.8C).** The local application presents read-only current and selected-history data, descriptive 1D/5D/20D observation-count changes, and inspectable lineage for Treasury (2Y, 10Y, 10Y−2Y), SOFR, and Credit (IG/HY OAS). It also exposes manual refresh-run status and Data Status without changing market data.
 
-Phase 1 is **6 implemented / 3 deferred source integrations**. `spx`, `vix`, and `move_index` remain `source_pending`: their long-term data-source and usage-rights conditions are unresolved, so they are not implemented or represented as production-authorized. The durable conditions for resuming each integration are recorded in [Deferred Source Integrations](docs/DEVELOPMENT_ROADMAP.md#deferred-source-integrations). The Signal Engine, regime logic, risk/portfolio logic, and backtesting are future work; no Phase 2 functionality is implemented.
+Phase 1 is **6 implemented / 3 deferred source integrations**. `spx`, `vix`, and `move_index` remain `source_pending`: their long-term data-source and usage-rights conditions are unresolved, so they are not implemented or represented as production-authorized. The durable conditions for resuming each integration are recorded in [Deferred Source Integrations](docs/DEVELOPMENT_ROADMAP.md#deferred-source-integrations). Phase 2 has only the frozen SOFR reference slice plus generic research-artifact validation mechanics; regime logic, risk/portfolio logic, and backtesting remain future work.
+
+[Phase 2.2D Treasury framework validation](docs/PHASE_22D_FRAMEWORK_VALIDATION.md) is complete within mechanical/lifecycle scope with non-blocking follow-ups. Its [research package](notebooks/treasury_curve/outputs/README.md) records `MORE_RESEARCH_REQUIRED`; no Curve production signal or Phase 3 work is authorized.
 
 ## Quick start (when Python is installed)
 
@@ -20,6 +22,16 @@ pytest
 Copy `.env.example` to `.env` only when a future data source requires credentials. Never commit `.env`.
 
 See [the project blueprint](docs/PROJECT_BLUEPRINT.md), [architecture](docs/ARCHITECTURE.md), and [development roadmap](docs/DEVELOPMENT_ROADMAP.md).
+
+## Research artifact validation
+
+Validate a finalized `research_artifacts_v1` package without running market calculations:
+
+```powershell
+python -m cross_asset_market_intelligence validate-research-artifacts <research_directory>
+```
+
+The command emits structured JSON. It exits `0` for `passed` or `passed_with_warnings`, and nonzero for `failed`.
 
 ## Local dashboard
 

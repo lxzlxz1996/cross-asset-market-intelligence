@@ -1,0 +1,18 @@
+framework_capability,result,evidence,issue
+economic-question template,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+input contract,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+multi-input derived data,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+point-in-time metadata,PASS WITH FOLLOW-UP,research_contract;selected_observations;research_results;case_studies;validation,Unknown publications preserved; event-time replay not established.
+candidate-method research,PASS WITH FOLLOW-UP,research_contract;selected_observations;research_results;case_studies;validation,Only ten levels; horizon and tail calibration remain unvalidated.
+artifact standard,PASS WITH FOLLOW-UP,research_contract;selected_observations;research_results;case_studies;validation,Six generic validation gaps corrected with regression tests; no envelope/profile change.
+snapshot identity,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+run identity,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+independent validation,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+exact lineage,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+ordered-lineage primitive,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+unit conversion,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+state governance,PASS WITH FOLLOW-UP,research_contract;selected_observations;research_results;case_studies;validation,Exact-zero sign tested synthetically; empirical states deferred.
+evidence/state separation,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+methodology-freeze readiness,PASS WITH FOLLOW-UP,research_contract;selected_observations;research_results;case_studies;validation,Gate correctly returns MORE_RESEARCH_REQUIRED; broader validated local history needed.
+validator CLI,PASS,research_contract;selected_observations;research_results;case_studies;validation,none
+SOFR independence,PASS,research_contract;selected_observations;research_results;case_studies;validation,none

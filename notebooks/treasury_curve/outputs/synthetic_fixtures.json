@@ -1,0 +1,184 @@
+{
+  "alignment_cases": [
+    "one_leg_absent",
+    "one_leg_source_null",
+    "different_economic_dates",
+    "latest_null_does_not_fall_back"
+  ],
+  "cases": [
+    {
+      "case_id": "synthetic_positive_flattening",
+      "expected_spread_bp": [
+        50,
+        20
+      ],
+      "ten_year_percent": [
+        4.5,
+        4.5
+      ],
+      "two_year_percent": [
+        4,
+        4.3
+      ]
+    },
+    {
+      "case_id": "synthetic_inversion_deepening",
+      "expected_spread_bp": [
+        -20,
+        -60
+      ],
+      "ten_year_percent": [
+        4,
+        4
+      ],
+      "two_year_percent": [
+        4.2,
+        4.6
+      ]
+    },
+    {
+      "case_id": "synthetic_inversion_easing",
+      "expected_spread_bp": [
+        -60,
+        -20
+      ],
+      "ten_year_percent": [
+        4,
+        4
+      ],
+      "two_year_percent": [
+        4.6,
+        4.2
+      ]
+    },
+    {
+      "case_id": "synthetic_zero_crossing",
+      "expected_spread_bp": [
+        -20,
+        10
+      ],
+      "ten_year_percent": [
+        4,
+        4
+      ],
+      "two_year_percent": [
+        4.2,
+        3.9
+      ]
+    },
+    {
+      "case_id": "synthetic_exact_zero",
+      "expected_spread_bp": [
+        0,
+        0
+      ],
+      "ten_year_percent": [
+        4,
+        4
+      ],
+      "two_year_percent": [
+        4,
+        4
+      ]
+    },
+    {
+      "case_id": "synthetic_near_zero",
+      "expected_spread_bp": [
+        1,
+        0,
+        -1
+      ],
+      "ten_year_percent": [
+        4.01,
+        4,
+        3.99
+      ],
+      "two_year_percent": [
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "case_id": "synthetic_round_trip",
+      "expected_spread_bp": [
+        0,
+        0,
+        50,
+        0
+      ],
+      "ten_year_percent": [
+        4,
+        4,
+        4.5,
+        4
+      ],
+      "two_year_percent": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "case_id": "synthetic_common_leg_shift",
+      "expected_spread_bp": [
+        20,
+        20
+      ],
+      "ten_year_percent": [
+        4.2,
+        4.7
+      ],
+      "two_year_percent": [
+        4,
+        4.5
+      ]
+    },
+    {
+      "case_id": "synthetic_prolonged_inversion",
+      "expected_spread_bp": [
+        -20,
+        -20,
+        -20,
+        -20,
+        -20,
+        -20
+      ],
+      "ten_year_percent": [
+        3.8,
+        3.8,
+        3.8,
+        3.8,
+        3.8,
+        3.8
+      ],
+      "two_year_percent": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ],
+  "purpose": "Exact arithmetic and semantic fixtures; never market observations or reference-distribution data.",
+  "reference_sensitivity": {
+    "current_spread_bp": 0,
+    "expected_strict_pct": [
+      100,
+      0
+    ],
+    "prior_inverted_spreads_bp": [
+      -60,
+      -40,
+      -20
+    ],
+    "prior_positive_spreads_bp": [
+      20,
+      40,
+      60
+    ]
+  }
+}
